@@ -83,7 +83,7 @@ c = '$CC'
 cpp = '$CXX'
 ar = '$AR'
 strip = '$ndk_triple-strip'
-pkgconfig = 'pkg-config'
+pkg-config = 'pkg-config'
 [host_machine]
 system = 'android'
 cpu_family = '$cpu_family'
