@@ -40,11 +40,11 @@ jobs:
         run: |
           mkdir sdk
           ln -s ${ANDROID_HOME} ./sdk/android-sdk-linux
-      - name: Bundle (encoders-gpl)
+      - name: Bundle (full)
         working-directory: ./buildscripts
         run: |
-          sudo chmod +x bundle_encoders-gpl.sh
-          ./bundle_encoders-gpl.sh
+          sudo chmod +x bundle_full.sh
+          ./bundle_full.sh
       - uses: actions/upload-artifact@v3.1.2
         with:
           name: artifact
