@@ -15,7 +15,7 @@ getdeps () {
 
 loadarch () {
 	unset CC CXX CPATH LIBRARY_PATH C_INCLUDE_PATH CPLUS_INCLUDE_PATH
-
+	unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
 	local apilvl=21
 	# ndk_triple: what the toolchain actually is
 	# cc_triple: what Google pretends the toolchain is
@@ -81,8 +81,9 @@ wrap_mode = 'nodownload'
 [binaries]
 c = '$CC'
 cpp = '$CXX'
-ar = '$AR'
-strip = '$ndk_triple-strip'
+ar = 'llvm-ar'
+nm = 'llvm-nm'
+strip = 'llvm-strip'
 pkg-config = 'pkg-config'
 [host_machine]
 system = 'android'
