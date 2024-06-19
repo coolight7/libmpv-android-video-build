@@ -41,12 +41,11 @@ cpuflags=
 	--enable-decoders \
 	--enable-demuxers \
 	--enable-parsers \
+	--enable-encoders \
 	\
 	--disable-muxers \
-	--disable-encoders \
 	--disable-protocols \
 	--disable-devices \
-	--disable-filters \
 	--disable-doc \
 	--disable-avdevice \
 	--disable-postproc \
@@ -86,8 +85,7 @@ cpuflags=
 	\
 	\
 	\
-	--enable-filter=overlay \
-	--enable-filter=equalizer \
+	--enable-filters \
 	\
 	--enable-protocol=async \
 	--enable-protocol=cache \
@@ -110,13 +108,6 @@ cpuflags=
 	--enable-protocol=tcp \
 	--enable-protocol=tls \
 	--enable-protocol=srt \
-	\
-	--enable-encoder=mjpeg \
-	--enable-encoder=ljpeg \
-	--enable-encoder=jpegls \
-	--enable-encoder=jpeg2000 \
-	--enable-encoder=png \
-	--enable-encoder=jpegls \
 	\
 	--enable-network \
 

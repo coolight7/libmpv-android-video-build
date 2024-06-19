@@ -2,19 +2,19 @@
 
 ## Dependency versions
 
-v_sdk=9123335_latest
-v_ndk=25.2.9519653
-v_sdk_build_tools=33.0.2
+v_sdk=11076708_latest
+v_ndk=26.3.11579264
+v_sdk_build_tools=34.0.0
 
-v_libass=0.17.1
-v_harfbuzz=7.2.0
-v_fribidi=1.0.12
+v_libass=0.17.2
+v_harfbuzz=8.5.0
+v_fribidi=1.0.15
 v_freetype=2-13-0
-v_mbedtls=3.4.0
-v_dav1d=1.2.0
+v_mbedtls=3.5.2
+v_dav1d=1.4.2
 v_libxml2=2.10.3
-v_ffmpeg=6.0
-v_mpv=78d43740f52db817d98bcf24fb30a76ab6fa13ff
+v_ffmpeg=7.0.1
+v_mpv=0.38.0
 v_libogg=1.3.5
 v_libvorbis=1.3.7
 v_libvpx=1.13

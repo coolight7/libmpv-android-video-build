@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 env:
-  NDK_VER: 25.1.8937393
+  NDK_VER: 26.3.11579264
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v3.9.0
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
       - name: Setup Flutter SDK
         uses: subosito/flutter-action@v1
         with:
