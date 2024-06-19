@@ -18,6 +18,7 @@ unset CC CXX # meson wants these unset
 
 meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
 	--prefer-static \
+	--profile=fast \
 	--default-library shared \
 	-Dgpl=false \
 	-Dlibmpv=true \
