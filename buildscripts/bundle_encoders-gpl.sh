@@ -15,7 +15,7 @@ fi
 
 # --------------------------------------------------
 
-rm scripts/ffmpeg.sh
+rm -r scripts/ffmpeg.sh
 cp flavors/encoders-gpl.sh scripts/ffmpeg.sh
 
 # --------------------------------------------------
