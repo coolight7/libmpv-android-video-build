@@ -18,20 +18,20 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v4
       - name: Setup Java JDK
-        uses: actions/setup-java@v3.9.0
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
       - name: Setup Flutter SDK
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
           channel: "stable"
       - name: Gradle Build Action
-        uses: gradle/gradle-build-action@v2.3.3
+        uses: gradle/gradle-build-action@v3
       - name: Cache
-        uses: actions/cache@v3.2.4
+        uses: actions/cache@v4
         with:
           path: /usr/local/lib/android/sdk/ndk/${{ env.NDK_VER }}
           key: ${{ runner.os }}-${{ env.NDK_VER }}
@@ -55,11 +55,11 @@ jobs:
         run: |
           sudo chmod +x bundle_encoders-gpl.sh
           ./bundle_encoders-gpl.sh
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4
         with:
           name: artifact
           path: ./output/*
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main'
         with:
           draft: true
