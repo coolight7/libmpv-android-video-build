@@ -28,6 +28,7 @@ cpuflags=
 	--arch=${ndk_triple%%-*} --cpu=$cpu --pkg-config=pkg-config --nm=llvm-nm \
 	--extra-cflags="-I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib" \
 	\
+	--disable-debug \
 	--disable-gpl \
 	--disable-nonfree \
 	--enable-version3 \
@@ -60,12 +61,12 @@ cpuflags=
 	--disable-dxva2 \
 	--disable-vaapi \
 	--disable-vdpau \
+	--disable-vda \
 	--disable-bzlib \
 	--disable-linux-perf \
 	--disable-videotoolbox \
 	--disable-audiotoolbox \
 	\
-	--enable-small \
 	--enable-hwaccels \
 	--enable-optimizations \
 	--enable-runtime-cpudetect \
@@ -99,11 +100,6 @@ cpuflags=
 	--enable-protocol=httpproxy \
 	--enable-protocol=https \
 	--enable-protocol=pipe \
-	--enable-protocol=rtmp \
-	--enable-protocol=rtmps \
-	--enable-protocol=rtmpt \
-	--enable-protocol=rtmpts \
-	--enable-protocol=rtp \
 	--enable-protocol=subfile \
 	--enable-protocol=tcp \
 	--enable-protocol=tls \
