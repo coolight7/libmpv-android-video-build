@@ -61,7 +61,6 @@ cpuflags=
 	--disable-dxva2 \
 	--disable-vaapi \
 	--disable-vdpau \
-	--disable-vda \
 	--disable-bzlib \
 	--disable-linux-perf \
 	--disable-videotoolbox \
