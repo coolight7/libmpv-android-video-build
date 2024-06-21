@@ -13,7 +13,7 @@ fi
 # --------------------------------------------------
 
 if [ ! -f "scripts/ffmpeg" ]; then
-  rm scripts/ffmpeg.sh
+  rm -f scripts/ffmpeg.sh
 fi
 cp flavors/full.sh scripts/ffmpeg.sh
 
