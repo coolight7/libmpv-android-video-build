@@ -42,9 +42,9 @@ cpuflags=
 	--enable-decoders \
 	--enable-demuxers \
 	--enable-parsers \
-	--enable-encoders \
 	\
 	--disable-muxers \
+	--disable-encoders \
 	--disable-protocols \
 	--disable-devices \
 	--disable-doc \
