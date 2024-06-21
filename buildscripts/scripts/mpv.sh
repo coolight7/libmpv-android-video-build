@@ -24,6 +24,7 @@ meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
  	-Dlua=disabled \
  	-Dcplayer=false \
 	-Diconv=disabled \
+	-Dvulkan=disabled \
  	-Dmanpage-build=disabled
 
 ninja -C $build -j$cores
