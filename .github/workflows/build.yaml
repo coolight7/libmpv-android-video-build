@@ -53,5 +53,7 @@ jobs:
         with:
           draft: true
           prerelease: false
+          name: "temp"
+          tag_name: github.ref
           files: |
             output/*
