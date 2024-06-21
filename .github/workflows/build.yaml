@@ -50,10 +50,8 @@ jobs:
           name: artifact
           path: ./output/*
       - uses: softprops/action-gh-release@v2
-        if: github.ref == 'refs/heads/main'
         with:
           draft: true
           prerelease: false
-          tag_name: "vnext"
           files: |
             output/*
