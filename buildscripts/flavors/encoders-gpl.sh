@@ -25,10 +25,11 @@ cpuflags=
 
 ../configure \
 	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- --ar=$AR --cc=$CC --ranlib=$RANLIB \
-	--arch=${ndk_triple%%-*} --cpu=$cpu --pkg-config=pkg-config \
+	--arch=${ndk_triple%%-*} --cpu=$cpu --pkg-config=pkg-config --nm=llvm-nm \
 	--extra-cflags="-I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib" \
 	--pkg-config-flags="--static" \
 	\
+	--disable-debug \
 	--disable-nonfree \
 	--enable-version3 \
 	--enable-static \
@@ -69,7 +70,6 @@ cpuflags=
 	--disable-videotoolbox \
 	--disable-audiotoolbox \
 	\
-	--enable-small \
 	--enable-hwaccels \
 	--enable-optimizations \
 	--enable-runtime-cpudetect \
