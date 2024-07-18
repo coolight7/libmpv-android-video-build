@@ -49,6 +49,7 @@ Shaderc sources are provided by the NDK.
 see <ndk>/sources/third_party/shaderc
 HEREDOC
 
+# libplacebo
 [ ! -d libplacebo ] && git clone --depth 1 --branch v$v_libplacebo --recursive https://code.videolan.org/videolan/libplacebo.git libplacebo
 
 # mpv

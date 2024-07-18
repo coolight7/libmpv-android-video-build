@@ -40,7 +40,7 @@ jobs:
         run: |
           mkdir sdk
           ln -s ${ANDROID_HOME} ./sdk/android-sdk-linux
-      - name: Bundle (full)
+      - name: Bundle (gpl)
         working-directory: ./buildscripts
         run: |
           sudo chmod +x bundle_encoders-gpl.sh
