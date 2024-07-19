@@ -2,11 +2,7 @@ diff --git a/meson.build b/meson.build
 index a56bb1f37c..7cd3b195f9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -23,10 +23,13 @@ libavutil = dependency('libavutil', version: '>= 56.70.100')
- libswresample = dependency('libswresample', version: '>= 3.9.100')
- libswscale = dependency('libswscale', version: '>= 5.9.100')
- 
- libplacebo = dependency('libplacebo', version: '>=6.338.2',
+@@ -26,6 +26,9 @@ libplacebo = dependency('libplacebo', version: '>=6.338.2',
                 default_options: ['default_library=static', 'demos=false'])
 
 +# fftools-ffi
@@ -15,9 +11,12 @@ index a56bb1f37c..7cd3b195f9 100644
  libass = dependency('libass', version: '>= 0.12.2')
  
  # the dependency order of libass -> ffmpeg is necessary due to
-@@ -33,7 +36,8 @@ dependencies = [libass,
+@@ -33,11 +36,12 @@ dependencies = [libass,
+                 libavcodec,
+                 libavfilter,
                  libavformat,
                  libavutil,
+                 libplacebo,
                  libswresample,
 -                libswscale]
 +                libswscale,
@@ -25,16 +24,12 @@ index a56bb1f37c..7cd3b195f9 100644
  
  # Keeps track of all enabled/disabled features
  features = {
-@@ -244,7 +248,10 @@ sources = files(
-     ## tree_allocator
-     'ta/ta.c',
-     'ta/ta_talloc.c',
--    'ta/ta_utils.c'
-+    'ta/ta_utils.c',
-+
+@@ -54,3 +58,6 @@ # generic sources
+ sources = files(
 +    ## fftools-ffi hack
-+    'fftools-ffi.c'
- )
++    'fftools-ffi.c',
++
+     ## Audio
  
  
 diff --git a/fftools-ffi.c b/fftools-ffi.c
