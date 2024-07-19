@@ -13,12 +13,6 @@ for dep_path in "${PATCHES[@]}"; do
         git reset --hard
         for patch in "${patches[@]}"; do
             echo Applying $patch
-            
-            if [ $dep = "mpv" ]; then
-                echo "------------------------------------"
-                cat meson.build
-                echo "------------------------------------"
-            fi
             git apply "$ROOT/$patch"
         done
         cd $ROOT
