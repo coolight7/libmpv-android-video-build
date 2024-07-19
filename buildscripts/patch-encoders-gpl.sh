@@ -3,6 +3,10 @@
 PATCHES=(patches-encoders-gpl/*)
 ROOT=$(pwd)
 
+echo "------------------------------------"
+cat meson.build
+echo "------------------------------------"
+
 for dep_path in "${PATCHES[@]}"; do
     if [ -d "$dep_path" ]; then
         patches=($dep_path/*)
