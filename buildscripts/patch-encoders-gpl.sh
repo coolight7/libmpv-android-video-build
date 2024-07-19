@@ -14,7 +14,7 @@ for dep_path in "${PATCHES[@]}"; do
         for patch in "${patches[@]}"; do
             echo Applying $patch
             
-            if [ $dep_path -eq "mpv" ]; then
+            if [ $dep_path = "mpv" ]; then
                 echo "------------------------------------"
                 cat meson.build
                 echo "------------------------------------"
