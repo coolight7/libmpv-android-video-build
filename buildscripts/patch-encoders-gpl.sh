@@ -3,9 +3,6 @@
 PATCHES=(patches-encoders-gpl/*)
 ROOT=$(pwd)
 
-echo "------------------------------------"
-cat meson.build
-echo "------------------------------------"
 
 for dep_path in "${PATCHES[@]}"; do
     if [ -d "$dep_path" ]; then
@@ -16,6 +13,12 @@ for dep_path in "${PATCHES[@]}"; do
         git reset --hard
         for patch in "${patches[@]}"; do
             echo Applying $patch
+            
+            if [ $dep_path -eq "mpv" ]; then
+                echo "------------------------------------"
+                cat meson.build
+                echo "------------------------------------"
+            fi
             git apply "$ROOT/$patch"
         done
         cd $ROOT
