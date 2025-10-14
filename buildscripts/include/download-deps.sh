@@ -7,7 +7,7 @@
 mkdir -p deps && cd deps
 
 # mbedtls
-[ ! -d mbedtls ] && git clone --depth 1 --branch v$v_mbedtls https://github.com/Mbed-TLS/mbedtls.git mbedtls
+[ ! -d mbedtls ] && git clone --depth 1 --branch v$v_mbedtls --recurse-submodules https://github.com/Mbed-TLS/mbedtls.git mbedtls
 
 # dav1d
 [ ! -d dav1d ] && git clone --depth 1 --branch $v_dav1d https://code.videolan.org/videolan/dav1d.git dav1d
@@ -39,8 +39,18 @@ mkdir -p deps && cd deps
 # harfbuzz
 [ ! -d harfbuzz ] && git clone --depth 1 --branch $v_harfbuzz https://github.com/harfbuzz/harfbuzz.git harfbuzz
 
+# libunibreak
+if [ ! -d libunibreak ]; then
+        mkdir libunibreak
+        $WGET https://github.com/adah1972/libunibreak/releases/download/libunibreak_${v_libunibreak//./_}/libunibreak-${v_libunibreak}.tar.gz -O - | \
+                tar -xz -C libunibreak --strip-components=1
+fi
+
 # libass
 [ ! -d libass ] && git clone --depth 1 --branch $v_libass https://github.com/libass/libass.git libass
+
+# libplacebo
+[ ! -d libplacebo ] && git clone --depth 1 --branch v$v_libplacebo --recurse-submodules https://code.videolan.org/videolan/libplacebo.git libplacebo
 
 # shaderc
 mkdir -p shaderc
@@ -50,13 +60,13 @@ see <ndk>/sources/third_party/shaderc
 HEREDOC
 
 # mpv
-[ ! -d mpv ] && git clone https://github.com/mpv-player/mpv.git mpv && cd mpv && git reset --hard 78d43740f52db817d98bcf24fb30a76ab6fa13ff && cd ..
+[ ! -d mpv ] && git clone --depth 1 --branch v$v_mpv https://github.com/mpv-player/mpv.git mpv
 
 # fftools_ffi
 [ ! -d fftools_ffi ] && git clone --depth 1 --branch main https://github.com/moffatman/fftools-ffi.git fftools_ffi
 
 # media-kit-android-helper
-[ ! -d media-kit-android-helper ] && git clone --branch main https://github.com/media-kit/media-kit-android-helper.git && cd media-kit-android-helper && git reset --hard 42054e5d479f39ccbb0ae604862e2bcaf59b74c2
+[ ! -d media-kit-android-helper ] && git clone --branch main https://github.com/coolight7/media-kit-android-helper && cd media-kit-android-helper && git reset --hard 6498016ba41c18cf229b2efefb06d9377e18b572
 echo "sdk.dir=/home/coolight/program/media/libmpv-android-video-build/buildscripts/sdk/android-sdk-linux/" > local.properties && cd ..
 
 # media_kit

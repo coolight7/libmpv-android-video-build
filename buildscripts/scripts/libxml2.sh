@@ -25,7 +25,7 @@ cd _build$ndk_suffix
     --with-minimum \
     --with-threads \
     --with-tree \
-    --without-lzma \
+    --without-lzma
 
 make -j$cores
 make DESTDIR="$prefix_dir" install

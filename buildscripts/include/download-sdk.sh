@@ -61,10 +61,10 @@ sdkmanager () {
 	"$exe" --sdk_root="${ANDROID_HOME}" "$@"
 }
 echo y | sdkmanager \
-	"platforms;android-33" \
+	"platforms;${v_platform}" \
 	"build-tools;${v_sdk_build_tools}" \
 	"ndk;${v_ndk}" \
-	"cmake;3.22.1"
+	"cmake;${v_cmake}"
 
 # gas-preprocessor
 mkdir -p bin

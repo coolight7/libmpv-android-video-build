@@ -1,7 +1,7 @@
-@Suppress("DSL_SCOPE_VIOLATION") // False positive
 plugins {
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.publish.plugin) apply true
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.maven.publish) apply false
 }
 
 allprojects {
@@ -9,13 +9,4 @@ allprojects {
         mavenCentral()
         google()
     }
-}
-
-tasks.wrapper {
-    gradleVersion = "7.6"
-    distributionType = Wrapper.DistributionType.ALL
-}
-
-apply {
-    from("$rootDir/scripts/publish-root.gradle")
 }

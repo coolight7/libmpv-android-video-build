@@ -17,7 +17,7 @@ loadarch () {
 	unset CC CXX CPATH LIBRARY_PATH C_INCLUDE_PATH CPLUS_INCLUDE_PATH
     unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
 
-	local apilvl=21
+	local apilvl=23
 	# ndk_triple: what the toolchain actually is
 	# cc_triple: what Google pretends the toolchain is
 	if [ "$1" == "armv7l" ]; then
