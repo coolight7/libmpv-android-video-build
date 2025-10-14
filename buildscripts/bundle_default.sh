@@ -1,5 +1,9 @@
 # --------------------------------------------------
 
+export http_proxy=http://172.29.48.1:7897
+export https_proxy=http://172.29.48.1:7897
+
+# coolight --- temp
 if [ ! -f "deps" ]; then
   sudo rm -r deps
 fi
@@ -19,6 +23,7 @@ cp flavors/default.sh scripts/ffmpeg.sh
 
 # --------------------------------------------------
 
+# coolight --- temp
 ./build.sh
 
 zip -r debug-symbols-default.zip prefix/*/lib

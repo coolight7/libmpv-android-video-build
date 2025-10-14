@@ -8,6 +8,11 @@ on:
 permissions:
   contents: write
 
+env:
+  HTTP_PROXY: http://172.29.48.1:7897
+  HTTPS_PROXY: http://172.29.48.1:7897
+  NO_PROXY: localhost,127.0.0.1
+
 jobs:
   build:
     name: Build
@@ -18,18 +23,19 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
+          distribution: 'temurin'
           java-version: 17
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5.0.0
       - name: Symlink SDK
         working-directory: ./buildscripts
         run: |
-          mkdir sdk
-          ln -s ${ANDROID_HOME} ./sdk/android-sdk-linux
+          mkdir -p sdk
+          ln -f -s ${ANDROID_HOME} ./sdk/android-sdk-linux
       - name: Bundle (default)
         working-directory: ./buildscripts
         run: |
+          source ~/.bashrc
           sudo chmod +x bundle_default.sh
           ./bundle_default.sh
       # TODO(alexmercerind): Figure out this shit.
