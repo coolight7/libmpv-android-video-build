@@ -27,16 +27,23 @@ cpuflags=
 	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- --ar=$AR --cc=$CC --ranlib=$RANLIB \
 	--arch=${ndk_triple%%-*} --cpu=$cpu --pkg-config=pkg-config --nm=llvm-nm \
 	--extra-cflags="-I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib" \
+	--pkg-config-flags=--static \
 	\
 	--disable-gpl \
 	--disable-nonfree \
 	--enable-version3 \
-	--enable-static \
+	\
+    --disable-debug \
 	--disable-shared \
+	--enable-static \
+	--disable-stripping \
+	--enable-runtime-cpudetect \
+	--enable-small \
+	--enable-hwaccels \
+	--enable-optimizations \
+	\
 	--disable-vulkan \
 	--disable-iconv \
-	--disable-stripping \
-	--pkg-config-flags=--static \
 	\
 	--disable-muxers \
 	--disable-decoders \
@@ -46,17 +53,17 @@ cpuflags=
 	--disable-protocols \
 	--disable-devices \
 	--disable-filters \
-	--disable-doc \
 	--disable-avdevice \
-	--disable-postproc \
+	--disable-doc \
 	--disable-programs \
-	--disable-gray \
+	--disable-ffmpeg \
+	--disable-ffprobe \
 	--disable-swscale-alpha \
+	--disable-gray \
+	--disable-postproc \
 	\
 	--enable-jni \
-	--enable-bsfs \
 	--enable-mediacodec \
-	\
 	--disable-dxva2 \
 	--disable-vaapi \
 	--disable-vdpau \
@@ -65,17 +72,6 @@ cpuflags=
 	--disable-videotoolbox \
 	--disable-audiotoolbox \
 	\
-	--enable-small \
-	--enable-hwaccels \
-	--enable-optimizations \
-	--enable-runtime-cpudetect \
-	\
-	--enable-mbedtls \
-	\
-	--enable-libdav1d \
-	\
-	--enable-libxml2 \
-	\
 	--enable-avutil \
 	--enable-avcodec \
 	--enable-avfilter \
@@ -83,176 +79,250 @@ cpuflags=
 	--enable-swscale \
 	--enable-swresample \
 	\
-	--enable-decoder=flv \
-	--enable-decoder=h263 \
-	--enable-decoder=h263i \
-	--enable-decoder=h263p \
-	--enable-decoder=h264* \
-	--enable-decoder=mpeg1video \
-	--enable-decoder=mpeg2* \
-	--enable-decoder=mpeg4* \
-	--enable-decoder=vp6 \
-	--enable-decoder=vp6a \
-	--enable-decoder=vp6f \
-	--enable-decoder=vp8* \
-	--enable-decoder=vp9* \
-	--enable-decoder=hevc* \
-	--enable-decoder=av1* \
-	--enable-decoder=libdav1d \
-	--enable-decoder=theora \
-	--enable-decoder=msmpeg* \
-	--enable-decoder=mjpeg* \
-	--enable-decoder=wmv* \
+	--enable-bsfs \
+	--disable-bsf=mov2textsub \
+	--disable-bsf=text2movsub \
 	\
-	--enable-decoder=aac* \
-	--enable-decoder=ac3 \
-	--enable-decoder=alac \
-	--enable-decoder=als \
-	--enable-decoder=ape \
-	--enable-decoder=atrac* \
-	--enable-decoder=eac3 \
-	--enable-decoder=flac \
-	--enable-decoder=gsm* \
-	--enable-decoder=mp1* \
-	--enable-decoder=mp2* \
-	--enable-decoder=mp3* \
-	--enable-decoder=mpc* \
-	--enable-decoder=opus \
-	--enable-decoder=ra* \
-	--enable-decoder=ralf \
-	--enable-decoder=shorten \
-	--enable-decoder=tak \
-	--enable-decoder=tta \
-	--enable-decoder=vorbis \
-	--enable-decoder=wavpack \
-	--enable-decoder=wma* \
-	--enable-decoder=pcm* \
-	--enable-decoder=dsd* \
-	--enable-decoder=dca \
+	--enable-decoders \
+	--enable-decoder=aac_mediacodec \
+	--enable-decoder=amrnb_mediacodec \
+	--enable-decoder=amrwb_mediacodec \
+	--enable-decoder=h264_mediacodec \
+	--enable-decoder=hevc_mediacodec \
+	--enable-decoder=mp3_mediacodec \
+	--enable-decoder=opus_mediacodec \
+	--enable-decoder=vorbis_mediacodec \
+	--disable-decoder=h263_v4l2m2m \
+	--disable-decoder=h264_v4l2m2m \
+	--disable-decoder=hevc_v4l2m2m \
+	--disable-decoder=mpeg1_v4l2m2m \
+	--disable-decoder=vc1_v4l2m2m \
+	--disable-decoder=mpeg2_v4l2m2m \
+	--disable-decoder=mpeg4_v4l2m2m \
+	--disable-decoder=vp8_v4l2m2m \
+	--disable-decoder=vp9_v4l2m2m \
+	--disable-decoder=libaom_av1 \
+	--disable-decoder=mpeg2_mmal \
+	--disable-decoder=h264_mmal \
+	--disable-decoder=vp8_mmal \
+	--disable-decoder=dvbsub \
+	--disable-decoder=dvdsub \
+	--disable-decoder=jacosub \
+	--disable-decoder=realtext \
+	--disable-decoder=stl \
+	--disable-decoder=microdvd \
+	--disable-decoder=mpl2 \
 	\
-	--enable-decoder=ssa \
-	--enable-decoder=ass \
-	--enable-decoder=dvbsub \
-	--enable-decoder=dvdsub \
-	--enable-decoder=srt \
-	--enable-decoder=stl \
-	--enable-decoder=subrip \
-	--enable-decoder=subviewer \
-	--enable-decoder=subviewer1 \
-	--enable-decoder=text \
-	--enable-decoder=vplayer \
-	--enable-decoder=webvtt \
-	--enable-decoder=movtext \
+	--disable-muxers \
+	--enable-muxer=image2 \
+	--enable-muxer=mjpeg \
+	--enable-muxer=mpjpeg \
+	--enable-muxer=apng \
+	--enable-muxer=avif \
+	--enable-muxer=fits \
+	--enable-muxer=gif \
+	--enable-muxer=ico \
+	--enable-muxer=webp \
 	\
-	--enable-demuxer=concat \
-	--enable-demuxer=data \
-	--enable-demuxer=flv \
-	--enable-demuxer=hls \
-	--enable-demuxer=latm \
-	--enable-demuxer=live_flv \
-	--enable-demuxer=loas \
-	--enable-demuxer=m4v \
-	--enable-demuxer=mov \
-	--enable-demuxer=mpegps \
-	--enable-demuxer=mpegts \
-	--enable-demuxer=mpegvideo \
-	--enable-demuxer=hevc \
-	--enable-demuxer=rtsp \
-	--enable-demuxer=mpeg4 \
-	--enable-demuxer=mjpeg* \
-	--enable-demuxer=avi \
-	--enable-demuxer=av1 \
-	--enable-demuxer=matroska \
-	--enable-demuxer=dash \
-	--enable-demuxer=webm_dash_manifest \
+	--enable-demuxers \
+	--disable-demuxer=vobsub \
+	--disable-demuxer=dvbsub \
+	--disable-demuxer=dvbtxt \
+	--disable-demuxer=mpl2 \
+	--disable-demuxer=aqtitle \
+	--disable-demuxer=jacosub \
+	--disable-demuxer=realtext \
+	--disable-demuxer=tedcaptions \
+	--disable-demuxer=stl \
+	--disable-demuxer=ace \
+	--disable-demuxer=gxf \
+	--disable-demuxer=live_flv \
+	--disable-demuxer=lxf \
+	--disable-demuxer=microdvd \
+	--disable-demuxer=rtp \
+	--disable-demuxer=rtsp \
 	\
-	--enable-demuxer=aac \
-	--enable-demuxer=ac3 \
-	--enable-demuxer=aiff \
-	--enable-demuxer=ape \
-	--enable-demuxer=asf \
-	--enable-demuxer=au \
-	--enable-demuxer=avi \
-	--enable-demuxer=flac \
-	--enable-demuxer=flv \
-	--enable-demuxer=matroska \
-	--enable-demuxer=mov \
-	--enable-demuxer=m4v \
-	--enable-demuxer=mp3 \
-	--enable-demuxer=mpc* \
-	--enable-demuxer=ogg \
-	--enable-demuxer=pcm* \
-	--enable-demuxer=rm \
-	--enable-demuxer=shorten \
-	--enable-demuxer=tak \
-	--enable-demuxer=tta \
-	--enable-demuxer=wav \
-	--enable-demuxer=wv \
-	--enable-demuxer=xwma \
-	--enable-demuxer=dsf \
-	--enable-demuxer=truehd \
-        --enable-demuxer=dts \
-        --enable-demuxer=dtshd \
+    --enable-parsers \
 	\
-	--enable-demuxer=ass \
-	--enable-demuxer=srt \
-	--enable-demuxer=stl \
-	--enable-demuxer=webvtt \
-	--enable-demuxer=subviewer \
-	--enable-demuxer=subviewer1 \
-	--enable-demuxer=vplayer \
+    --disable-filters \
 	\
-	--enable-parser=h263 \
-	--enable-parser=h264 \
-	--enable-parser=hevc \
-	--enable-parser=mpeg4 \
-	--enable-parser=mpeg4video \
-	--enable-parser=mpegvideo \
+	--enable-filter=thumbnail \
+	--enable-filter=thumbnail_cuda \
+	--disable-filter=movie \
 	\
-	--enable-parser=aac* \
-	--enable-parser=ac3 \
-	--enable-parser=cook \
-	--enable-parser=dca \
-	--enable-parser=flac \
-	--enable-parser=gsm \
-	--enable-parser=mpegaudio \
-	--enable-parser=tak \
-	--enable-parser=vorbis \
- 	--enable-parser=dca \
-	\
-	--enable-filter=overlay \
+	--disable-filter=avsynctest \
+	--disable-filter=fsync \
+	--enable-filter=metadata \
+	--enable-filter=null \
+	--enable-filter=nullsink \
+	--enable-filter=nullsrc \
+	--disable-filter=realtime \
+
+	--enable-filter=acopy \
+	--enable-filter=amix \
+	--enable-filter=amerge \
+	--disable-filter=areverse \
+	--enable-filter=aresample \
+	--enable-filter=asplit \
+	--enable-filter=atrim \
+	--enable-filter=volume \
+	--enable-filter=volumedetect \
+	--enable-filter=acompressor \
+	--enable-filter=adrc \
+	--enable-filter=dynaudnorm \
+	--enable-filter=limiter \
+	--enable-filter=mcompand \
+	--enable-filter=anequalizer \
+	--enable-filter=bandpass \
+	--enable-filter=bandreject \
+	--enable-filter=bass \
 	--enable-filter=equalizer \
+	--enable-filter=highpass \
+	--enable-filter=highshelf \
+	--enable-filter=lowpass \
+	--enable-filter=lowshelf \
+	--enable-filter=midequalizer \
+	--enable-filter=tiltshelf \
+	--enable-filter=aecho \
+	--enable-filter=aphaser \
+	--enable-filter=bs2b \
+	--enable-filter=crystalizer \
+	--enable-filter=flanger \
+	--enable-filter=haas \
+	--enable-filter=headphone \
+	--enable-filter=extrastereo \
+	--enable-filter=sofalizer \
+	--enable-filter=stereotools \
+	--enable-filter=stereowiden \
+	--enable-filter=surround \
+	--enable-filter=tremolo \
+	--enable-filter=vibrato \
+	--enable-filter=virtualbass \
+	--disable-filter=adeclick \
+	--disable-filter=adeclip \
+	--disable-filter=afftdn \
+	--disable-filter=afwtdn \
+	--disable-filter=anlmdn \
+	--disable-filter=arnndn \
+	--disable-filter=dcshift \
+	--disable-filter=deesser \
+	--disable-filter=fftdnoiz \
+	--enable-filter=ebur128 \
+	--enable-filter=loudnorm \
+	--enable-filter=replaygain \
+	--enable-filter=silencedetect \
+	--enable-filter=silenceremove \
+	--enable-filter=aexciter \
+	--enable-filter=amplify \
+	--enable-filter=apulsator \
+	--enable-filter=atempo \
+	--enable-filter=dialoguenhance \
+	--enable-filter=rubberband \
+	--enable-filter=sinc \
+	--enable-filter=sine \
+	--enable-filter=spectrumsynth \
 	\
+	--disable-protocols \
+	--disable-protocol=ffrtmphttp \
+	--disable-protocol=rtmp \
+	--disable-protocol=rtmps \
+	--disable-protocol=rtmpt \
+	--disable-protocol=rtmpts \
+	--disable-protocol=rtp \
+	--disable-protocol=srtp \
+	--disable-protocol=libsrt \
 	--enable-protocol=async \
 	--enable-protocol=cache \
 	--enable-protocol=crypto \
 	--enable-protocol=data \
-	--enable-protocol=ffrtmphttp \
 	--enable-protocol=file \
 	--enable-protocol=ftp \
 	--enable-protocol=hls \
+	--enable-protocol=pipe \
 	--enable-protocol=http \
 	--enable-protocol=httpproxy \
 	--enable-protocol=https \
-	--enable-protocol=pipe \
-	--enable-protocol=rtmp \
-	--enable-protocol=rtmps \
-	--enable-protocol=rtmpt \
-	--enable-protocol=rtmpts \
-	--enable-protocol=rtp \
 	--enable-protocol=subfile \
 	--enable-protocol=tcp \
 	--enable-protocol=tls \
-	--enable-protocol=srt \
+	--enable-protocol=udp \
+	--enable-protocol=libssh \
 	\
+	--disable-encoders \
 	--enable-encoder=mjpeg \
-	--enable-encoder=ljpeg \
-	--enable-encoder=jpegls \
-	--enable-encoder=jpeg2000 \
+	--disable-encoder=ljpeg \
+	--disable-encoder=jpegls \
+	--disable-encoder=jpeg2000 \
 	--enable-encoder=png \
-	--enable-encoder=jpegls \
+	--enable-encoder=bmp \
+	--enable-encoder=gif \
+	--enable-encoder=apng \
+	--enable-encoder=tiff \
+	--enable-encoder=libwebp \
+	--enable-encoder=libwebp_anim \
+	--disable-encoder=ppm \
+	--disable-encoder=pgm \
+	--disable-encoder=pcx \
+	--disable-encoder=sgi \
+	--disable-encoder=sunrast \
+	--disable-encoder=targa \
+	--enable-encoder=wbmp \
+	--disable-encoder=xbm \
+	--disable-encoder=xwd \
 	\
 	--enable-network \
+	--disable-libmfx \
+	--disable-avisynth \
+	--disable-vapoursynth \
+	--disable-libbluray \
+	--disable-libdvdnav \
+	--disable-libdvdread \
+	--disable-libmodplug \
+	--disable-libopenmpt \
+	--disable-libx264 \
+	--disable-libx265 \
+	--disable-libsrt \
+	--disable-libzvbi \
+	--disable-libaribcaption \
+	--disable-libxvid \
+	--enable-amf \
+	--enable-dxva2 \
+	--enable-libuavs3d \
+	--enable-d3d11va \
+	--enable-openal \
+	--enable-opengl \
+	--enable-vaapi \
+	--enable-libass \
+	--enable-libfreetype \
+	--enable-libfribidi \
+	--enable-libfontconfig \
+	--enable-libharfbuzz \
+	--enable-libmp3lame \
+	--enable-lcms2 \
+	--enable-libopus \
+	--enable-libsoxr \
+	--enable-libspeex \
+	--enable-libvorbis \
+	--enable-libbs2b \
+	--enable-librubberband \
+	--enable-libvpx \
+	--enable-libwebp \
+	--enable-libaom \
+	--enable-libsvtav1 \
+	--enable-libdav1d \
+	--enable-libzimg \
+	--enable-openssl \
+	--enable-libxml2 \
+	--enable-iconv \
+	--enable-libmysofa \
+	--enable-libssh \
+	--enable-libvpl \
+	--enable-libjxl \
+	--enable-libplacebo \
+	--enable-libshaderc \
+	--enable-libdavs2 \
+	--enable-libuavs3d \
+	--enable-lto=thin \
 
 make -j$cores
 make DESTDIR="$prefix_dir" install
