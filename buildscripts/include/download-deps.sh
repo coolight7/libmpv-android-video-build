@@ -49,6 +49,14 @@ fi
 # libass
 [ ! -d libass ] && git clone --depth 1 --branch $v_libass https://github.com/libass/libass.git libass
 
+# shaderc
+if [ ! -d shaderc ]; then
+	git clone --depth 1 --branch v$v_shaderc --recursive https://github.com/google/shaderc shaderc
+	cd shaderc/utils
+	./git-sync-deps
+	cd ../..
+fi
+
 # libplacebo
 [ ! -d libplacebo ] && git clone --depth 1 --branch v$v_libplacebo --recurse-submodules https://code.videolan.org/videolan/libplacebo.git libplacebo
 

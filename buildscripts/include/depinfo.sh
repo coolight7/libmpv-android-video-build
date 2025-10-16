@@ -17,6 +17,7 @@ v_harfbuzz=12.1.0
 v_fribidi=1.0.16
 v_freetype=2-14-1
 v_mbedtls=3.6.4
+v_shaderc=2025.3
 v_dav1d=1.5.1
 v_libxml2=2.15.0
 v_libplacebo=7.351.0
@@ -42,7 +43,8 @@ dep_freetype2=(harfbuzz)
 dep_fribidi=()
 dep_harfbuzz=()
 dep_libunibreak=()
-dep_libplacebo=()
+dep_shaderc=()
+dep_libplacebo=(shaderc)
 dep_libass=(freetype fribidi harfbuzz libunibreak)
 dep_shaderc=()
 if [ -n "$ENCODERS_GPL" ]; then
