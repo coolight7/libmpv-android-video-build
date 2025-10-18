@@ -22,8 +22,9 @@ cd _build$ndk_suffix
 CONF=1 ../configure \
 	CFLAGS=-fPIC CXXFLAGS=-fPIC \
 	--host=$ndk_triple \
-    --enable-static \
     --disable-shared \
+    --enable-static \
+	--with-pic \
 
 make -j$cores
 make DESTDIR="$prefix_dir" install

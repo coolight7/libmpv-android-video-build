@@ -29,7 +29,7 @@ export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 unset CC CXX # meson wants these unset
 
-CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$prefix_dir/lib/ -liconv -lm -lc++" meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
+CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$prefix_dir/lib/ -liconv" meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
 	--prefer-static \
 	--default-library shared \
     -Dbuildtype=release \

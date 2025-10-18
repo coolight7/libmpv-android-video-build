@@ -22,8 +22,9 @@ cd _build$ndk_suffix
 CONF=1 ../configure \
 	CFLAGS=-fPIC CXXFLAGS=-fPIC \
 	--host=$ndk_triple \
-    --enable-static \
     --disable-shared \
+    --enable-static \
+	--enable-pic \
     --disable-nls \
     --enable-extra-encodings \
 

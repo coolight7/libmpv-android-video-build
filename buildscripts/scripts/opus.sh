@@ -25,6 +25,9 @@ cd _build$ndk_suffix
 
 ../configure \
 	--host=$ndk_triple \
+    --disable-shared \
+    --enable-static \
+	--with-pic \
     --disable-hardening \
     --disable-doc \
     --disable-extra-programs \

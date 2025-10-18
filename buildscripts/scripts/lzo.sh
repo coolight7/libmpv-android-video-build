@@ -24,6 +24,7 @@ cd _build$ndk_suffix
 	--host=$ndk_triple \
     --disable-shared \
     --enable-static \
+	--with-pic \
 
 
 make -j$cores
