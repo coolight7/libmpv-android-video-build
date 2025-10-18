@@ -26,24 +26,21 @@ cpuflags=
 ../configure \
 	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- --ar=$AR --cc=$CC --ranlib=$RANLIB \
 	--arch=${ndk_triple%%-*} --cpu=$cpu --pkg-config=pkg-config --nm=llvm-nm \
-	--extra-cflags="-I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib" \
+	--extra-cflags="-I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib -lm -lc++" \
 	--pkg-config-flags=--static \
 	\
-	--disable-gpl \
-	--disable-nonfree \
+	--enable-gpl \
+	--enable-nonfree \
 	--enable-version3 \
 	\
     --disable-debug \
-	--disable-shared \
+	--enable-shared \
 	--enable-static \
 	--disable-stripping \
 	--enable-runtime-cpudetect \
 	--enable-small \
 	--enable-hwaccels \
 	--enable-optimizations \
-	\
-	--disable-vulkan \
-	--disable-iconv \
 	\
 	--disable-muxers \
 	--disable-decoders \
@@ -53,7 +50,6 @@ cpuflags=
 	--disable-protocols \
 	--disable-devices \
 	--disable-filters \
-	--disable-avdevice \
 	--disable-doc \
 	--disable-programs \
 	--disable-ffmpeg \
@@ -62,8 +58,15 @@ cpuflags=
 	--disable-gray \
 	--disable-postproc \
 	\
-	--enable-jni \
-	--enable-mediacodec \
+	--enable-avutil \
+	--enable-avcodec \
+	--enable-avfilter \
+	--enable-avformat \
+	--enable-avdevice \
+	--enable-swscale \
+	--enable-swresample \
+	\
+	--disable-d3d11va \
 	--disable-dxva2 \
 	--disable-vaapi \
 	--disable-vdpau \
@@ -71,6 +74,10 @@ cpuflags=
 	--disable-linux-perf \
 	--disable-videotoolbox \
 	--disable-audiotoolbox \
+	--disable-vulkan \
+	--enable-jni \
+	--enable-mediacodec \
+	--enable-lto=thin \
 	\
 	--enable-avutil \
 	--enable-avcodec \
@@ -87,9 +94,14 @@ cpuflags=
 	--enable-decoder=aac_mediacodec \
 	--enable-decoder=amrnb_mediacodec \
 	--enable-decoder=amrwb_mediacodec \
+	--enable-decoder=av1_mediacodec \
 	--enable-decoder=h264_mediacodec \
 	--enable-decoder=hevc_mediacodec \
 	--enable-decoder=mp3_mediacodec \
+	--enable-decoder=mpeg2_mediacodec \
+	--enable-decoder=mpeg4_mediacodec \
+	--enable-decoder=vp8_mediacodec \
+	--enable-decoder=vp9_mediacodec \
 	--enable-decoder=opus_mediacodec \
 	--enable-decoder=vorbis_mediacodec \
 	--disable-decoder=h263_v4l2m2m \
@@ -101,7 +113,6 @@ cpuflags=
 	--disable-decoder=mpeg4_v4l2m2m \
 	--disable-decoder=vp8_v4l2m2m \
 	--disable-decoder=vp9_v4l2m2m \
-	--disable-decoder=libaom_av1 \
 	--disable-decoder=mpeg2_mmal \
 	--disable-decoder=h264_mmal \
 	--disable-decoder=vp8_mmal \
@@ -157,7 +168,7 @@ cpuflags=
 	--enable-filter=nullsink \
 	--enable-filter=nullsrc \
 	--disable-filter=realtime \
-
+	\
 	--enable-filter=acopy \
 	--enable-filter=amix \
 	--enable-filter=amerge \
@@ -231,6 +242,7 @@ cpuflags=
 	--disable-protocol=rtp \
 	--disable-protocol=srtp \
 	--disable-protocol=libsrt \
+	--disable-protocol=libssh \
 	--enable-protocol=async \
 	--enable-protocol=cache \
 	--enable-protocol=crypto \
@@ -246,7 +258,6 @@ cpuflags=
 	--enable-protocol=tcp \
 	--enable-protocol=tls \
 	--enable-protocol=udp \
-	--enable-protocol=libssh \
 	\
 	--disable-encoders \
 	--enable-encoder=mjpeg \
@@ -285,53 +296,52 @@ cpuflags=
 	--disable-libzvbi \
 	--disable-libaribcaption \
 	--disable-libxvid \
-	--enable-amf \
-	--enable-dxva2 \
-	--enable-libuavs3d \
-	--enable-d3d11va \
-	--enable-openal \
-	--enable-opengl \
-	--enable-vaapi \
+	--disable-amf \
+	--disable-libmp3lame \
+	--disable-libssh \
+	--disable-libvpl \
+	--disable-libspeex \
+	\
 	--enable-libass \
 	--enable-libfreetype \
 	--enable-libfribidi \
-	--enable-libfontconfig \
 	--enable-libharfbuzz \
-	--enable-libmp3lame \
-	--enable-lcms2 \
 	--enable-libopus \
 	--enable-libsoxr \
-	--enable-libspeex \
 	--enable-libvorbis \
 	--enable-libbs2b \
 	--enable-librubberband \
 	--enable-libvpx \
 	--enable-libwebp \
-	--enable-libaom \
-	--enable-libsvtav1 \
 	--enable-libdav1d \
-	--enable-libzimg \
+	--enable-lcms2 \
+	--disable-libzimg \
 	--enable-openssl \
 	--enable-libxml2 \
 	--enable-iconv \
 	--enable-libmysofa \
-	--enable-libssh \
-	--enable-libvpl \
 	--enable-libjxl \
 	--enable-libplacebo \
 	--enable-libshaderc \
-	--enable-libdavs2 \
-	--enable-libuavs3d \
-	--enable-lto=thin \
+	--disable-libdavs2 \
+	--disable-libuavs3d \
+	\
+	--disable-libfontconfig \
+	--disable-libsvtav1 \
+
+# - 报错找不到依赖包时，也可能是 configure 尝试使用依赖库编译测试程序失败：
+# 	- 其中可能是 cpu平台不正确、符号缺失、缺少 include搜索目录或链接搜索目录、缺少指定链接库名称等原因
 
 make -j$cores
 make DESTDIR="$prefix_dir" install
 
-ln -sf "$prefix_dir"/lib/libswresample.so "$native_dir"
-ln -sf "$prefix_dir"/lib/libpostproc.so "$native_dir"
-ln -sf "$prefix_dir"/lib/libavutil.so "$native_dir"
-ln -sf "$prefix_dir"/lib/libavcodec.so "$native_dir"
-ln -sf "$prefix_dir"/lib/libavformat.so "$native_dir"
-ln -sf "$prefix_dir"/lib/libswscale.so "$native_dir"
-ln -sf "$prefix_dir"/lib/libavfilter.so "$native_dir"
-ln -sf "$prefix_dir"/lib/libavdevice.so "$native_dir"
+ffmpeg_output_dir="$build_home_dir/output/ffmpeg/$ndk_triple"
+mkdir -p $ffmpeg_output_dir
+[ -f "$prefix_dir/lib/libswresample.so" ] && mv -f "$prefix_dir"/lib/libswresample.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libpostproc.so" ] && mv -f "$prefix_dir"/lib/libpostproc.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavutil.so" ] && mv -f "$prefix_dir"/lib/libavutil.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavcodec.so" ] && mv -f "$prefix_dir"/lib/libavcodec.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavformat.so" ] && mv -f "$prefix_dir"/lib/libavformat.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libswscale.so" ] && mv -f "$prefix_dir"/lib/libswscale.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavfilter.so" ] && mv -f "$prefix_dir"/lib/libavfilter.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavdevice.so" ] && mv -f "$prefix_dir"/lib/libavdevice.so "$ffmpeg_output_dir/"
