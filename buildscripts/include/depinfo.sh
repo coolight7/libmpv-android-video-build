@@ -10,6 +10,7 @@ v_ndk=27.3.13750724
 # https://developer.android.google.cn/tools/releases/platform-tools?hl=zh-cn
 v_sdk_build_tools=36.1.0
 v_cmake=3.31.6
+v_min_sdk=23
 
 v_libass=0.17.4
 v_libunibreak=6.1
@@ -24,7 +25,7 @@ v_libplacebo=7.351.0
 v_ffmpeg=7.1.2
 v_mpv=0.40.0
 v_libogg=1.3.6
-v_libvorbis=1.3.7
+v_libvorbis=main # 未使用
 v_libvpx=1.14
 
 
@@ -33,22 +34,43 @@ v_libvpx=1.14
 
 dep_mbedtls=()
 dep_dav1d=()
-dep_libvorbis=(libogg)
-if [ -n "$ENCODERS_GPL" ]; then
-	dep_ffmpeg=(mbedtls dav1d libxml2 libvorbis libvpx libx264)
-else
-	dep_ffmpeg=(mbedtls dav1d libxml2)
-fi
-dep_freetype2=(harfbuzz)
-dep_fribidi=()
 dep_harfbuzz=()
+dep_fribidi=()
 dep_libunibreak=()
+dep_libiconv=()
+dep_zstd=()
+dep_zlib=()
+dep_brotli=()
 dep_shaderc=()
-dep_libplacebo=(shaderc)
-dep_libass=(freetype fribidi harfbuzz libunibreak)
-dep_shaderc=()
-if [ -n "$ENCODERS_GPL" ]; then
-	dep_mpv=(ffmpeg libass libplacebo fftools_ffi)
-else
-	dep_mpv=(ffmpeg libass libplacebo)
-fi
+dep_opus_dnn=()
+dep_libbs2b=()
+dep_libsoxr=()
+dep_expat=()
+dep_bzip2=()
+dep_lzo=()
+dep_xz=()
+dep_libsamplerate=()
+dep_libpng=()
+dep_libjpeg=()
+dep_highway=()
+dep_uchardet=()
+dep_spirv_cross=()
+dep_libmysofa=(zlib)
+dep_libvorbis=(libogg)
+dep_harfbuzz=(libpng)
+dep_rubberband=(libsamplerate)
+dep_lcms2=(libjpeg zlib)
+dep_libwebp=(zlib libpng libjpeg)
+dep_openssl=(zlib zstd brotli)
+dep_libjxl=(lcms2 highway libpng brotli)
+dep_freetype2=(zlib harfbuzz brotli)
+dep_fontconfig=(freetype libiconv expat)
+dep_libxml2=(zlib libiconv)
+dep_libarchive=(libxml2 openssl expat bzip2 lzo xz)
+dep_libass=(freetype fribidi libunibreak libiconv harfbuzz)
+dep_libplacebo=(shaderc lcms2 spirv_cross)
+dep_opus=(opus_dnn)
+
+# 依赖项的依赖已有，则不需要重复依赖编译
+dep_ffmpeg=(libass mbedtls dav1d libxml2 libplacebo libvorbis libvpx libbs2b opus libsoxr openssl bzip2 rubberband libmysofa libwebp libjxl)
+dep_mpv=(ffmpeg libarchive uchardet)

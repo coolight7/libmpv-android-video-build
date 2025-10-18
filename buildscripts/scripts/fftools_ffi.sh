@@ -16,7 +16,11 @@ fi
 
 unset CC CXX # meson wants these unset
 
-CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt
+CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
 
-ninja -C $build -j$cores
-DESTDIR="$prefix_dir" ninja -C $build install
+
+export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
+export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
+
+"${MY_CMAKE_EXE_DIR}/ninja" -C $build -j$cores
+DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C $build install

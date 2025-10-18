@@ -12,20 +12,36 @@ else
 	exit 255
 fi
 
-[ -f configure ] || ./autogen.sh
+build=_build$ndk_suffix
 
-mkdir -p _build$ndk_suffix
-cd _build$ndk_suffix
+mkdir -p $build
+cd $build
 
-../configure \
-    CFLAGS=-fPIC CXXFLAGS=-fPIC \
-	--host=$ndk_triple \
-    --disable-shared \
-    --enable-static \
-    --with-minimum \
-    --with-threads \
-    --with-tree \
-    --without-lzma
+export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
+export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
-make -j$cores
-make DESTDIR="$prefix_dir" install
+CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
+    -G Ninja \
+    -DCMAKE_SYSTEM_NAME=Android \
+    -DCMAKE_ANDROID_ARCH_ABI=$current_abi_name \
+    -DANDROID_PLATFORM=android-$v_min_sdk \
+    -DDCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+    -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DLIBXML2_WITH_ZLIB=ON \
+    -DLIBXML2_WITH_ICONV=ON \
+    -DLIBXML2_WITH_TREE=ON \
+    -DLIBXML2_WITH_THREADS=ON \
+    -DLIBXML2_WITH_THREAD_ALLOC=ON \
+    -DLIBXML2_WITH_LZMA=OFF \
+    -DLIBXML2_WITH_PYTHON=OFF \
+    -DLIBXML2_WITH_TESTS=OFF \
+    -DLIBXML2_WITH_HTTP=OFF \
+    -DLIBXML2_WITH_PROGRAMS=OFF \
+
+
+"${MY_CMAKE_EXE_DIR}/ninja" -C .
+DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install

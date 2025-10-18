@@ -20,6 +20,7 @@ cd $build
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
+# 禁用编译 可执行文件 tar/unzip 等 ...
 CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -G Ninja \
     -DCMAKE_SYSTEM_NAME=Android \
@@ -30,9 +31,25 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
-    -DBUILD_TESTING=OFF \
     -DBUILD_SHARED_LIBS=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DENABLE_ZLIB=ON \
+    -DENABLE_ZSTD=ON \
+    -DENABLE_OPENSSL=ON \
+    -DENABLE_BZip2=ON \
+    -DENABLE_ICONV=ON \
+    -DENABLE_LIBXML2=ON \
+    -DENABLE_EXPAT=ON \
+    -DENABLE_LZO=ON \
+    -DENABLE_LZMA=ON \
+    -DENABLE_CPIO=OFF \
+    -DENABLE_CAT=OFF \
+    -DENABLE_TAR=OFF \
+    -DENABLE_UNZIP=OFF \
+    -DENABLE_WERROR=OFF \
+    -DBUILD_TESTING=OFF \
+    -DENABLE_TEST=OFF \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+
 
 
 "${MY_CMAKE_EXE_DIR}/ninja" -C .

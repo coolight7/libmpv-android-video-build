@@ -20,7 +20,7 @@ cd $build
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
-CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
+CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S../expat -B. \
     -G Ninja \
     -DCMAKE_SYSTEM_NAME=Android \
     -DCMAKE_ANDROID_ARCH_ABI=$current_abi_name \
@@ -30,9 +30,13 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
-    -DBUILD_TESTING=OFF \
     -DBUILD_SHARED_LIBS=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DEXPAT_BUILD_DOCS=OFF \
+    -DEXPAT_BUILD_EXAMPLES=OFF \
+    -DEXPAT_BUILD_FUZZERS=OFF \
+    -DEXPAT_BUILD_TESTS=OFF \
+    -DEXPAT_BUILD_TOOLS=OFF \
+    -DEXPAT_BUILD_PKGCONFIG=ON \
 
 
 "${MY_CMAKE_EXE_DIR}/ninja" -C .

@@ -16,8 +16,16 @@ fi
 
 unset CC CXX # meson wants these unset
 
-CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
-	-Denable_tests=false -Db_lto=true -Dstack_alignment=16 
+CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build ./build/meson --cross-file "$prefix_dir"/crossfile.txt \
+    --buildtype=release \
+    --default-library=static \
+    -Dlegacy_level=0 \
+    -Ddebug_level=0 \
+    -Dbin_programs=false \
+    -Dzlib=disabled \
+    -Dlzma=disabled \
+    -Dlz4=disabled \
+
 
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/

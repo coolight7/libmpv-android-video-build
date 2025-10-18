@@ -6,39 +6,49 @@
 if [ "$1" == "build" ]; then
 	true
 elif [ "$1" == "clean" ]; then
-	rm -rf local include libs
+	rm -rf _build$ndk_suffix
 	exit 0
 else
 	exit 255
 fi
 
-builddir=$PWD
+build=_build$ndk_suffix
 
-abi=armeabi-v7a
-[[ "$ndk_triple" == "aarch64"* ]] && abi=arm64-v8a
-[[ "$ndk_triple" == "x86_64"* ]] && abi=x86_64
-[[ "$ndk_triple" == "i686"* ]] && abi=x86
+mkdir -p $build
+cd $build
 
-# build using the NDK's scripts, but keep object files in our build dir
-ndk-build -j$cores \
-	NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk \
-	APP_PLATFORM=android-26 APP_STL=c++_shared APP_ABI=$abi \
-	NDK_APP_OUT="$builddir" NDK_APP_LIBS_OUT="$builddir/libs" \
-	libshaderc_combined
+export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
+export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
-cd "$builddir"
-cp -r include/* "$prefix_dir/include"
-cp libs/*/$abi/libshaderc.a "$prefix_dir/lib/libshaderc_combined.a"
+LTO_JOB=1 CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
+    -G Ninja \
+    -DCMAKE_SYSTEM_NAME=Android \
+    -DCMAKE_ANDROID_ARCH_ABI=$current_abi_name \
+    -DANDROID_PLATFORM=android-$v_min_sdk \
+    -DDCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_INSTALL_PREFIX=/usr/local/ \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
+    -DBUILD_SHARED_LIBS=OFF \
+	-DSHADERC_SKIP_TESTS=ON \
+	-DSHADERC_SKIP_SPVC=ON \
+	-DSHADERC_SKIP_INSTALL=ON \
+	-DSHADERC_SKIP_EXAMPLES=ON \
+	-DSPIRV_SKIP_EXECUTABLES=ON \
+	-DSPIRV_SKIP_TESTS=ON \
+	-DENABLE_SPIRV_TOOLS_INSTALL=ON \
+	-DENABLE_GLSLANG_BINARIES=OFF \
+	-DSPIRV_TOOLS_BUILD_STATIC=ON \
+	-DSPIRV_TOOLS_LIBRARY_TYPE=STATIC \
+	-DCMAKE_CXX_FLAGS='${CMAKE_CXX_FLAGS} -std=c++17' \
 
-# create a pkgconfig file
-cat >"$prefix_dir"/lib/pkgconfig/shaderc_combined.pc <<END
-prefix=/usr/local
-includedir=\${prefix}/include
-libdir=\${prefix}/lib
 
-Name: shaderc_combined
-Description: A collection of tools, libraries, and tests for Vulkan shader compilation.
-Version: $v_shaderc
-Libs: -L\${libdir} -lshaderc_combined
-Cflags: -I\${includedir}
-END
+# ninja: Entering directory `.' 编译时日志可能会在这卡一会，耐心等
+LTO_JOB=1 "${MY_CMAKE_EXE_DIR}/ninja" -C .
+DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install
+
+cp -f -r "../libshaderc/include/shaderc" "$prefix_dir/include/shaderc"
+cp -f "./libshaderc/libshaderc_combined.a" "$prefix_dir/lib/libshaderc_combined.a"
+cp -f "./shaderc_combined.pc" "$prefix_dir/lib/pkgconfig/shaderc_combined.pc"
+cp -f "./shaderc_combined.pc" "$prefix_dir/lib/pkgconfig/shaderc.pc"

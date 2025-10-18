@@ -3,16 +3,16 @@
 export http_proxy=http://172.29.48.1:7897
 export https_proxy=http://172.29.48.1:7897
 
-# coolight --- temp
-if [ ! -f "deps" ]; then
-  sudo rm -r deps
-fi
-if [ ! -f "prefix" ]; then
-  sudo rm -r prefix
-fi
+# TODO: coolight --- temp
+# if [ ! -f "deps" ]; then
+#   sudo rm -r deps
+# fi
+# if [ ! -f "prefix" ]; then
+#   sudo rm -r prefix
+# fi
 
-./download.sh
-./patch.sh
+# ./download.sh
+# ./patch.sh
 
 # --------------------------------------------------
 
@@ -26,12 +26,16 @@ cp flavors/default.sh scripts/ffmpeg.sh
 # coolight --- temp
 ./build.sh
 
+if [ $? -ne 0 ]; then
+  exit -1
+fi
+
 zip -r debug-symbols-default.zip prefix/*/lib
 
-./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --strip-all prefix/arm64-v8a/usr/local/lib/libmpv.so
-./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --strip-all prefix/armeabi-v7a/usr/local/lib/libmpv.so
-./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --strip-all prefix/x86/usr/local/lib/libmpv.so
-./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --strip-all prefix/x86_64/usr/local/lib/libmpv.so
+"./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/arm64-v8a/usr/local/lib/libmpv.so
+"./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/armeabi-v7a/usr/local/lib/libmpv.so
+"./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86/usr/local/lib/libmpv.so
+"./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86_64/usr/local/lib/libmpv.so
 
 # --------------------------------------------------
 
@@ -55,3 +59,11 @@ zip -r default-x86.jar            lib/x86/*.so
 zip -r default-x86_64.jar         lib/x86_64/*.so
 
 md5sum *.jar
+
+cp -f default-arm64-v8a.jar       $build_home_dir/output/
+cp -f default-armeabi-v7a.jar     $build_home_dir/output/
+cp -f default-x86.jar             $build_home_dir/output/
+cp -f default-x86_64.jar          $build_home_dir/output/
+
+echo "current dir: vvvvvvvvvvvvvvvvvvvv"
+pwd

@@ -27,12 +27,16 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -DANDROID_PLATFORM=android-$v_min_sdk \
     -DDCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
     -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC \
+    -DCMAKE_ASM_FLAGS=-fPIC \
+    -DCMAKE_ASM_NASM_FLAGS="-f elf32 -DPIC" \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
-    -DBUILD_TESTING=OFF \
     -DBUILD_SHARED_LIBS=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DENABLE_STATIC=ON \
+    -DENABLE_SHARED=OFF \
+    -DWITH_TURBOJPEG=OFF \
 
 
 "${MY_CMAKE_EXE_DIR}/ninja" -C .

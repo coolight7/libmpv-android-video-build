@@ -16,8 +16,16 @@ fi
 
 unset CC CXX # meson wants these unset
 
-CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
-	-Denable_tests=false -Db_lto=true -Dstack_alignment=16 
+# 需要安装 gtest，但不用运行
+# sudo apt install libgtest-dev
+# cflags 中定义 HWY_TEST_STANDALONE=1 并删除 BUILD 文件中每一处 `gtest_main`
+CFLAGS="-fPIC -DHWY_TEST_STANDALONE=1" CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
+    --buildtype=release \
+    --default-library=static \
+    -Dcontrib=disabled \
+    -Dexamples=disabled \
+    -Dtests=disabled \
+
 
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/

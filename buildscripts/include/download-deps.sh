@@ -14,12 +14,13 @@ mkdir -p deps && cd deps
 
 # libxml2
 [ ! -d libxml2 ] && git clone --depth 1 --branch v$v_libxml2 --recursive https://gitlab.gnome.org/GNOME/libxml2.git libxml2
+cd libxml2 && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # libogg
 [ ! -d libogg ] && $WGET https://github.com/xiph/ogg/releases/download/v${v_libogg}/libogg-${v_libogg}.tar.gz && tar -xf libogg-${v_libogg}.tar.gz && mv libogg-${v_libogg} libogg && rm libogg-${v_libogg}.tar.gz
 
 # libvorbis
-[ ! -d libvorbis ] && $WGET https://github.com/xiph/vorbis/releases/download/v${v_libvorbis}/libvorbis-${v_libvorbis}.tar.gz && tar -xf libvorbis-${v_libvorbis}.tar.gz && mv libvorbis-${v_libvorbis} libvorbis && rm libvorbis-${v_libvorbis}.tar.gz
+[ ! -d libvorbis ] && git clone --depth 1 https://github.com/xiph/vorbis libvorbis
 
 # libvpx
 [ ! -d libvpx ] && git clone --depth 1 --branch meson-$v_libvpx https://gitlab.freedesktop.org/gstreamer/meson-ports/libvpx.git
@@ -29,15 +30,18 @@ mkdir -p deps && cd deps
 
 # ffmpeg
 [ ! -d ffmpeg ] && git clone --depth 1 --branch n$v_ffmpeg https://github.com/FFmpeg/FFmpeg.git ffmpeg
+cd ffmpeg && (sparse-checkout set --no-cone /* !tests/ref/fate || true) && cd ..
 
 # freetype2
 [ ! -d freetype ] && git clone --depth 1 --branch VER-$v_freetype https://gitlab.freedesktop.org/freetype/freetype.git freetype
 
 # fribidi
 [ ! -d fribidi ] && git clone --depth 1 --branch v$v_fribidi https://github.com/fribidi/fribidi.git fribidi
+cd fribidi && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # harfbuzz
 [ ! -d harfbuzz ] && git clone --depth 1 --branch $v_harfbuzz https://github.com/harfbuzz/harfbuzz.git harfbuzz
+cd harfbuzz && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # libunibreak
 if [ ! -d libunibreak ]; then
@@ -66,6 +70,89 @@ cat >shaderc/README <<'HEREDOC'
 Shaderc sources are provided by the NDK.
 see <ndk>/sources/third_party/shaderc
 HEREDOC
+
+# libbs2b
+[ ! -d libbs2b ] && git clone --depth 1 https://github.com/alexmarsev/libbs2b.git libbs2b
+
+# opus-dnn
+[ ! -d "$prefix_dir/opus_dnn" ] && $WGET https://media.xiph.org/opus/models/opus_data-8a07d57c4fce6fb30f23b3e0d264004e04f1d7b421f5392ef61543d021a439af.tar.gz && tar -zxvf opus_data-8a07d57c4fce6fb30f23b3e0d264004e04f1d7b421f5392ef61543d021a439af.tar.gz && mv dnn opus_dnn && rm opus_data-8a07d57c4fce6fb30f23b3e0d264004e04f1d7b421f5392ef61543d021a439af.tar.gz
+
+# opus
+[ ! -d opus ] && git clone --depth 1 https://github.com/xiph/opus.git opus
+
+# libsoxr
+[ ! -d libsoxr ] && git clone --depth 1 https://gitlab.com/shinchiro/soxr.git libsoxr
+
+# fontconfig
+[ ! -d fontconfig ] && git clone --depth 1 https://gitlab.freedesktop.org/fontconfig/fontconfig.git fontconfig
+
+# libiconv
+[ ! -d libiconv ] && $WGET https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.18.tar.gz && tar -zxvf libiconv-1.18.tar.gz && mv libiconv-1.18 libiconv && rm libiconv-1.18.tar.gz
+
+# zstd
+[ ! -d zstd ] && git clone --depth 1 --branch dev https://github.com/facebook/zstd.git zstd
+
+# zlib
+[ ! -d zlib ] && git clone --depth 1 --branch develop https://github.com/zlib-ng/zlib-ng.git zlib
+
+# expat
+[ ! -d expat ] && git clone --depth 1 https://github.com/libexpat/libexpat.git expat
+cd expat && (sparse-checkout set --no-cone /* !testdata || true) && cd ..
+
+# bzip2
+[ ! -d bzip2 ] && git clone --depth 1 https://gitlab.com/bzip2/bzip2.git bzip2
+
+# lzo
+[ ! -d lzo ] && $WGET https://fossies.org/linux/misc/lzo-2.10.tar.gz && tar -zxvf lzo-2.10.tar.gz && mv lzo-2.10 lzo && rm lzo-2.10.tar.gz
+
+# uchardet
+[ ! -d uchardet ] && git clone --depth 1 https://gitlab.freedesktop.org/uchardet/uchardet.git uchardet
+
+# spirv_cross
+[ ! -d spirv_cross ] && git clone --depth 1 https://github.com/KhronosGroup/SPIRV-Cross.git spirv_cross
+
+# xz
+[ ! -d xz ] && git clone --depth 1 https://gitlab.com/shinchiro/xz.git xz
+
+# libjpeg
+[ ! -d libjpeg ] && git clone --depth 1 https://github.com/libjpeg-turbo/libjpeg-turbo.git libjpeg
+
+# libpng
+[ ! -d libpng ] && git clone --depth 1 https://github.com/glennrp/libpng.git libpng
+
+# libwebp
+[ ! -d libwebp ] && git clone --depth 1 https://chromium.googlesource.com/webm/libwebp.git libwebp
+
+# highway
+[ ! -d highway ] && git clone --depth 1 https://github.com/google/highway.git highway
+
+# lcms2
+[ ! -d lcms2 ] && git clone --depth 1 https://github.com/mm2/Little-CMS.git lcms2
+
+# libsamplerate
+[ ! -d libsamplerate ] && git clone --depth 1 https://github.com/libsndfile/libsamplerate.git libsamplerate
+
+# rubberband
+[ ! -d rubberband ] && git clone --depth 1 https://github.com/breakfastquay/rubberband.git rubberband
+
+# libmysofa
+[ ! -d libmysofa ] && git clone --depth 1 https://github.com/hoene/libmysofa.git libmysofa
+cd libmysofa && (sparse-checkout set --no-cone /* !test || true) && cd ..
+
+# openssl
+[ ! -d openssl ] && git clone --depth 1 https://github.com/openssl/openssl.git openssl
+cd libxml2 && (sparse-checkout set --no-cone /* !test || true) && cd ..
+
+# libarchive
+[ ! -d libarchive ] && git clone --depth 1 https://github.com/libarchive/libarchive.git libarchive
+
+# libjxl
+[ ! -d libjxl ] && git clone --depth 1 https://github.com/libjxl/libjxl.git libjxl
+cd libjxl && rm -rf ./third_party/libjpeg-turbo && ln -s libjpeg ./third_party/libjpeg-turbo && cd ..
+
+# brotli
+[ ! -d brotli ] && git clone --depth 1 https://github.com/google/brotli.git brotli
+cd brotli && (sparse-checkout set --no-cone /* !tests !js !java !research || true) && cd ..
 
 # mpv
 [ ! -d mpv ] && git clone --depth 1 --branch v$v_mpv https://github.com/mpv-player/mpv.git mpv

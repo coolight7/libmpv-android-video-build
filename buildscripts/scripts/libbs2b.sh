@@ -19,15 +19,11 @@ export NOCONFIGURE=no-config
 mkdir -p _build$ndk_suffix
 cd _build$ndk_suffix
 
-../configure \
+CONF=1 ../configure \
 	CFLAGS=-fPIC CXXFLAGS=-fPIC \
 	--host=$ndk_triple \
-	--with-pic \
-	--disable-asm \
-	--enable-static\
-	--disable-shared \
-	--disable-require-system-font-provider \
-
+    --enable-static \
+    --disable-shared \
 
 make -j$cores
 make DESTDIR="$prefix_dir" install

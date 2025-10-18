@@ -30,10 +30,14 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
-    -DBUILD_TESTING=OFF \
     -DBUILD_SHARED_LIBS=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DENABLE_LIB_ONLY=ON \
+    -DENABLE_SHARED_LIB=OFF \
+    -DENABLE_STATIC_LIB=ON \
+    -DENABLE_TESTS=OFF \
 
 
 "${MY_CMAKE_EXE_DIR}/ninja" -C .
 DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install
+
+cp -f ${prefix_dir}/lib/libbz2_static.a ${prefix_dir}/lib/libbz2.a

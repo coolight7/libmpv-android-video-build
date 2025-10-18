@@ -14,10 +14,19 @@ else
 	exit 255
 fi
 
+# 阻止 ./autogen.sh 内直接运行 configure
+export NOCONFIGURE=no-config
+# -mno-ieee-fp is not supported by clang
+sed s/\-mno\-ieee\-fp// -i configure.ac
+
 unset CC CXX # meson wants these unset
 
 CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
-	-Denable_tests=false -Db_lto=true -Dstack_alignment=16 
+    --buildtype=release \
+    --default-library=static \
+    -Dfastfloat=true \
+    -Dthreaded=true \
+
 
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/

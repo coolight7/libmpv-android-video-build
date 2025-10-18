@@ -20,6 +20,11 @@ cd $build
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
+cpu=
+[[ "$ndk_triple" == "aarch64"* ]] && cpu=aarch64
+[[ "$ndk_triple" == "x86_64"* ]] && cpu=x86_64
+[[ "$ndk_triple" == "i686"* ]] && cpu=x86
+
 CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -G Ninja \
     -DCMAKE_SYSTEM_NAME=Android \
@@ -30,9 +35,12 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
-    -DBUILD_TESTING=OFF \
     -DBUILD_SHARED_LIBS=OFF \
-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DBUILD_STATIC=ON \
+    -DBUILD_BINARY=OFF \
+    -DTARGET_ARCHITECTURE=${cpu} \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+
 
 
 "${MY_CMAKE_EXE_DIR}/ninja" -C .

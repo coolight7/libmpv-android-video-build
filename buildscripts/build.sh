@@ -17,33 +17,34 @@ loadarch () {
 	unset CC CXX CPATH LIBRARY_PATH C_INCLUDE_PATH CPLUS_INCLUDE_PATH
     unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
 
-	local apilvl=23
 	# ndk_triple: what the toolchain actually is
 	# cc_triple: what Google pretends the toolchain is
 	if [ "$1" == "armv7l" ]; then
 		export ndk_suffix=
 		export ndk_triple=arm-linux-androideabi
-		cc_triple=armv7a-linux-androideabi$apilvl
+		cc_triple=armv7a-linux-androideabi$v_min_sdk
 		prefix_name=armeabi-v7a
 	elif [ "$1" == "arm64" ]; then
 		export ndk_suffix=-arm64
 		export ndk_triple=aarch64-linux-android
-		cc_triple=$ndk_triple$apilvl
+		cc_triple=$ndk_triple$v_min_sdk
 		prefix_name=arm64-v8a
 	elif [ "$1" == "x86" ]; then
 		export ndk_suffix=-x86
 		export ndk_triple=i686-linux-android
-		cc_triple=$ndk_triple$apilvl
+		cc_triple=$ndk_triple$v_min_sdk
 		prefix_name=x86
 	elif [ "$1" == "x86_64" ]; then
 		export ndk_suffix=-x64
 		export ndk_triple=x86_64-linux-android
-		cc_triple=$ndk_triple$apilvl
+		cc_triple=$ndk_triple$v_min_sdk
 		prefix_name=x86_64
 	else
 		echo "Invalid architecture"
 		exit 1
 	fi
+	export current_abi_name=$prefix_name
+	export build_home_dir="$PWD/../"
 	export prefix_dir="$PWD/prefix/$prefix_name"
 	export native_dir="$PWD/../libmpv/src/main/jniLibs/$prefix_name"
 	export CC=$cc_triple-clang
@@ -90,6 +91,10 @@ ar = 'llvm-ar'
 nm = 'llvm-nm'
 strip = 'llvm-strip'
 pkg-config = 'pkg-config'
+
+[properties]
+pkg_config_path = '$prefix_dir/lib/pkgconfig'
+
 [host_machine]
 system = 'android'
 cpu_family = '$cpu_family'
@@ -113,10 +118,28 @@ build () {
 	fi
 
 	printf >&2 '\e[1;34m%s\e[m\n' "Building $1..."
+
+	if [[ -f "$prefix_dir/lib/$1.a" 
+		|| -f "$prefix_dir/lib/lib$1.a" 
+		|| ( $1 == "lzo" && -f "$prefix_dir/lib/liblzo2.a" ) 
+		|| ( $1 == "zlib" && -f "$prefix_dir/lib/libz.a" ) 
+		|| ( $1 == "bzip2" && -f "$prefix_dir/lib/libbz2_static.a" ) 
+		|| ( $1 == "brotli" && -f "$prefix_dir/lib/libbrotlicommon.a" ) 
+		|| ( $1 == "xz" && -f "$prefix_dir/lib/liblzma.a" ) 
+		|| ( $1 == "highway" && -f "$prefix_dir/lib/libhwy.a" ) 
+		|| ( $1 == "shaderc" && -f "$prefix_dir/lib/libshaderc_combined.a" ) 
+		|| ( $1 == "spirv_cross" && -f "$prefix_dir/lib/libspirv-cross-c.a" ) 
+		|| ( $1 == "openssl" && -f "$prefix_dir/lib/libssl.a" ) 
+		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.a" ) 
+		]]; then
+		return
+	fi
+
 	pushd deps/$1
 	BUILDSCRIPT=../../scripts/$1.sh
  	sudo chmod +x $BUILDSCRIPT
 	[ $cleanbuild -eq 1 ] && $BUILDSCRIPT clean
+
     $BUILDSCRIPT build
     popd
 }
@@ -157,6 +180,8 @@ if [ -z $arch ]; then
   for arch in ${archs[@]}; do
     loadarch $arch
     setup_prefix
+	env > "$PWD/env-$arch.sh"
+	chmod +x "$PWD/env-$arch.sh"
     build $target
   done
 else
