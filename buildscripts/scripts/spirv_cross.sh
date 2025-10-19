@@ -45,4 +45,4 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
 "${MY_CMAKE_EXE_DIR}/ninja" -C .
 DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install
 
-ln -f -s "$prefix_dir/spirv-cross-c-shared.pc" "$prefix_dir/spirv-cross.pc"
+ln -f -s "$prefix_dir/lib/pkgconfig/spirv-cross-c-shared.pc" "$prefix_dir/lib/pkgconfig/spirv-cross.pc"
