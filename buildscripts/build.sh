@@ -76,6 +76,8 @@ setup_prefix () {
 
 	local cpu_family=${ndk_triple%%-*}
 	[ "$cpu_family" == "i686" ] && cpu_family=x86
+	
+	. ./include/path.sh
 
 	# meson wants to be spoonfed this file, so create it ahead of time
 	# also define: release build, static libs and no source downloads at runtime(!!!)
@@ -101,6 +103,17 @@ cpu_family = '$cpu_family'
 cpu = '${CC%%-*}'
 endian = 'little'
 CROSSFILE
+
+# Android provides Vulkan, but no pkgconfig file
+# you can double-check the version in vk.xml (ctrl+f VK_API_VERSION)
+mkdir -p "$prefix_dir"/lib/pkgconfig
+cat >"$prefix_dir"/lib/pkgconfig/vulkan.pc <<VULKAN_PC
+Name: Vulkan
+Description:
+Version: 1.4.329
+Libs: -L$NDK_PREFIX_DIR/sysroot/usr/lib/$ndk_triple/24/ -lvulkan
+Cflags: -std=c23 -I$NDK_PREFIX_DIR/sysroot/usr/include
+VULKAN_PC
 }
 
 build () {
@@ -130,7 +143,8 @@ build () {
 		|| ( $1 == "shaderc" && -f "$prefix_dir/lib/libshaderc_combined.a" ) 
 		|| ( $1 == "spirv_cross" && -f "$prefix_dir/lib/libspirv-cross-c.a" ) 
 		|| ( $1 == "openssl" && -f "$prefix_dir/lib/libssl.a" ) 
-		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.a" ) 
+		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.so")
+		|| ( $1 == "mpv" && -f "$prefix_dir/lib/libmpv.so" ) 
 		]]; then
 		return
 	fi

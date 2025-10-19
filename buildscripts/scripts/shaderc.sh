@@ -41,8 +41,8 @@ LTO_JOB=1 CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
 	-DENABLE_GLSLANG_BINARIES=OFF \
 	-DSPIRV_TOOLS_BUILD_STATIC=ON \
 	-DSPIRV_TOOLS_LIBRARY_TYPE=STATIC \
-	-DCMAKE_CXX_FLAGS='${CMAKE_CXX_FLAGS} -std=c++17' \
-
+    -DCMAKE_C_FLAGS=-fPIC \
+	-DCMAKE_CXX_FLAGS="-fPIC -std=c++17" \
 
 # ninja: Entering directory `.' 编译时日志可能会在这卡一会，耐心等
 LTO_JOB=1 "${MY_CMAKE_EXE_DIR}/ninja" -C .
@@ -52,3 +52,6 @@ cp -f -r "../libshaderc/include/shaderc" "$prefix_dir/include/shaderc"
 cp -f "./libshaderc/libshaderc_combined.a" "$prefix_dir/lib/libshaderc_combined.a"
 cp -f "./shaderc_combined.pc" "$prefix_dir/lib/pkgconfig/shaderc_combined.pc"
 cp -f "./shaderc_combined.pc" "$prefix_dir/lib/pkgconfig/shaderc.pc"
+
+sed '/^Libs:/ s|$| -lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/shaderc.pc" -i
+sed '/^Libs:/ s|$| -lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/shaderc_combined.pc" -i

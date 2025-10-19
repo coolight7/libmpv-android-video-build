@@ -1,15 +1,17 @@
 # --------------------------------------------------
 
-# TODO: coolight --- temp
-if [ ! -f "deps" ]; then
-  sudo rm -rf deps
-fi
-if [ ! -f "prefix" ]; then
-  sudo rm -rf prefix
-fi
+export build_home_dir="$PWD/../"
 
-./download.sh
-./patch.sh
+# TODO: coolight --- temp
+# if [ ! -f "deps" ]; then
+#   sudo rm -rf deps
+# fi
+# if [ ! -f "prefix" ]; then
+#   sudo rm -rf prefix
+# fi
+
+# ./download.sh
+# ./patch.sh
 
 # --------------------------------------------------
 
@@ -42,9 +44,44 @@ sudo chmod +x gradlew
 unzip -o app/build/outputs/apk/release/app-release.apk -d app/build/outputs/apk/release
 
 cp ../../prefix/arm64-v8a/usr/local/lib/libmpv.so      app/build/outputs/apk/release/lib/arm64-v8a
+cp ../../prefix/arm64-v8a/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/arm64-v8a
+# cp ../../prefix/arm64-v8a/usr/local/lib/libpostproc.so      app/build/outputs/apk/release/lib/arm64-v8a
+cp ../../prefix/arm64-v8a/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/arm64-v8a
+cp ../../prefix/arm64-v8a/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/arm64-v8a
+cp ../../prefix/arm64-v8a/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/arm64-v8a
+cp ../../prefix/arm64-v8a/usr/local/lib/libswscale.so      app/build/outputs/apk/release/lib/arm64-v8a
+cp ../../prefix/arm64-v8a/usr/local/lib/libavfilter.so      app/build/outputs/apk/release/lib/arm64-v8a
+cp ../../prefix/arm64-v8a/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/arm64-v8a
+
 cp ../../prefix/armeabi-v7a/usr/local/lib/libmpv.so    app/build/outputs/apk/release/lib/armeabi-v7a
+cp ../../prefix/armeabi-v7a/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/armeabi-v7a
+# cp ../../prefix/armeabi-v7a/usr/local/lib/libpostproc.so      app/build/outputs/apk/release/lib/armeabi-v7a
+cp ../../prefix/armeabi-v7a/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/armeabi-v7a
+cp ../../prefix/armeabi-v7a/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/armeabi-v7a
+cp ../../prefix/armeabi-v7a/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/armeabi-v7a
+cp ../../prefix/armeabi-v7a/usr/local/lib/libswscale.so      app/build/outputs/apk/release/lib/armeabi-v7a
+cp ../../prefix/armeabi-v7a/usr/local/lib/libavfilter.so      app/build/outputs/apk/release/lib/armeabi-v7a
+cp ../../prefix/armeabi-v7a/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/armeabi-v7a
+
 cp ../../prefix/x86/usr/local/lib/libmpv.so            app/build/outputs/apk/release/lib/x86
+cp ../../prefix/x86/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/x86
+# cp ../../prefix/x86/usr/local/lib/libpostproc.so      app/build/outputs/apk/release/lib/x86
+cp ../../prefix/x86/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/x86
+cp ../../prefix/x86/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/x86
+cp ../../prefix/x86/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/x86
+cp ../../prefix/x86/usr/local/lib/libswscale.so      app/build/outputs/apk/release/lib/x86
+cp ../../prefix/x86/usr/local/lib/libavfilter.so      app/build/outputs/apk/release/lib/x86
+cp ../../prefix/x86/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/x86
+
 cp ../../prefix/x86_64/usr/local/lib/libmpv.so         app/build/outputs/apk/release/lib/x86_64
+cp ../../prefix/x86_64/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/x86_64
+# cp ../../prefix/x86_64/usr/local/lib/libpostproc.so      app/build/outputs/apk/release/lib/x86_64
+cp ../../prefix/x86_64/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/x86_64
+cp ../../prefix/x86_64/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/x86_64
+cp ../../prefix/x86_64/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/x86_64
+cp ../../prefix/x86_64/usr/local/lib/libswscale.so      app/build/outputs/apk/release/lib/x86_64
+cp ../../prefix/x86_64/usr/local/lib/libavfilter.so      app/build/outputs/apk/release/lib/x86_64
+cp ../../prefix/x86_64/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/x86_64
 
 cd app/build/outputs/apk/release
 
@@ -62,3 +99,6 @@ cp -f default-x86_64.jar          $build_home_dir/output/
 
 echo "current dir: vvvvvvvvvvvvvvvvvvvv"
 pwd
+
+echo "target dir: vvvvvvvvvvvvvvvvvvvv"
+echo $build_home_dir/output/

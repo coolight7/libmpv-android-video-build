@@ -14,22 +14,13 @@ else
 	exit 255
 fi
 
-# Android provides Vulkan, but no pkgconfig file
-# you can double-check the version in vk.xml (ctrl+f VK_API_VERSION)
-# mkdir -p "$prefix_dir"/lib/pkgconfig
-# cat >"$prefix_dir"/lib/pkgconfig/vulkan.pc <<"END"
-# Name: Vulkan
-# Description:
-# Version: 1.3.0
-# Libs: -lvulkan
-# Cflags:
-# END
-
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 unset CC CXX # meson wants these unset
 
-CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$prefix_dir/lib/ -liconv" meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
+# c++std: libjxl、shaderc
+# 链接c++标准库时，需要静态链接
+CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$prefix_dir/lib/ -liconv -nostdlib++ -lc++_static -lc++abi" meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
 	--prefer-static \
 	--default-library shared \
     -Dbuildtype=release \
@@ -72,9 +63,7 @@ CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$pref
 	-Degl-android=enabled \
 	-Dgl=enabled \
 	-Dplain-gl=enabled \
-	-Dvulkan=disabled \
-	-Dshaderc=disabled \
-    -Dspirv-cross=disabled \
+	-Dvulkan=enabled \
 	-Dsdl2-video=disabled \
 	\
 	-Dandroid-media-ndk=enabled \

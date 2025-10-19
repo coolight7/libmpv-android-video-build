@@ -21,6 +21,8 @@ autoreconf -fi
 mkdir -p _build$ndk_suffix
 cd _build$ndk_suffix
 
+# apt install po4a
+
 ../configure \
     CFLAGS=-fPIC CXXFLAGS=-fPIC \
 	--host=$ndk_triple \

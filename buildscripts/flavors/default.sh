@@ -23,10 +23,12 @@ cpu=armv7-a
 cpuflags=
 [[ "$ndk_triple" == "arm"* ]] && cpuflags="$cpuflags -mfpu=neon -mcpu=cortex-a8"
 
+# c++std: libjxl、shaderc
+# 链接c++标准库时，需要静态链接
 ../configure \
 	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- --ar=$AR --cc=$CC --ranlib=$RANLIB \
 	--arch=${ndk_triple%%-*} --cpu=$cpu --pkg-config=pkg-config --nm=llvm-nm \
-	--extra-cflags="-I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib -lm" \
+	--extra-cflags="-Wno-error=int-conversion -I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi" \
 	--pkg-config-flags=--static \
 	\
 	--enable-gpl \
@@ -35,7 +37,7 @@ cpuflags=
 	\
     --disable-debug \
 	--enable-shared \
-	--enable-static \
+	--disable-static \
 	--disable-stripping \
 	--enable-runtime-cpudetect \
 	--enable-small \
@@ -337,11 +339,11 @@ make DESTDIR="$prefix_dir" install
 
 ffmpeg_output_dir="$build_home_dir/output/ffmpeg/$ndk_triple"
 mkdir -p $ffmpeg_output_dir
-[ -f "$prefix_dir/lib/libswresample.so" ] && mv -f "$prefix_dir"/lib/libswresample.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libpostproc.so" ] && mv -f "$prefix_dir"/lib/libpostproc.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavutil.so" ] && mv -f "$prefix_dir"/lib/libavutil.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavcodec.so" ] && mv -f "$prefix_dir"/lib/libavcodec.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavformat.so" ] && mv -f "$prefix_dir"/lib/libavformat.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libswscale.so" ] && mv -f "$prefix_dir"/lib/libswscale.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavfilter.so" ] && mv -f "$prefix_dir"/lib/libavfilter.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavdevice.so" ] && mv -f "$prefix_dir"/lib/libavdevice.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libswresample.so" ] && cp -f "$prefix_dir"/lib/libswresample.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libpostproc.so" ] && cp -f "$prefix_dir"/lib/libpostproc.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavutil.so" ] && cp -f "$prefix_dir"/lib/libavutil.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavcodec.so" ] && cp -f "$prefix_dir"/lib/libavcodec.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavformat.so" ] && cp -f "$prefix_dir"/lib/libavformat.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libswscale.so" ] && cp -f "$prefix_dir"/lib/libswscale.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavfilter.so" ] && cp -f "$prefix_dir"/lib/libavfilter.so "$ffmpeg_output_dir/"
+[ -f "$prefix_dir/lib/libavdevice.so" ] && cp -f "$prefix_dir"/lib/libavdevice.so "$ffmpeg_output_dir/"

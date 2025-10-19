@@ -53,6 +53,9 @@ fi
 # libass
 [ ! -d libass ] && git clone --depth 1 --branch $v_libass https://github.com/libass/libass.git libass
 
+# vulkan-header
+[ ! -d vulkan_header ] && git clone --depth 1 https://github.com/KhronosGroup/Vulkan-Headers.git vulkan_header
+
 # shaderc
 if [ ! -d shaderc ]; then
 	git clone --depth 1 --branch v$v_shaderc --recursive https://github.com/google/shaderc shaderc

@@ -29,6 +29,7 @@ toolchain=$(echo "$DIR/sdk/android-sdk-linux/ndk/$v_ndk/toolchains/llvm/prebuilt
 export ANDROID_HOME="$DIR/sdk/android-sdk-$os"
 
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
+export NDK_PREFIX_DIR=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
 export PATH="$toolchain/bin:$DIR/sdk/android-sdk-linux/ndk/$v_ndk:$DIR/sdk/bin:$MY_CMAKE_EXE_DIR:$PATH"

@@ -31,18 +31,8 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
     -DBUILD_SHARED_LIBS=OFF \
-    -DSPIRV_CROSS_SHARED=OFF \
-    -DSPIRV_CROSS_STATIC=ON \
-    -DSPIRV_CROSS_CLI=OFF \
-    -DSPIRV_CROSS_ENABLE_TESTS=OFF \
-    -DSPIRV_CROSS_ENABLE_MSL=OFF \
-    -DSPIRV_CROSS_ENABLE_CPP=OFF \
-    -DSPIRV_CROSS_ENABLE_REFLECT=OFF \
-    -DSPIRV_CROSS_ENABLE_UTIL=OFF \
+    -DVULKAN_HEADERS_ENABLE_MODULE=OFF
 
 
 
-"${MY_CMAKE_EXE_DIR}/ninja" -C .
 DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install
-
-ln -f -s "$prefix_dir/lib/pkgconfig/spirv-cross-c.pc" "$prefix_dir/lib/pkgconfig/spirv-cross.pc"
