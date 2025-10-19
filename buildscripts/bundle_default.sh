@@ -1,18 +1,15 @@
 # --------------------------------------------------
 
-export http_proxy=http://172.29.48.1:7897
-export https_proxy=http://172.29.48.1:7897
-
 # TODO: coolight --- temp
-# if [ ! -f "deps" ]; then
-#   sudo rm -r deps
-# fi
-# if [ ! -f "prefix" ]; then
-#   sudo rm -r prefix
-# fi
+if [ ! -f "deps" ]; then
+  sudo rm -rf deps
+fi
+if [ ! -f "prefix" ]; then
+  sudo rm -rf prefix
+fi
 
-# ./download.sh
-# ./patch.sh
+./download.sh
+./patch.sh
 
 # --------------------------------------------------
 
@@ -29,8 +26,6 @@ cp flavors/default.sh scripts/ffmpeg.sh
 if [ $? -ne 0 ]; then
   exit -1
 fi
-
-zip -r debug-symbols-default.zip prefix/*/lib
 
 "./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/arm64-v8a/usr/local/lib/libmpv.so
 "./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/armeabi-v7a/usr/local/lib/libmpv.so
