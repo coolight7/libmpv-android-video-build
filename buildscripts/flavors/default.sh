@@ -37,9 +37,9 @@ cpuflags=
 	--enable-version3 \
 	\
     --disable-debug \
-	--disable-shared \
-	--enable-static \
-	--disable-stripping \
+	--enable-shared \
+	--disable-static \
+	--enable-stripping \
 	--enable-runtime-cpudetect \
 	--enable-small \
 	--enable-hwaccels \
