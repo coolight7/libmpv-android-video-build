@@ -25,10 +25,11 @@ cpuflags=
 
 # c++std: libjxl、shaderc
 # 链接c++标准库时，需要静态链接
+# --extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi"
 ../configure \
 	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- --ar=$AR --cc=$CC --ranlib=$RANLIB \
 	--arch=${ndk_triple%%-*} --cpu=$cpu --pkg-config=pkg-config --nm=llvm-nm \
-	--extra-cflags="-Wno-error=int-conversion -I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi" \
+	--extra-cflags="-Wno-error=int-conversion -I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib -lm" \
 	--pkg-config-flags=--static \
 	\
 	--enable-gpl \
@@ -36,8 +37,8 @@ cpuflags=
 	--enable-version3 \
 	\
     --disable-debug \
-	--enable-shared \
-	--disable-static \
+	--disable-shared \
+	--enable-static \
 	--disable-stripping \
 	--enable-runtime-cpudetect \
 	--enable-small \

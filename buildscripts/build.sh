@@ -144,6 +144,7 @@ build () {
 		|| ( $1 == "spirv_cross" && -f "$prefix_dir/lib/libspirv-cross-c.a" ) 
 		|| ( $1 == "openssl" && -f "$prefix_dir/lib/libssl.a" ) 
 		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.so")
+		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.a")
 		|| ( $1 == "mpv" && -f "$prefix_dir/lib/libmpv.so" ) 
 		]]; then
 		return

@@ -44,8 +44,8 @@ sudo chmod +x gradlew
 unzip -o app/build/outputs/apk/release/app-release.apk -d app/build/outputs/apk/release
 
 cp ../../prefix/arm64-v8a/usr/local/lib/libmpv.so      app/build/outputs/apk/release/lib/arm64-v8a
-cp ../../prefix/arm64-v8a/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/arm64-v8a
 # cp ../../prefix/arm64-v8a/usr/local/lib/libpostproc.so      app/build/outputs/apk/release/lib/arm64-v8a
+cp ../../prefix/arm64-v8a/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/arm64-v8a
 cp ../../prefix/arm64-v8a/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/arm64-v8a
 cp ../../prefix/arm64-v8a/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/arm64-v8a
 cp ../../prefix/arm64-v8a/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/arm64-v8a
@@ -54,8 +54,8 @@ cp ../../prefix/arm64-v8a/usr/local/lib/libavfilter.so      app/build/outputs/ap
 cp ../../prefix/arm64-v8a/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/arm64-v8a
 
 cp ../../prefix/armeabi-v7a/usr/local/lib/libmpv.so    app/build/outputs/apk/release/lib/armeabi-v7a
-cp ../../prefix/armeabi-v7a/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/armeabi-v7a
 # cp ../../prefix/armeabi-v7a/usr/local/lib/libpostproc.so      app/build/outputs/apk/release/lib/armeabi-v7a
+cp ../../prefix/armeabi-v7a/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/armeabi-v7a
 cp ../../prefix/armeabi-v7a/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/armeabi-v7a
 cp ../../prefix/armeabi-v7a/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/armeabi-v7a
 cp ../../prefix/armeabi-v7a/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/armeabi-v7a
@@ -64,8 +64,8 @@ cp ../../prefix/armeabi-v7a/usr/local/lib/libavfilter.so      app/build/outputs/
 cp ../../prefix/armeabi-v7a/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/armeabi-v7a
 
 cp ../../prefix/x86/usr/local/lib/libmpv.so            app/build/outputs/apk/release/lib/x86
-cp ../../prefix/x86/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/x86
 # cp ../../prefix/x86/usr/local/lib/libpostproc.so      app/build/outputs/apk/release/lib/x86
+cp ../../prefix/x86/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/x86
 cp ../../prefix/x86/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/x86
 cp ../../prefix/x86/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/x86
 cp ../../prefix/x86/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/x86
@@ -74,8 +74,8 @@ cp ../../prefix/x86/usr/local/lib/libavfilter.so      app/build/outputs/apk/rele
 cp ../../prefix/x86/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/x86
 
 cp ../../prefix/x86_64/usr/local/lib/libmpv.so         app/build/outputs/apk/release/lib/x86_64
-cp ../../prefix/x86_64/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/x86_64
 # cp ../../prefix/x86_64/usr/local/lib/libpostproc.so      app/build/outputs/apk/release/lib/x86_64
+cp ../../prefix/x86_64/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/x86_64
 cp ../../prefix/x86_64/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/x86_64
 cp ../../prefix/x86_64/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/x86_64
 cp ../../prefix/x86_64/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/x86_64
@@ -91,6 +91,9 @@ zip -r default-x86.jar            lib/x86/*.so
 zip -r default-x86_64.jar         lib/x86_64/*.so
 
 md5sum *.jar
+
+rm -rf $build_home_dir/output/
+mkdir -p $build_home_dir/output/
 
 cp -f default-arm64-v8a.jar       $build_home_dir/output/
 cp -f default-armeabi-v7a.jar     $build_home_dir/output/
