@@ -112,7 +112,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	\
 	--enable-indevs \
 	--enable-outdevs \
-	--disable-indev=fbdev \
 	--disable-indev=libcdio \
 	--disable-indev=v4l2 \
 	--disable-indev=android_camera \
