@@ -23,10 +23,13 @@ cd libxml2 && (sparse-checkout set --no-cone /* !test || true) && cd ..
 [ ! -d libvorbis ] && git clone --depth 1 https://github.com/xiph/vorbis libvorbis
 
 # libvpx
-[ ! -d libvpx ] && git clone --depth 1 --branch meson-$v_libvpx https://gitlab.freedesktop.org/gstreamer/meson-ports/libvpx.git
+[ ! -d libvpx ] && git clone --depth 1 --branch meson-$v_libvpx https://gitlab.freedesktop.org/gstreamer/meson-ports/libvpx.git libvpx
 
 # libx264
 [ ! -d libx264 ] && git clone --depth 1 https://code.videolan.org/videolan/x264.git --branch master libx264
+
+# libzimg
+[ ! -d libzimg ] && git clone --depth 1 --recurse-submodules https://bitbucket.org/the-sekrit-twc/zimg.git libzimg
 
 # ffmpeg
 [ ! -d ffmpeg ] && git clone --depth 1 --branch n$v_ffmpeg https://github.com/FFmpeg/FFmpeg.git ffmpeg

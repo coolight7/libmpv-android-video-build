@@ -20,7 +20,8 @@ unset CC CXX # meson wants these unset
 
 # c++std: libjxl、shaderc
 # 链接c++标准库时，需要静态链接
-CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$prefix_dir/lib/ -liconv -nostdlib++ -lc++_static -lc++abi" meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
+CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$prefix_dir/lib/ -liconv -nostdlib++ -lc++_static -lc++abi" meson setup $build \
+	--cross-file "$prefix_dir"/crossfile.txt \
 	--prefer-static \
 	--default-library shared \
     -Dbuildtype=release \
@@ -73,7 +74,3 @@ CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$pref
 DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C $build install
 
 ln -sf "$prefix_dir"/lib/libmpv.so "$native_dir"
-
-mpv_output_dir="$build_home_dir/output/libmpv/$ndk_triple"
-mkdir -p $mpv_output_dir
-[ -f "$prefix_dir/lib/libmpv.so" ] && cp -f "$prefix_dir"/lib/libmpv.so "$mpv_output_dir/"

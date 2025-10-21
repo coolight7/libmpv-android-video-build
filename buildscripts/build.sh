@@ -4,6 +4,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 . ./include/depinfo.sh
 
 cleanbuild=0
+clean_lib_ff_mpv=0
 nodeps=0
 target=mpv
 archs=(armv7l arm64 x86 x86_64)
@@ -46,6 +47,7 @@ loadarch () {
 	export current_abi_name=$prefix_name
 	export build_home_dir="$PWD/../"
 	export prefix_dir="$PWD/prefix/$prefix_name"
+	export source_dir="$PWD/deps/"
 	export native_dir="$PWD/../libmpv/src/main/jniLibs/$prefix_name"
 	export CC=$cc_triple-clang
 	if [[ "$1" == arm* ]]; then
@@ -143,8 +145,8 @@ build () {
 		|| ( $1 == "shaderc" && -f "$prefix_dir/lib/libshaderc_combined.a" ) 
 		|| ( $1 == "spirv_cross" && -f "$prefix_dir/lib/libspirv-cross-c.a" ) 
 		|| ( $1 == "openssl" && -f "$prefix_dir/lib/libssl.a" ) 
+		# || ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.a") # 已更换动态链接
 		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.so")
-		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.a")
 		|| ( $1 == "mpv" && -f "$prefix_dir/lib/libmpv.so" ) 
 		]]; then
 		return
@@ -184,6 +186,11 @@ while [ $# -gt 0 ]; do
 		-h|--help)
 		usage
 		;;
+		--prebuild-rm-ff-mpv)
+		clean_lib_ff_mpv=1
+		rm -rf $source_dir/ffmpeg/_build*
+		rm -rf $source_dir/mpv/_build*
+		;;
 		*)
 		target=$1
 		;;
@@ -192,17 +199,44 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -z $arch ]; then
-  for arch in ${archs[@]}; do
-    loadarch $arch
-    setup_prefix
-	env > "$PWD/env-$arch.sh"
-	chmod +x "$PWD/env-$arch.sh"
-    build $target
-  done
+	for arch in ${archs[@]}; do
+		loadarch $arch
+		setup_prefix
+		
+		if [[ $clean_lib_ff_mpv == 1 ]]; then
+			echo "rm libav*/libmpv ----------------------"
+			rm -f $prefix_dir/lib/libavcodec.*
+			rm -f $prefix_dir/lib/libavdevice.*
+			rm -f $prefix_dir/lib/libavfilter.*
+			rm -f $prefix_dir/lib/libavformat.*
+			rm -f $prefix_dir/lib/libavutil.*
+			rm -f $prefix_dir/lib/libswresample.*
+			rm -f $prefix_dir/lib/libswscale.*
+
+			rm -f $prefix_dir/lib/libmpv.*
+		fi
+
+		env > "$PWD/env-$arch.sh"
+		chmod +x "$PWD/env-$arch.sh"
+		build $target
+	done
 else
-  loadarch $arch
-  setup_prefix
-  build $target
+  	loadarch $arch
+  	setup_prefix
+
+	if [[ $clean_lib_ff_mpv == 1 ]]; then
+		echo "rm libav*/libmpv ----------------------"
+		rm -f $prefix_dir/lib/libavcodec.*
+		rm -f $prefix_dir/lib/libavdevice.*
+		rm -f $prefix_dir/lib/libavfilter.*
+		rm -f $prefix_dir/lib/libavformat.*
+		rm -f $prefix_dir/lib/libavutil.*
+		rm -f $prefix_dir/lib/libswresample.*
+		rm -f $prefix_dir/lib/libswscale.*
+
+		rm -f $prefix_dir/lib/libmpv.*
+	fi
+  	build $target
 fi
 
 exit 0

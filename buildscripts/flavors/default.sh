@@ -16,20 +16,37 @@ mkdir -p _build$ndk_suffix
 cd _build$ndk_suffix
 
 cpu=armv7-a
-[[ "$ndk_triple" == "aarch64"* ]] && cpu=armv8-a
-[[ "$ndk_triple" == "x86_64"* ]] && cpu=generic
-[[ "$ndk_triple" == "i686"* ]] && cpu="i686 --disable-asm"
-
 cpuflags=
-[[ "$ndk_triple" == "arm"* ]] && cpuflags="$cpuflags -mfpu=neon -mcpu=cortex-a8"
+asmflags=
+if [[ "$ndk_triple" == "aarch64"* ]]; then
+	cpu=armv8-a
+  	asmflags=" --enable-neon --enable-asm --enable-inline-asm"
+elif [[ "$ndk_triple" == "arm"* ]]; then
+ 	cpu=armv7-a
+	cpuflags="$cpuflags -mfpu=neon -mcpu=cortex-a8"
+	asmflags=" --disable-neon --enable-asm --enable-inline-asm"
+elif [[ "$ndk_triple" == "x86_64"* ]]; then
+	cpu=generic
+	asmflags=" --disable-neon --enable-asm --enable-inline-asm"
+elif [[ "$ndk_triple" == "i686"* ]]; then
+	cpu="i686 --disable-asm"
+	# asm disabled due to this ticket https://trac.ffmpeg.org/ticket/4928
+	asmflags=" --disable-neon --disable-asm --disable-inline-asm"
+fi 
+
+ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 
 # c++std: libjxl、shaderc
 # 链接c++标准库时，需要静态链接
 # --extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi"
 ../configure \
-	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- --ar=$AR --cc=$CC --ranlib=$RANLIB \
-	--arch=${ndk_triple%%-*} --cpu=$cpu --pkg-config=pkg-config --nm=llvm-nm \
-	--extra-cflags="-Wno-error=int-conversion -I$prefix_dir/include $cpuflags" --extra-ldflags="-L$prefix_dir/lib -lm" \
+	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- \
+	--arch=${ndk_triple%%-*} --cpu=$cpu \
+	--ar=$AR --cc=$CC --ranlib=$RANLIB \
+	--pkg-config=pkg-config --nm=llvm-nm --strip=llvm-strip \
+  	--sysroot="${ANDROID_SYSROOT}" \
+	--extra-cflags="-Wno-error=int-conversion -I$prefix_dir/include $cpuflags" \
+	--extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi" \
 	--pkg-config-flags=--static \
 	\
 	--enable-gpl \
@@ -42,8 +59,13 @@ cpuflags=
 	--enable-stripping \
 	--enable-runtime-cpudetect \
 	--enable-small \
+	--enable-pic \
+	--enable-lto \
+	--enable-lto=thin \
 	--enable-hwaccels \
 	--enable-optimizations \
+	${asmflags} \
+	--enable-pthreads \
 	\
 	--disable-muxers \
 	--disable-decoders \
@@ -53,14 +75,16 @@ cpuflags=
 	--disable-protocols \
 	--disable-devices \
 	--disable-filters \
-	--disable-doc \
 	--disable-programs \
 	--disable-ffmpeg \
 	--disable-ffprobe \
 	--disable-swscale-alpha \
 	--disable-gray \
-	--disable-postproc \
+	--disable-doc \
+	--disable-xmm-clobber-test \
+	--disable-neon-clobber-test \
 	\
+	--disable-postproc \
 	--enable-avutil \
 	--enable-avcodec \
 	--enable-avfilter \
@@ -75,19 +99,12 @@ cpuflags=
 	--disable-vdpau \
 	--disable-bzlib \
 	--disable-linux-perf \
+	--disable-appkit \
 	--disable-videotoolbox \
 	--disable-audiotoolbox \
 	--disable-vulkan \
 	--enable-jni \
 	--enable-mediacodec \
-	--enable-lto=thin \
-	\
-	--enable-avutil \
-	--enable-avcodec \
-	--enable-avfilter \
-	--enable-avformat \
-	--enable-swscale \
-	--enable-swresample \
 	\
 	--enable-bsfs \
 	--disable-bsf=mov2textsub \
@@ -129,6 +146,7 @@ cpuflags=
 	\
 	--disable-muxers \
 	--enable-muxer=image2 \
+	--enable-muxer=image2pipe \
 	--enable-muxer=mjpeg \
 	--enable-muxer=mpjpeg \
 	--enable-muxer=apng \
@@ -166,11 +184,14 @@ cpuflags=
 	\
 	--disable-filter=avsynctest \
 	--disable-filter=fsync \
+	--disable-filter=realtime \
 	--enable-filter=metadata \
 	--enable-filter=null \
 	--enable-filter=nullsink \
 	--enable-filter=nullsrc \
-	--disable-filter=realtime \
+	--enable-filter=anull \
+	--enable-filter=anullsink \
+	--enable-filter=anullsrc \
 	\
 	--enable-filter=acopy \
 	--enable-filter=amix \
@@ -263,26 +284,26 @@ cpuflags=
 	--enable-protocol=udp \
 	\
 	--disable-encoders \
-	--enable-encoder=mjpeg \
-	--disable-encoder=ljpeg \
-	--disable-encoder=jpegls \
-	--disable-encoder=jpeg2000 \
-	--enable-encoder=png \
-	--enable-encoder=bmp \
-	--enable-encoder=gif \
-	--enable-encoder=apng \
-	--enable-encoder=tiff \
-	--enable-encoder=libwebp \
-	--enable-encoder=libwebp_anim \
 	--disable-encoder=ppm \
 	--disable-encoder=pgm \
 	--disable-encoder=pcx \
 	--disable-encoder=sgi \
 	--disable-encoder=sunrast \
 	--disable-encoder=targa \
-	--enable-encoder=wbmp \
 	--disable-encoder=xbm \
 	--disable-encoder=xwd \
+	--enable-encoder=mjpeg \
+	--enable-encoder=ljpeg \
+	--enable-encoder=jpegls \
+	--enable-encoder=jpeg2000 \
+	--enable-encoder=png \
+	--enable-encoder=bmp \
+	--enable-encoder=gif \
+	--enable-encoder=apng \
+	--enable-encoder=tiff \
+	--enable-encoder=wbmp \
+	--enable-encoder=libwebp \
+	--enable-encoder=libwebp_anim \
 	\
 	--enable-network \
 	--disable-libmfx \
@@ -304,6 +325,8 @@ cpuflags=
 	--disable-libssh \
 	--disable-libvpl \
 	--disable-libspeex \
+    --disable-libaom \
+	--disable-libsvtav1 \
 	\
 	--enable-libass \
 	--enable-libfreetype \
@@ -318,7 +341,7 @@ cpuflags=
 	--enable-libwebp \
 	--enable-libdav1d \
 	--enable-lcms2 \
-	--disable-libzimg \
+	--enable-libzimg \
 	--enable-openssl \
 	--enable-libxml2 \
 	--enable-iconv \
@@ -330,7 +353,6 @@ cpuflags=
 	--disable-libuavs3d \
 	\
 	--disable-libfontconfig \
-	--disable-libsvtav1 \
 
 # - 报错找不到依赖包时，也可能是 configure 尝试使用依赖库编译测试程序失败：
 # 	- 其中可能是 cpu平台不正确、符号缺失、缺少 include搜索目录或链接搜索目录、缺少指定链接库名称等原因
@@ -338,13 +360,4 @@ cpuflags=
 make -j$cores
 make DESTDIR="$prefix_dir" install
 
-ffmpeg_output_dir="$build_home_dir/output/ffmpeg/$ndk_triple"
-mkdir -p $ffmpeg_output_dir
-[ -f "$prefix_dir/lib/libswresample.so" ] && cp -f "$prefix_dir"/lib/libswresample.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libpostproc.so" ] && cp -f "$prefix_dir"/lib/libpostproc.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavutil.so" ] && cp -f "$prefix_dir"/lib/libavutil.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavcodec.so" ] && cp -f "$prefix_dir"/lib/libavcodec.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavformat.so" ] && cp -f "$prefix_dir"/lib/libavformat.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libswscale.so" ] && cp -f "$prefix_dir"/lib/libswscale.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavfilter.so" ] && cp -f "$prefix_dir"/lib/libavfilter.so "$ffmpeg_output_dir/"
-[ -f "$prefix_dir/lib/libavdevice.so" ] && cp -f "$prefix_dir"/lib/libavdevice.so "$ffmpeg_output_dir/"
+echo "$(ls -lh $prefix_dir/lib/libav*)"
