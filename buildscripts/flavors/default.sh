@@ -81,6 +81,10 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-swscale-alpha \
 	--disable-gray \
 	--disable-doc \
+	--disable-htmlpages \
+	--disable-manpages \
+	--disable-podpages \
+	--disable-txtpages \
 	--disable-xmm-clobber-test \
 	--disable-neon-clobber-test \
 	\
@@ -105,6 +109,24 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-vulkan \
 	--enable-jni \
 	--enable-mediacodec \
+	\
+	--enable-indevs \
+	--enable-outdevs \
+	--disable-indev=fbdev \
+	--disable-indev=libcdio \
+	--disable-indev=v4l2 \
+	--disable-indev=android_camera \
+	--disable-indev=decklink \
+	--disable-indev=dshow \
+	--disable-indev=gdigrab \
+	--disable-indev=iec61883 \
+	--disable-indev=kmsgrab \
+	--disable-indev=libdc1394 \
+	--disable-indev=vfwcap \
+	--disable-indev=xcbgrab \
+	--disable-indev=fbdev \
+	--disable-outdev=caca \
+	--disable-outdev=fbdev \
 	\
 	--enable-bsfs \
 	--disable-bsf=mov2textsub \
@@ -177,14 +199,27 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
     --enable-parsers \
 	\
     --disable-filters \
-	\
-	--enable-filter=thumbnail \
-	--enable-filter=thumbnail_cuda \
-	--disable-filter=movie \
-	\
+	--disable-filter=adeclick \
+	--disable-filter=afftdn \
+	--disable-filter=afwtdn \
+	--disable-filter=anlmdn \
+	--disable-filter=arnndn \
+	--disable-filter=dcshift \
+	--disable-filter=deesser \
+	--disable-filter=fftdnoiz \
 	--disable-filter=avsynctest \
 	--disable-filter=fsync \
 	--disable-filter=realtime \
+	--disable-filter=areverse \
+	--disable-filter=showinfo \
+	--disable-filter=showframes \
+	\
+	--enable-filter=thumbnail \
+	--enable-filter=select \
+	--enable-filter=trim \
+	--enable-filter=atrim \
+	--enable-filter=fps \
+	--enable-filter=movie \
 	--enable-filter=metadata \
 	--enable-filter=null \
 	--enable-filter=nullsink \
@@ -192,14 +227,16 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=anull \
 	--enable-filter=anullsink \
 	--enable-filter=anullsrc \
-	\
+	--enable-filter=adeclip \
 	--enable-filter=acopy \
+	--enable-filter=asetpts \
+	--enable-filter=setpts \
 	--enable-filter=amix \
 	--enable-filter=amerge \
-	--disable-filter=areverse \
 	--enable-filter=aresample \
 	--enable-filter=asplit \
-	--enable-filter=atrim \
+	--enable-filter=copy \
+	--enable-filter=drawtext \
 	--enable-filter=volume \
 	--enable-filter=volumedetect \
 	--enable-filter=acompressor \
@@ -233,15 +270,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=tremolo \
 	--enable-filter=vibrato \
 	--enable-filter=virtualbass \
-	--disable-filter=adeclick \
-	--disable-filter=adeclip \
-	--disable-filter=afftdn \
-	--disable-filter=afwtdn \
-	--disable-filter=anlmdn \
-	--disable-filter=arnndn \
-	--disable-filter=dcshift \
-	--disable-filter=deesser \
-	--disable-filter=fftdnoiz \
 	--enable-filter=ebur128 \
 	--enable-filter=loudnorm \
 	--enable-filter=replaygain \
@@ -255,7 +283,24 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=rubberband \
 	--enable-filter=sinc \
 	--enable-filter=sine \
+	--enable-filter=crossfeed \
 	--enable-filter=spectrumsynth \
+	--enable-filter=showwavespic \
+	--enable-filter=afreqshift \
+	--enable-filter=scale* \
+	--enable-filter=vflip \
+	--enable-filter=hflip \
+	--enable-filter=overlay \
+	--enable-filter=crop \
+	--enable-filter=cropdetect \
+	--enable-filter=format \
+	--enable-filter=aformat \
+	--enable-filter=noformat \
+	--enable-filter=signalstats \
+	--enable-filter=framepack \
+	--enable-filter=framerate \
+	--enable-filter=hwdownload \
+	--enable-filter=hwupload \
 	\
 	--disable-protocols \
 	--disable-protocol=ffrtmphttp \
@@ -284,23 +329,34 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-protocol=udp \
 	\
 	--disable-encoders \
-	--disable-encoder=ppm \
-	--disable-encoder=pgm \
-	--disable-encoder=pcx \
-	--disable-encoder=sgi \
-	--disable-encoder=sunrast \
-	--disable-encoder=targa \
-	--disable-encoder=xbm \
-	--disable-encoder=xwd \
 	--enable-encoder=mjpeg \
 	--enable-encoder=ljpeg \
 	--enable-encoder=jpegls \
 	--enable-encoder=jpeg2000 \
-	--enable-encoder=png \
-	--enable-encoder=bmp \
-	--enable-encoder=gif \
 	--enable-encoder=apng \
+	--enable-encoder=bmp \
+	--enable-encoder=dpx \
+	--enable-encoder=exr \
+	--enable-encoder=gif \
+	--enable-encoder=png \
+	--enable-encoder=pam \
+	--enable-encoder=pbm \
+	--enable-encoder=pcx \
+	--enable-encoder=pfm \
+	--enable-encoder=pgm \
+	--enable-encoder=pgmyuv \
+	--enable-encoder=phm \
+	--enable-encoder=png \
+	--enable-encoder=ppm \
+	--enable-encoder=fits \
 	--enable-encoder=tiff \
+	--enable-encoder=qoi \
+	--enable-encoder=sgi \
+	--enable-encoder=sunrast \
+	--enable-encoder=targa \
+	--enable-encoder=xbm \
+	--enable-encoder=xwd \
+	--enable-encoder=yuv4 \
 	--enable-encoder=wbmp \
 	--enable-encoder=libwebp \
 	--enable-encoder=libwebp_anim \
