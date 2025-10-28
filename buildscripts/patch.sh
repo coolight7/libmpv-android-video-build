@@ -9,7 +9,7 @@ for dep_path in "${PATCHES[@]}"; do
         dep=$(echo $dep_path |cut -d/ -f 2)
         cd deps/$dep
         echo Patching $dep
-        git reset --hard
+        git reset --hard HEAD
         for patch in "${patches[@]}"; do
             echo Applying $patch
             git apply "$ROOT/$patch"

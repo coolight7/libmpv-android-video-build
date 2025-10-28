@@ -99,43 +99,6 @@ resetSONAME() {
   cp lib/$1/lib*.so       $build_home_dir/output/$1/
   zip -r default-$1.jar      lib/$1/lib*.so
   cp default-$1.jar       $build_home_dir/output/
-
-  # 查看 SONAME NEEDED : readelf -d 
-  cd lib/$1/
-  cp libavcodec.so libxxcodec.so
-  patchelf --set-soname libxxcodec.so libxxcodec.so
-  patchelf --replace-needed libswresample.so libxxresample.so libxxcodec.so
-  patchelf --replace-needed libavutil.so libxxutil.so libxxcodec.so
-  cp libavdevice.so libxxdevice.so
-  patchelf --set-soname libxxdevice.so libxxdevice.so
-  patchelf --replace-needed libavformat.so libxxformat.so libxxdevice.so
-  patchelf --replace-needed libavutil.so libxxutil.so libxxdevice.so
-  cp libavfilter.so libxxfilter.so
-  patchelf --set-soname libxxfilter.so libxxfilter.so
-  patchelf --replace-needed libswresample.so libxxresample.so libxxfilter.so
-  patchelf --replace-needed libavutil.so libxxutil.so libxxfilter.so
-  cp libavformat.so libxxformat.so
-  patchelf --set-soname libxxformat.so libxxformat.so
-  patchelf --replace-needed libavcodec.so libxxcodec.so libxxformat.so
-  patchelf --replace-needed libavutil.so libxxutil.so libxxformat.so
-  cp libavutil.so libxxutil.so
-  patchelf --set-soname libxxutil.so libxxutil.so
-  cp libswresample.so libxxresample.so
-  patchelf --set-soname libxxresample.so libxxresample.so
-  patchelf --replace-needed libavutil.so libxxutil.so libxxresample.so
-  cp libswscale.so libxxscale.so
-  patchelf --set-soname libxxscale.so libxxscale.so
-  patchelf --replace-needed libavutil.so libxxutil.so libxxscale.so
-  patchelf --replace-needed libavcodec.so libxxcodec.so libmpv.so
-  patchelf --replace-needed libswresample.so libxxresample.so libmpv.so
-  patchelf --replace-needed libavutil.so libxxutil.so libmpv.so
-  patchelf --replace-needed libavfilter.so libxxfilter.so libmpv.so
-  patchelf --replace-needed libavformat.so libxxformat.so libmpv.so
-  patchelf --replace-needed libswscale.so libxxscale.so libmpv.so
-  patchelf --replace-needed libavdevice.so libxxdevice.so libmpv.so
-  cd ../../
-  zip -r rename-$1.jar      lib/$1/lib*.so
-  cp rename-$1.jar       $build_home_dir/output/
 }
 
 resetSONAME arm64-v8a

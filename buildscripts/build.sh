@@ -114,7 +114,7 @@ Name: Vulkan
 Description:
 Version: 1.4.329
 Libs: -L$NDK_PREFIX_DIR/sysroot/usr/lib/$ndk_triple/24/ -lvulkan
-Cflags: -std=c23 -I$NDK_PREFIX_DIR/sysroot/usr/include
+Cflags: -I$NDK_PREFIX_DIR/sysroot/usr/include
 VULKAN_PC
 }
 
