@@ -12,6 +12,7 @@ else
 	exit 255
 fi
 
+current_source_dir=$(pwd)
 mkdir -p _build$ndk_suffix
 cd _build$ndk_suffix
 
@@ -24,7 +25,7 @@ if [[ "$ndk_triple" == "aarch64"* ]]; then
 elif [[ "$ndk_triple" == "arm"* ]]; then
  	cpu=armv7-a
 	cpuflags="$cpuflags -mfpu=neon -mcpu=cortex-a8"
-	asmflags=" --disable-neon --enable-asm --enable-inline-asm"
+	asmflags=" --enable-neon --enable-asm --enable-inline-asm"
 elif [[ "$ndk_triple" == "x86_64"* ]]; then
 	cpu=generic
 	asmflags=" --disable-neon --enable-asm --enable-inline-asm"
@@ -42,10 +43,11 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 ../configure \
 	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- \
 	--arch=${ndk_triple%%-*} --cpu=$cpu \
-	--ar=$AR --cc=$CC --ranlib=$RANLIB \
-	--pkg-config=pkg-config --nm=llvm-nm --strip=llvm-strip \
+	--nm=llvm-nm --strip=llvm-strip --ranlib=$RANLIB --ar=$AR --cc=$CC --cxx=$CXX \
+	--pkg-config=pkg-config \
+	--stdc=c23 --stdcxx=c++23 \
   	--sysroot="${ANDROID_SYSROOT}" \
-	--extra-cflags="-Wno-error=int-conversion -I$prefix_dir/include $cpuflags" \
+	--extra-cflags="-Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types -I$prefix_dir/include -I$current_source_dir/../vulkan_header/include/ $cpuflags" \
 	--extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi" \
 	--pkg-config-flags=--static \
 	\
@@ -87,8 +89,8 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-txtpages \
 	--disable-xmm-clobber-test \
 	--disable-neon-clobber-test \
+	--disable-version-tracking \
 	\
-	--disable-postproc \
 	--enable-avutil \
 	--enable-avcodec \
 	--enable-avfilter \
@@ -106,9 +108,11 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-appkit \
 	--disable-videotoolbox \
 	--disable-audiotoolbox \
-	--disable-vulkan \
 	--enable-jni \
+	--enable-vulkan \
+    --disable-vulkan-static \
 	--enable-mediacodec \
+	--disable-v4l2-m2m \
 	\
 	--enable-indevs \
 	--enable-outdevs \
@@ -143,20 +147,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-decoder=mpeg4_mediacodec \
 	--enable-decoder=vp8_mediacodec \
 	--enable-decoder=vp9_mediacodec \
-	--enable-decoder=opus_mediacodec \
-	--enable-decoder=vorbis_mediacodec \
-	--disable-decoder=h263_v4l2m2m \
-	--disable-decoder=h264_v4l2m2m \
-	--disable-decoder=hevc_v4l2m2m \
-	--disable-decoder=mpeg1_v4l2m2m \
-	--disable-decoder=vc1_v4l2m2m \
-	--disable-decoder=mpeg2_v4l2m2m \
-	--disable-decoder=mpeg4_v4l2m2m \
-	--disable-decoder=vp8_v4l2m2m \
-	--disable-decoder=vp9_v4l2m2m \
-	--disable-decoder=mpeg2_mmal \
-	--disable-decoder=h264_mmal \
-	--disable-decoder=vp8_mmal \
 	--disable-decoder=dvbsub \
 	--disable-decoder=dvdsub \
 	--disable-decoder=jacosub \
@@ -211,7 +201,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-filter=realtime \
 	--disable-filter=areverse \
 	--disable-filter=showinfo \
-	--disable-filter=showframes \
 	\
 	--enable-filter=thumbnail \
 	--enable-filter=select \
@@ -364,6 +353,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-libmfx \
 	--disable-avisynth \
 	--disable-vapoursynth \
+    --disable-whisper \
 	--disable-libbluray \
 	--disable-libdvdnav \
 	--disable-libdvdread \

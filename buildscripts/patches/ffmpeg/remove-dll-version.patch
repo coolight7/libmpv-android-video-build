@@ -1,0 +1,84 @@
+diff --git a/configure b/configure
+index 732de59292..8b38da670a 100755
+--- a/configure
++++ b/configure
+@@ -4252,11 +4252,11 @@ LIBNAME='$(LIBPREF)$(FULLNAME)$(LIBSUF)'
+ SLIBPREF="lib"
+ SLIBSUF=".so"
+ SLIBNAME='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
+-SLIBNAME_WITH_VERSION='$(SLIBNAME).$(LIBVERSION)'
+-SLIBNAME_WITH_MAJOR='$(SLIBNAME).$(LIBMAJOR)'
++SLIBNAME_WITH_VERSION='$(SLIBNAME)'
++SLIBNAME_WITH_MAJOR='$(SLIBNAME)'
+ LIB_INSTALL_EXTRA_CMD='$$(RANLIB) "$(LIBDIR)/$(LIBNAME)"'
+-SLIB_INSTALL_NAME='$(SLIBNAME_WITH_VERSION)'
+-SLIB_INSTALL_LINKS='$(SLIBNAME_WITH_MAJOR) $(SLIBNAME)'
++SLIB_INSTALL_NAME='$(SLIBNAME)'
++SLIB_INSTALL_LINKS='$(SLIBNAME)'
+ VERSION_SCRIPT_POSTPROCESS_CMD="cat"
+
+ asflags_filter=echo
+@@ -5880,7 +5880,7 @@ case $target_os in
+         enable section_data_rel_ro
+         striptype=""
+         SHFLAGS='-shared'
+-        SLIB_INSTALL_NAME='$(SLIBNAME).$(LIBMAJOR).$(LIBMINOR)'
++        SLIB_INSTALL_NAME='$(SLIBNAME)'
+         SLIB_INSTALL_LINKS=
+         oss_indev_extralibs="-lossaudio"
+         oss_outdev_extralibs="-lossaudio"
+@@ -5904,8 +5904,8 @@ case $target_os in
+         add_ldflags -Wl,-dynamic,-search_paths_first
+         check_cflags -Werror=partial-availability
+         SLIBSUF=".dylib"
+-        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME).$(LIBVERSION)$(SLIBSUF)'
+-        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME).$(LIBMAJOR)$(SLIBSUF)'
++        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
++        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
+         enabled x86_64 && objformat="macho64" || objformat="macho32"
+         enabled_any pic shared x86_64 ||
+             { check_cflags -mdynamic-no-pic && add_asflags -mdynamic-no-pic; }
+@@ -5953,8 +5953,8 @@ case $target_os in
+         shlibdir_default="$bindir_default"
+         SLIBPREF=""
+         SLIBSUF=".dll"
+-        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)-$(LIBVERSION)$(SLIBSUF)'
+-        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)-$(LIBMAJOR)$(SLIBSUF)'
++        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
++        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
+         if test_cmd lib.exe -list; then
+             SLIB_EXTRA_CMD=-'lib.exe -nologo -machine:$(LIBTARGET) -def:$$(@:$(SLIBSUF)=.def) -out:$(SUBDIR)$(SLIBNAME:$(SLIBSUF)=.lib)'
+             if enabled x86_64; then
+@@ -6004,8 +6004,8 @@ case $target_os in
+         shlibdir_default="$bindir_default"
+         SLIBPREF=""
+         SLIBSUF=".dll"
+-        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)-$(LIBVERSION)$(SLIBSUF)'
+-        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)-$(LIBMAJOR)$(SLIBSUF)'
++        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
++        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
+         SLIB_CREATE_DEF_CMD='EXTERN_PREFIX="$(EXTERN_PREFIX)" $(SRC_PATH)/compat/windows/makedef $(SUBDIR)lib$(NAME).ver $(OBJS) > $$(@:$(SLIBSUF)=.def)'
+         SLIB_INSTALL_NAME='$(SLIBNAME_WITH_MAJOR)'
+         SLIB_INSTALL_LINKS=
+@@ -6025,8 +6025,8 @@ case $target_os in
+         shlibdir_default="$bindir_default"
+         SLIBPREF="cyg"
+         SLIBSUF=".dll"
+-        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)-$(LIBVERSION)$(SLIBSUF)'
+-        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)-$(LIBMAJOR)$(SLIBSUF)'
++        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
++        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
+         SLIB_INSTALL_NAME='$(SLIBNAME_WITH_MAJOR)'
+         SLIB_INSTALL_LINKS=
+         SLIB_INSTALL_EXTRA_LIB='lib$(FULLNAME).dll.a'
+@@ -6060,8 +6060,8 @@ case $target_os in
+         LIBSUF="_s.a"
+         SLIBPREF=""
+         SLIBSUF=".dll"
+-        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)-$(LIBVERSION)$(SLIBSUF)'
+-        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(shell echo $(FULLNAME) | cut -c1-6)$(LIBMAJOR)$(SLIBSUF)'
++        SLIBNAME_WITH_VERSION='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
++        SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(shell echo $(FULLNAME) | cut -c1-6)$(SLIBSUF)'
+         SLIB_CREATE_DEF_CMD='echo LIBRARY $(SLIBNAME_WITH_MAJOR:$(SLIBSUF)=) INITINSTANCE TERMINSTANCE > $(SUBDIR)$(FULLNAME).def; \
+             echo CODE PRELOAD MOVEABLE DISCARDABLE >> $(SUBDIR)$(FULLNAME).def; \
+             echo DATA PRELOAD MOVEABLE MULTIPLE NONSHARED >> $(SUBDIR)$(FULLNAME).def; \

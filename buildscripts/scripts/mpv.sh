@@ -20,7 +20,7 @@ unset CC CXX # meson wants these unset
 
 # c++std: libjxl、shaderc
 # 链接c++标准库时，需要静态链接
-CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="-L$prefix_dir/lib/ -liconv -nostdlib++ -lc++_static -lc++abi" meson setup $build \
+CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include -I$current_source_dir/../vulkan_header/include/ " LDFLAGS="-L$prefix_dir/lib/ -liconv -nostdlib++ -lc++_static -lc++abi" meson setup $build \
 	--cross-file "$prefix_dir"/crossfile.txt \
 	--prefer-static \
 	--default-library shared \
