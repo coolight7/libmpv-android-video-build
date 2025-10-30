@@ -26,9 +26,9 @@ CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include -I$current_sourc
 	--default-library shared \
     -Dbuildtype=release \
     -Db_lto=true \
-	-Db_lto_mode=thin \
-	-Ddebug=false \
+	-Db_lto_mode=full \
 	-Db_ndebug=true \
+	-Ddebug=false \
 	-Doptimization=3 \
 	-Dlibmpv=true \
  	-Dcplayer=false \
@@ -60,12 +60,12 @@ CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include -I$current_sourc
 	-Dpulse=disabled \
     -Dopensles=enabled \
 	-Dsdl2-audio=disabled \
+	-Dsdl2-video=disabled \
 	-Degl=disabled \
 	-Degl-android=enabled \
 	-Dgl=enabled \
 	-Dplain-gl=enabled \
-	-Dvulkan=enabled \
-	-Dsdl2-video=disabled \
+	-Dvulkan=disabled \
 	\
 	-Dandroid-media-ndk=enabled \
 

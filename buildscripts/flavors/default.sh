@@ -63,7 +63,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-small \
 	--enable-pic \
 	--enable-lto \
-	--enable-lto=thin \
+	--enable-lto=full \
 	--enable-hwaccels \
 	--enable-optimizations \
 	${asmflags} \
@@ -99,6 +99,55 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-swscale \
 	--enable-swresample \
 	\
+	--enable-network \
+	--disable-libmfx \
+	--disable-avisynth \
+	--disable-vapoursynth \
+    --disable-whisper \
+	--disable-libbluray \
+	--disable-libdvdnav \
+	--disable-libdvdread \
+	--disable-libmodplug \
+	--disable-libopenmpt \
+	--disable-libx264 \
+	--disable-libx265 \
+	--disable-libsrt \
+	--disable-libzvbi \
+	--disable-libaribcaption \
+	--disable-libxvid \
+	--disable-amf \
+	--disable-libmp3lame \
+	--disable-libssh \
+	--disable-libvpl \
+	--disable-libspeex \
+    --disable-libaom \
+	--disable-libsvtav1 \
+	\
+	--enable-libass \
+	--enable-libfreetype \
+	--enable-libfribidi \
+	--enable-libharfbuzz \
+	--enable-libopus \
+	--enable-libsoxr \
+	--enable-libvorbis \
+	--enable-libbs2b \
+	--enable-librubberband \
+	--enable-libvpx \
+	--enable-libwebp \
+	--enable-libdav1d \
+	--enable-lcms2 \
+	--enable-libzimg \
+	--enable-openssl \
+	--enable-libxml2 \
+	--enable-iconv \
+	--enable-libmysofa \
+	--enable-libjxl \
+	--enable-libplacebo \
+	--enable-libshaderc \
+	--disable-libdavs2 \
+	--disable-libuavs3d \
+	--disable-libfontconfig \
+	\
 	--disable-d3d11va \
 	--disable-dxva2 \
 	--disable-vaapi \
@@ -108,99 +157,45 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-appkit \
 	--disable-videotoolbox \
 	--disable-audiotoolbox \
-	--enable-jni \
-	--enable-vulkan \
-    --disable-vulkan-static \
-	--enable-mediacodec \
 	--disable-v4l2-m2m \
+	--disable-mmal \
+	--enable-jni \
+	--enable-mediacodec \
+	--disable-vulkan \
+    --disable-vulkan-static \
 	\
 	--enable-indevs \
 	--enable-outdevs \
-	--disable-indev=libcdio \
-	--disable-indev=v4l2 \
-	--disable-indev=android_camera \
-	--disable-indev=decklink \
-	--disable-indev=dshow \
-	--disable-indev=gdigrab \
-	--disable-indev=iec61883 \
-	--disable-indev=kmsgrab \
-	--disable-indev=libdc1394 \
-	--disable-indev=vfwcap \
-	--disable-indev=xcbgrab \
-	--disable-indev=fbdev \
-	--disable-outdev=caca \
-	--disable-outdev=fbdev \
+	--disable-indev=libcdio,v4l2,android_camera,decklink,dshow,gdigrab,iec61883,kmsgrab,libdc1394,vfwcap,xcbgrab,fbdev \
+	--disable-outdev=caca,fbdev,v4l2,avfoundation \
 	\
 	--enable-bsfs \
-	--disable-bsf=mov2textsub \
-	--disable-bsf=text2movsub \
+	--disable-bsf=mov2textsub,text2movsub,apv_metadata,hapqa_extract,media100_to_mjpegb \
 	\
 	--enable-decoders \
-	--enable-decoder=aac_mediacodec \
-	--enable-decoder=amrnb_mediacodec \
-	--enable-decoder=amrwb_mediacodec \
-	--enable-decoder=av1_mediacodec \
-	--enable-decoder=h264_mediacodec \
-	--enable-decoder=hevc_mediacodec \
-	--enable-decoder=mp3_mediacodec \
-	--enable-decoder=mpeg2_mediacodec \
-	--enable-decoder=mpeg4_mediacodec \
-	--enable-decoder=vp8_mediacodec \
-	--enable-decoder=vp9_mediacodec \
-	--disable-decoder=dvbsub \
-	--disable-decoder=dvdsub \
-	--disable-decoder=jacosub \
-	--disable-decoder=realtext \
-	--disable-decoder=stl \
-	--disable-decoder=microdvd \
-	--disable-decoder=mpl2 \
+	--enable-decoder=*_mediacodec \
+	--disable-decoder=*_mmal,*_v4l2m2m \
+	--disable-decoder=dvbsub,dvdsub,jacosub,realtext,stl,microdvd,mpl2 \
+	--disable-decoder=indeo2,indeo3,indeo4,indeo5,cinepak,MSMPEG4v1,MSMPEG4v2,MSMPEG4v3 \
+	--disable-decoder=bethsoftvid,bfi,idcin,motionpixels,roq,roq_dpcm,tiertexseqvideo,smacker,smackaud,xan_dpcm,xan_wc3,xan_wc4 \
+	--disable-decoder=truespeech,nellymoser,qdmc,qdmc_at,qdm2,qdm2_at,adpcm_agm,adpcm_argo,dss_sp,g723_1,sipr,smackaud,ws_snd1 \
+	--disable-decoder=atrac1,atrac3,atrac3al,atrac3p \
+	--disable-decoder=pcx,xbm,xwd,pictor,photocd,alias_pix,brender_pix,cdtoons,sgirle,xbin \
+	--disable-decoder=c93,qpeg,vcr1,rpza,kmvc,mdec,vcr1,vcr2,dxtory \
 	\
 	--disable-muxers \
-	--enable-muxer=image2 \
-	--enable-muxer=image2pipe \
-	--enable-muxer=mjpeg \
-	--enable-muxer=mpjpeg \
-	--enable-muxer=apng \
-	--enable-muxer=avif \
-	--enable-muxer=fits \
-	--enable-muxer=gif \
-	--enable-muxer=ico \
-	--enable-muxer=webp \
+	--enable-muxer=image2,image2pipe,mjpeg,mpjpeg,smjpeg,apng,avif,fits,filmstrip,gif,ico,webp \
 	\
 	--enable-demuxers \
-	--disable-demuxer=vobsub \
-	--disable-demuxer=dvbsub \
-	--disable-demuxer=dvbtxt \
-	--disable-demuxer=mpl2 \
-	--disable-demuxer=aqtitle \
-	--disable-demuxer=jacosub \
-	--disable-demuxer=realtext \
-	--disable-demuxer=tedcaptions \
-	--disable-demuxer=stl \
-	--disable-demuxer=ace \
-	--disable-demuxer=gxf \
-	--disable-demuxer=live_flv \
-	--disable-demuxer=lxf \
-	--disable-demuxer=microdvd \
-	--disable-demuxer=rtp \
-	--disable-demuxer=rtsp \
+	--disable-demuxer=vobsub,dvbsub,dvbtxt,microdvd,mpl2,mcc,aqtitle,jacosub,realtext,tedcaptions,threedostr,ace,gxf,lxf,stl,sami,scc,subviewer,subviewer1 \
+	--disable-demuxer=live_flv,rtp,rtsp,bitpacked,libgme,libmodplug,libopenmpt,nistsphere,paf,txd,vapoursynth,wc3,tty \
+	--disable-demuxer=bethsoftvid,bfi,dxa,ea,ea_cdata,brstm,fourxm,fsb,ipu,hnm,rl2,roq,segafilm,smacker,tiertexseq,thp,usm,vmd,xa,xmv  \
 	\
     --enable-parsers \
+	--disable-parser=cook,adx,apv,dvd*,dvbsub \
 	\
     --disable-filters \
-	--disable-filter=adeclick \
-	--disable-filter=afftdn \
-	--disable-filter=afwtdn \
-	--disable-filter=anlmdn \
-	--disable-filter=arnndn \
-	--disable-filter=dcshift \
-	--disable-filter=deesser \
-	--disable-filter=fftdnoiz \
-	--disable-filter=avsynctest \
-	--disable-filter=fsync \
-	--disable-filter=realtime \
-	--disable-filter=areverse \
-	--disable-filter=showinfo \
+	--disable-filter=adeclick,afftd,afwtd,anlmd,arnnd,dcshif,deesse,fftdnoi,avsynctes,fsyn,realtim,arevers,showinfo \
 	\
 	--enable-filter=thumbnail \
 	--enable-filter=select \
@@ -291,15 +286,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=hwupload \
 	\
 	--disable-protocols \
-	--disable-protocol=ffrtmphttp \
-	--disable-protocol=rtmp \
-	--disable-protocol=rtmps \
-	--disable-protocol=rtmpt \
-	--disable-protocol=rtmpts \
-	--disable-protocol=rtp \
-	--disable-protocol=srtp \
-	--disable-protocol=libsrt \
-	--disable-protocol=libssh \
+	--disable-protocol=ffrtmphttp,rtmp,rtmps,rtmpt,rtmpts,rtp,srtp,libsrt,libssh \
 	--enable-protocol=async \
 	--enable-protocol=cache \
 	--enable-protocol=crypto \
@@ -317,87 +304,17 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-protocol=udp \
 	\
 	--disable-encoders \
-	--enable-encoder=mjpeg \
+	--enable-encoder=mjpeg* \
 	--enable-encoder=ljpeg \
 	--enable-encoder=jpegls \
 	--enable-encoder=jpeg2000 \
 	--enable-encoder=apng \
-	--enable-encoder=bmp \
-	--enable-encoder=dpx \
-	--enable-encoder=exr \
+	--enable-encoder=png \
 	--enable-encoder=gif \
-	--enable-encoder=png \
-	--enable-encoder=pam \
-	--enable-encoder=pbm \
-	--enable-encoder=pcx \
-	--enable-encoder=pfm \
-	--enable-encoder=pgm \
-	--enable-encoder=pgmyuv \
-	--enable-encoder=phm \
-	--enable-encoder=png \
-	--enable-encoder=ppm \
-	--enable-encoder=fits \
-	--enable-encoder=tiff \
-	--enable-encoder=qoi \
-	--enable-encoder=sgi \
-	--enable-encoder=sunrast \
-	--enable-encoder=targa \
-	--enable-encoder=xbm \
-	--enable-encoder=xwd \
-	--enable-encoder=yuv4 \
 	--enable-encoder=wbmp \
 	--enable-encoder=libwebp \
 	--enable-encoder=libwebp_anim \
-	\
-	--enable-network \
-	--disable-libmfx \
-	--disable-avisynth \
-	--disable-vapoursynth \
-    --disable-whisper \
-	--disable-libbluray \
-	--disable-libdvdnav \
-	--disable-libdvdread \
-	--disable-libmodplug \
-	--disable-libopenmpt \
-	--disable-libx264 \
-	--disable-libx265 \
-	--disable-libsrt \
-	--disable-libzvbi \
-	--disable-libaribcaption \
-	--disable-libxvid \
-	--disable-amf \
-	--disable-libmp3lame \
-	--disable-libssh \
-	--disable-libvpl \
-	--disable-libspeex \
-    --disable-libaom \
-	--disable-libsvtav1 \
-	\
-	--enable-libass \
-	--enable-libfreetype \
-	--enable-libfribidi \
-	--enable-libharfbuzz \
-	--enable-libopus \
-	--enable-libsoxr \
-	--enable-libvorbis \
-	--enable-libbs2b \
-	--enable-librubberband \
-	--enable-libvpx \
-	--enable-libwebp \
-	--enable-libdav1d \
-	--enable-lcms2 \
-	--enable-libzimg \
-	--enable-openssl \
-	--enable-libxml2 \
-	--enable-iconv \
-	--enable-libmysofa \
-	--enable-libjxl \
-	--enable-libplacebo \
-	--enable-libshaderc \
-	--disable-libdavs2 \
-	--disable-libuavs3d \
-	\
-	--disable-libfontconfig \
+	--enable-encoder=anull,vnull 
 
 # - 报错找不到依赖包时，也可能是 configure 尝试使用依赖库编译测试程序失败：
 # 	- 其中可能是 cpu平台不正确、符号缺失、缺少 include搜索目录或链接搜索目录、缺少指定链接库名称等原因

@@ -30,10 +30,21 @@ if [ $? -ne 0 ]; then
   exit -1
 fi
 
-"./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/arm64-v8a/usr/local/lib/libmpv.so
-"./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/armeabi-v7a/usr/local/lib/libmpv.so
-"./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86/usr/local/lib/libmpv.so
-"./sdk/android-sdk-linux/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86_64/usr/local/lib/libmpv.so
+stripLib() {
+  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/arm64-v8a/usr/local/lib/$1
+  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/armeabi-v7a/usr/local/lib/$1
+  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86/usr/local/lib/$1
+  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86_64/usr/local/lib/$1
+}
+
+stripLib libmpv.so
+stripLib libavcodec.so
+stripLib libavutil.so
+stripLib libavfilter.so
+stripLib libavformat.so
+stripLib libavdevice.so
+stripLib libswresample.so
+stripLib libswscale.so
 
 # --------------------------------------------------
 
@@ -48,41 +59,27 @@ sudo chmod +x gradlew
 
 unzip -o app/build/outputs/apk/release/app-release.apk -d app/build/outputs/apk/release
 
-cp ../../prefix/arm64-v8a/usr/local/lib/libmpv.so      app/build/outputs/apk/release/lib/arm64-v8a
-cp ../../prefix/arm64-v8a/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/arm64-v8a/
-cp ../../prefix/arm64-v8a/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/arm64-v8a/
-cp ../../prefix/arm64-v8a/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/arm64-v8a/
-cp ../../prefix/arm64-v8a/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/arm64-v8a/
-cp ../../prefix/arm64-v8a/usr/local/lib/libswscale.so      app/build/outputs/apk/release/lib/arm64-v8a/
-cp ../../prefix/arm64-v8a/usr/local/lib/libavfilter.so      app/build/outputs/apk/release/lib/arm64-v8a/
-cp ../../prefix/arm64-v8a/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/arm64-v8a/
+copyLib() {
+  if [[ $1 != "arm64-v8a" && $1 != "armeabi-v7a" && $1 != "x86" && $1 != "x86_64" ]]; then
+    echo "call copyLib 参数 {cpu} 不正确: $1"
+    exit -1
+  fi
 
-cp ../../prefix/armeabi-v7a/usr/local/lib/libmpv.so    app/build/outputs/apk/release/lib/armeabi-v7a
-cp ../../prefix/armeabi-v7a/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/armeabi-v7a/
-cp ../../prefix/armeabi-v7a/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/armeabi-v7a/
-cp ../../prefix/armeabi-v7a/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/armeabi-v7a/
-cp ../../prefix/armeabi-v7a/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/armeabi-v7a/
-cp ../../prefix/armeabi-v7a/usr/local/lib/libswscale.so      app/build/outputs/apk/release/lib/armeabi-v7a/
-cp ../../prefix/armeabi-v7a/usr/local/lib/libavfilter.so      app/build/outputs/apk/release/lib/armeabi-v7a/
-cp ../../prefix/armeabi-v7a/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/armeabi-v7a/
+  mkdir -p app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libmpv.so       app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libswresample.so app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libavutil.so     app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libavcodec.so    app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libavformat.so   app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libswscale.so    app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libavfilter.so   app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libavdevice.so   app/build/outputs/apk/release/lib/$1/
+}
 
-cp ../../prefix/x86/usr/local/lib/libmpv.so            app/build/outputs/apk/release/lib/x86
-cp ../../prefix/x86/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/x86/
-cp ../../prefix/x86/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/x86/
-cp ../../prefix/x86/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/x86/
-cp ../../prefix/x86/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/x86/
-cp ../../prefix/x86/usr/local/lib/libswscale.so      app/build/outputs/apk/release/lib/x86/
-cp ../../prefix/x86/usr/local/lib/libavfilter.so      app/build/outputs/apk/release/lib/x86/
-cp ../../prefix/x86/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/x86/
-
-cp ../../prefix/x86_64/usr/local/lib/libmpv.so         app/build/outputs/apk/release/lib/x86_64
-cp ../../prefix/x86_64/usr/local/lib/libswresample.so      app/build/outputs/apk/release/lib/x86_64/
-cp ../../prefix/x86_64/usr/local/lib/libavutil.so      app/build/outputs/apk/release/lib/x86_64/
-cp ../../prefix/x86_64/usr/local/lib/libavcodec.so      app/build/outputs/apk/release/lib/x86_64/
-cp ../../prefix/x86_64/usr/local/lib/libavformat.so      app/build/outputs/apk/release/lib/x86_64/
-cp ../../prefix/x86_64/usr/local/lib/libswscale.so      app/build/outputs/apk/release/lib/x86_64/
-cp ../../prefix/x86_64/usr/local/lib/libavfilter.so      app/build/outputs/apk/release/lib/x86_64/
-cp ../../prefix/x86_64/usr/local/lib/libavdevice.so      app/build/outputs/apk/release/lib/x86_64/
+copyLib arm64-v8a
+copyLib armeabi-v7a
+copyLib x86
+copyLib x86_64
 
 cd app/build/outputs/apk/release
 
