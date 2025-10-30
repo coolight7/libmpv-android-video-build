@@ -46,11 +46,11 @@ CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include " LDFLAGS="-L$pr
 	-Ddvdnav=disabled \
 	-Dvapoursynth=disabled \
 	\
-	-Duchardet=enabled \
+	-Duchardet=disabled \
 	-Dlibarchive=enabled \
 	-Drubberband=enabled \
 	-Dlcms2=enabled \
-	-Diconv=enabled \
+	-Diconv=disabled \
 	\
 	-Dcaca=disabled \
 	-Dsixel=disabled \
