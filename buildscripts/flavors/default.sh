@@ -190,102 +190,89 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-decoder=*_mediacodec \
 	--disable-decoder=*_mmal,*_v4l2m2m \
 	\
+    --enable-parsers \
+	\
 	--disable-muxers \
 	--enable-muxer=image2,image2pipe,mjpeg,mpjpeg,smjpeg,apng,avif,fits,filmstrip,gif,ico,webp \
 	\
 	--enable-demuxers \
 	\
-    --enable-parsers \
-	\
     --disable-filters \
 	--disable-filter=adeclick,afftd,afwtd,anlmd,arnnd,dcshif,deesse,fftdnoi,avsynctes,fsyn,realtim,arevers,showinfo \
-	--enable-filter=thumbnail \
-	--enable-filter=select \
-	--enable-filter=trim \
+	--enable-filter=format \
+	--enable-filter=aformat \
+	--enable-filter=noformat \
+	--enable-filter=hwdownload \
+	--enable-filter=hwupload \
+	--enable-filter=copy \
+	--enable-filter=showwavespic \
+	--enable-filter=acompressor \
+	--enable-filter=alimiter \
 	--enable-filter=atrim \
-	--enable-filter=fps \
-	--enable-filter=movie \
+	--enable-filter=aecho \
+	--enable-filter=acopy \
+	--enable-filter=amovie \
+	--enable-filter=apulsator \
+	--enable-filter=bs2b \
+	--enable-filter=bass \
+	--enable-filter=compand \
+	--enable-filter=equalizer \
+	--enable-filter=loudnorm \
 	--enable-filter=metadata \
+	--enable-filter=pan \
+	--enable-filter=stereotools \
+	--enable-filter=rubberband \
+	--enable-filter=volume \
+	--enable-filter=volumedetect \
 	--enable-filter=null \
 	--enable-filter=nullsink \
 	--enable-filter=nullsrc \
 	--enable-filter=anull \
 	--enable-filter=anullsink \
 	--enable-filter=anullsrc \
+	\
+	--enable-filter=aselect \
 	--enable-filter=adeclip \
-	--enable-filter=acopy \
-	--enable-filter=asetpts \
-	--enable-filter=setpts \
+	--enable-filter=atempo \
+	--enable-filter=sinc \
+	--enable-filter=sine \
 	--enable-filter=amix \
 	--enable-filter=amerge \
+	--enable-filter=asetpts \
 	--enable-filter=aresample \
+	\
 	--enable-filter=asplit \
-	--enable-filter=copy \
-	--enable-filter=drawtext \
-	--enable-filter=volume \
-	--enable-filter=volumedetect \
-	--enable-filter=acompressor \
 	--enable-filter=adrc \
 	--enable-filter=dynaudnorm \
-	--enable-filter=limiter \
 	--enable-filter=mcompand \
 	--enable-filter=anequalizer \
 	--enable-filter=bandpass \
 	--enable-filter=bandreject \
-	--enable-filter=bass \
-	--enable-filter=equalizer \
 	--enable-filter=highpass \
 	--enable-filter=highshelf \
 	--enable-filter=lowpass \
 	--enable-filter=lowshelf \
-	--enable-filter=midequalizer \
 	--enable-filter=tiltshelf \
-	--enable-filter=aecho \
 	--enable-filter=aphaser \
-	--enable-filter=bs2b \
 	--enable-filter=crystalizer \
 	--enable-filter=flanger \
 	--enable-filter=haas \
 	--enable-filter=headphone \
 	--enable-filter=extrastereo \
 	--enable-filter=sofalizer \
-	--enable-filter=stereotools \
 	--enable-filter=stereowiden \
 	--enable-filter=surround \
 	--enable-filter=tremolo \
 	--enable-filter=vibrato \
 	--enable-filter=virtualbass \
-	--enable-filter=ebur128 \
-	--enable-filter=loudnorm \
 	--enable-filter=replaygain \
 	--enable-filter=silencedetect \
 	--enable-filter=silenceremove \
 	--enable-filter=aexciter \
 	--enable-filter=amplify \
-	--enable-filter=apulsator \
-	--enable-filter=atempo \
 	--enable-filter=dialoguenhance \
-	--enable-filter=rubberband \
-	--enable-filter=sinc \
-	--enable-filter=sine \
 	--enable-filter=crossfeed \
-	--enable-filter=spectrumsynth \
-	--enable-filter=showwavespic \
 	--enable-filter=afreqshift \
-	--enable-filter=scale* \
-	--enable-filter=vflip \
-	--enable-filter=hflip \
-	--enable-filter=overlay \
-	--enable-filter=crop \
-	--enable-filter=cropdetect \
-	--enable-filter=format \
-	--enable-filter=aformat \
-	--enable-filter=noformat \
-	--enable-filter=signalstats \
-	--enable-filter=framepack \
-	--enable-filter=framerate \
-	--enable-filter=hwdownload \
-	--enable-filter=hwupload \
 	\
 	--disable-protocols \
 	--disable-protocol=ffrtmphttp,rtmp,rtmps,rtmpt,rtmpts,rtp,srtp,libsrt,libssh \
