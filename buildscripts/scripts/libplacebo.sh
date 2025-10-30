@@ -15,7 +15,7 @@ else
 fi
 
 unset CC CXX
-CFLAGS=-fPIC CXXFLAGS="-fPIC -I$prefix_dir/ -I$current_source_dir/../vulkan_header/include/" meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
+CFLAGS=-fPIC CXXFLAGS="-fPIC -I$prefix_dir/include " meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
         --default-library=static \
         -Dshaderc=enabled \
         -Dopengl=enabled \

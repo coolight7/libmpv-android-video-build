@@ -112,7 +112,7 @@ mkdir -p "$prefix_dir"/lib/pkgconfig
 cat >"$prefix_dir"/lib/pkgconfig/vulkan.pc <<VULKAN_PC
 Name: Vulkan
 Description:
-Version: 1.4.329
+Version: 1.3.275
 Libs: -L$NDK_PREFIX_DIR/sysroot/usr/lib/$ndk_triple/24/ -lvulkan
 Cflags: -I$NDK_PREFIX_DIR/sysroot/usr/include
 VULKAN_PC

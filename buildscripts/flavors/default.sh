@@ -40,6 +40,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 # c++std: libjxl、shaderc
 # 链接c++标准库时，需要静态链接
 # --extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi"
+# [vulkan] 会增加 5mb 左右的大小，但可能对ffmpeg用处不大
 ../configure \
 	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- \
 	--arch=${ndk_triple%%-*} --cpu=$cpu \
@@ -47,7 +48,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--pkg-config=pkg-config \
 	--stdc=c23 --stdcxx=c++23 \
   	--sysroot="${ANDROID_SYSROOT}" \
-	--extra-cflags="-Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types -I$prefix_dir/include -I$current_source_dir/../vulkan_header/include/ $cpuflags" \
+	--extra-cflags="-Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types -I$prefix_dir/include $cpuflags" \
 	--extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi" \
 	--pkg-config-flags=--static \
 	\
@@ -56,8 +57,8 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-version3 \
 	\
     --disable-debug \
-	--enable-shared \
 	--disable-static \
+	--enable-shared \
 	--enable-stripping \
 	--enable-runtime-cpudetect \
 	--enable-small \
@@ -99,7 +100,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-swscale \
 	--enable-swresample \
 	\
-	--enable-network \
 	--disable-libmfx \
 	--disable-avisynth \
 	--disable-vapoursynth \
@@ -123,6 +123,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
     --disable-libaom \
 	--disable-libsvtav1 \
 	\
+	--enable-network \
 	--enable-libass \
 	--enable-libfreetype \
 	--enable-libfribidi \
@@ -170,33 +171,34 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-outdev=caca,fbdev,v4l2,avfoundation \
 	\
 	--enable-bsfs \
-	--disable-bsf=mov2textsub,text2movsub,apv_metadata,hapqa_extract,media100_to_mjpegb \
+	--disable-bsf=mov2textsub,text2movsub \
+	\
+	--disable-encoders \
+	--enable-encoder=mjpeg* \
+	--enable-encoder=ljpeg \
+	--enable-encoder=jpegls \
+	--enable-encoder=jpeg2000 \
+	--enable-encoder=apng \
+	--enable-encoder=png \
+	--enable-encoder=gif \
+	--enable-encoder=wbmp \
+	--enable-encoder=libwebp \
+	--enable-encoder=libwebp_anim \
+	--enable-encoder=anull,vnull \
 	\
 	--enable-decoders \
 	--enable-decoder=*_mediacodec \
 	--disable-decoder=*_mmal,*_v4l2m2m \
-	--disable-decoder=dvbsub,dvdsub,jacosub,realtext,stl,microdvd,mpl2 \
-	--disable-decoder=indeo2,indeo3,indeo4,indeo5,cinepak,MSMPEG4v1,MSMPEG4v2,MSMPEG4v3 \
-	--disable-decoder=bethsoftvid,bfi,idcin,motionpixels,roq,roq_dpcm,tiertexseqvideo,smacker,smackaud,xan_dpcm,xan_wc3,xan_wc4 \
-	--disable-decoder=truespeech,nellymoser,qdmc,qdmc_at,qdm2,qdm2_at,adpcm_agm,adpcm_argo,dss_sp,g723_1,sipr,smackaud,ws_snd1 \
-	--disable-decoder=atrac1,atrac3,atrac3al,atrac3p \
-	--disable-decoder=pcx,xbm,xwd,pictor,photocd,alias_pix,brender_pix,cdtoons,sgirle,xbin \
-	--disable-decoder=c93,qpeg,vcr1,rpza,kmvc,mdec,vcr1,vcr2,dxtory \
 	\
 	--disable-muxers \
 	--enable-muxer=image2,image2pipe,mjpeg,mpjpeg,smjpeg,apng,avif,fits,filmstrip,gif,ico,webp \
 	\
 	--enable-demuxers \
-	--disable-demuxer=vobsub,dvbsub,dvbtxt,microdvd,mpl2,mcc,aqtitle,jacosub,realtext,tedcaptions,threedostr,ace,gxf,lxf,stl,sami,scc,subviewer,subviewer1 \
-	--disable-demuxer=live_flv,rtp,rtsp,bitpacked,libgme,libmodplug,libopenmpt,nistsphere,paf,txd,vapoursynth,wc3,tty \
-	--disable-demuxer=bethsoftvid,bfi,dxa,ea,ea_cdata,brstm,fourxm,fsb,ipu,hnm,rl2,roq,segafilm,smacker,tiertexseq,thp,usm,vmd,xa,xmv  \
 	\
     --enable-parsers \
-	--disable-parser=cook,adx,apv,dvd*,dvbsub \
 	\
     --disable-filters \
 	--disable-filter=adeclick,afftd,afwtd,anlmd,arnnd,dcshif,deesse,fftdnoi,avsynctes,fsyn,realtim,arevers,showinfo \
-	\
 	--enable-filter=thumbnail \
 	--enable-filter=select \
 	--enable-filter=trim \
@@ -301,25 +303,12 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-protocol=subfile \
 	--enable-protocol=tcp \
 	--enable-protocol=tls \
-	--enable-protocol=udp \
-	\
-	--disable-encoders \
-	--enable-encoder=mjpeg* \
-	--enable-encoder=ljpeg \
-	--enable-encoder=jpegls \
-	--enable-encoder=jpeg2000 \
-	--enable-encoder=apng \
-	--enable-encoder=png \
-	--enable-encoder=gif \
-	--enable-encoder=wbmp \
-	--enable-encoder=libwebp \
-	--enable-encoder=libwebp_anim \
-	--enable-encoder=anull,vnull 
+	--enable-protocol=udp
 
 # - 报错找不到依赖包时，也可能是 configure 尝试使用依赖库编译测试程序失败：
 # 	- 其中可能是 cpu平台不正确、符号缺失、缺少 include搜索目录或链接搜索目录、缺少指定链接库名称等原因
 
-make -j$cores
-make DESTDIR="$prefix_dir" install
+make -s -j$cores
+make -s DESTDIR="$prefix_dir" install > /dev/null
 
 echo "$(ls -lh $prefix_dir/lib/libav*)"

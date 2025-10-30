@@ -68,10 +68,10 @@ copyLib() {
   mkdir -p app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/usr/local/lib/libmpv.so       app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/usr/local/lib/libswresample.so app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/usr/local/lib/libswscale.so    app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/usr/local/lib/libavutil.so     app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/usr/local/lib/libavcodec.so    app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/usr/local/lib/libavformat.so   app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libswscale.so    app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/usr/local/lib/libavfilter.so   app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/usr/local/lib/libavdevice.so   app/build/outputs/apk/release/lib/$1/
 }
