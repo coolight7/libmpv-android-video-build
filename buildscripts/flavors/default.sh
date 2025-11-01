@@ -122,6 +122,12 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-libspeex \
     --disable-libaom \
 	--disable-libsvtav1 \
+	--disable-libfontconfig \
+	--disable-libmysofa \
+	--disable-libplacebo \
+	--disable-libshaderc \
+	--disable-libdavs2 \
+	--disable-libuavs3d \
 	\
 	--enable-network \
 	--enable-libass \
@@ -140,14 +146,8 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-libzimg \
 	--enable-openssl \
 	--enable-libxml2 \
-	--enable-libmysofa \
 	--enable-libjxl \
-	--enable-libplacebo \
-	--enable-libshaderc \
-	--disable-iconv \
-	--disable-libdavs2 \
-	--disable-libuavs3d \
-	--disable-libfontconfig \
+	--enable-iconv \
 	\
 	--disable-d3d11va \
 	--disable-dxva2 \
@@ -178,27 +178,28 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-encoder=ljpeg \
 	--enable-encoder=jpegls \
 	--enable-encoder=jpeg2000 \
-	--enable-encoder=apng \
-	--enable-encoder=png \
-	--enable-encoder=gif \
-	--enable-encoder=wbmp \
-	--enable-encoder=libwebp \
-	--enable-encoder=libwebp_anim \
 	--enable-encoder=anull,vnull \
 	\
 	--enable-decoders \
 	--enable-decoder=*_mediacodec \
 	--disable-decoder=*_mmal,*_v4l2m2m \
+	--disable-decoder=srt,ass,ssa,realtext,libzvbi_teletext,movtext,bintext,dvbsub,dvdsub,subrip,jacosub,subviewer,subviewer1,pgssub,xsub,ccaption,libaribb24,libaribcaption,microdvd,sami,stl,webvtt \
+	--disable-decoder=libgme,libmodplug,libopenmpt \
+	--disable-decoder=indeo2,indeo3,indeo4,indeo5,cinepak \
+	--disable-decoder=bethsoftvid,idcin,roq_*,smacker,xan_*,c93,vcr1,vcr2,vqa,bink,binkaudio_dct,binkaudio_rdft,thp,dfa,ipu \
+	--disable-decoder=truespeech,tiertexseqvideo,nellymoser,qdmc,qdmc_at,qdm2,qdm2_at,g723_1,g728,sipr,ws_snd1,tmv,bonk,shorten,sol_dpcm \
 	\
     --enable-parsers \
 	\
 	--disable-muxers \
-	--enable-muxer=image2,image2pipe,mjpeg,mpjpeg,smjpeg,apng,avif,fits,filmstrip,gif,ico,webp \
+	--enable-muxer=image2*,mjpeg,mpjpeg,smjpeg,null \
 	\
 	--enable-demuxers \
+	--disable-demuxer=lrc,srt,ass,realtext,mpsub,dvbtxt,dvdsub,vobsub,subrip,aqtitle,jacosub,subviewer,subviewer1,ccaption,microdvd,sami,stl,webvtt,psb,mpl2 \
+	--disable-demuxer=rtp,rtsp,libgme,libmodplug,libopenmpt \
+	--disable-demuxer=bethsoftvid,smacker,bink,binka,vqa,thp,roq,tiertexseq,c93,lvf,nuv,dfa,dcstr,ipu,sol,sds,shorten,bonk,tmv,sbg,mgsts,g723_1,g728,lmlm4 \
 	\
     --disable-filters \
-	--disable-filter=adeclick,afftd,afwtd,anlmd,arnnd,dcshif,deesse,fftdnoi,avsynctes,fsyn,realtim,arevers,showinfo \
 	--enable-filter=format \
 	--enable-filter=aformat \
 	--enable-filter=noformat \
@@ -216,33 +217,25 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=bs2b \
 	--enable-filter=bass \
 	--enable-filter=compand \
+	--enable-filter=dialoguenhance \
 	--enable-filter=equalizer \
 	--enable-filter=loudnorm \
 	--enable-filter=metadata \
 	--enable-filter=pan \
+	--enable-filter=stereowiden \
 	--enable-filter=stereotools \
 	--enable-filter=rubberband \
 	--enable-filter=volume \
 	--enable-filter=volumedetect \
-	--enable-filter=null \
-	--enable-filter=nullsink \
-	--enable-filter=nullsrc \
-	--enable-filter=anull \
-	--enable-filter=anullsink \
-	--enable-filter=anullsrc \
-	\
+	--enable-filter=null,nullsink,nullsrc,anull,anullsink,anullsrc \
+	--enable-filter=amix \
 	--enable-filter=aselect \
-	--enable-filter=adeclip \
 	--enable-filter=atempo \
+	--enable-filter=aresample \
 	--enable-filter=sinc \
 	--enable-filter=sine \
-	--enable-filter=amix \
-	--enable-filter=amerge \
-	--enable-filter=asetpts \
-	--enable-filter=aresample \
 	\
 	--disable-protocols \
-	--disable-protocol=ffrtmphttp,rtmp,rtmps,rtmpt,rtmpts,rtp,srtp,libsrt,libssh \
 	--enable-protocol=async \
 	--enable-protocol=cache \
 	--enable-protocol=crypto \
@@ -251,13 +244,10 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-protocol=ftp \
 	--enable-protocol=hls \
 	--enable-protocol=pipe \
-	--enable-protocol=http \
-	--enable-protocol=httpproxy \
-	--enable-protocol=https \
+	--enable-protocol=http,https,httpproxy \
+	--enable-protocol=android_content \
 	--enable-protocol=subfile \
-	--enable-protocol=tcp \
-	--enable-protocol=tls \
-	--enable-protocol=udp
+	--enable-protocol=tcp,udp,tls
 
 # - 报错找不到依赖包时，也可能是 configure 尝试使用依赖库编译测试程序失败：
 # 	- 其中可能是 cpu平台不正确、符号缺失、缺少 include搜索目录或链接搜索目录、缺少指定链接库名称等原因
