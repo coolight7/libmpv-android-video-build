@@ -32,7 +32,7 @@ cpu=
 [[ "$ndk_triple" == "x86_64"* ]] && cpu=x86_64
 [[ "$ndk_triple" == "i686"* ]] && cpu=x86
 
-LDFLAGS="-L$prefix_dir/lib/ $default_ld_cxx_stdlib" CXXFLAGS="$default_ld_cxx_stdlib" "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
+LDFLAGS="-L$prefix_dir/lib/ $default_ld_cxx_stdlib" CXXFLAGS="-fPIC" "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -G Ninja \
     -DANDROID=ON \
     -DCMAKE_SYSTEM_NAME=Android \
@@ -43,12 +43,13 @@ LDFLAGS="-L$prefix_dir/lib/ $default_ld_cxx_stdlib" CXXFLAGS="$default_ld_cxx_st
     -DANDROID_NDK=${ANDROID_NDK} \
     -DANDROID_STL=${default_cxx_stl} \
     -DTARGET_ARCHITECTURE=${cpu} \
-    -DCMAKE_C_FLAGS="-I$prefix_dir/include -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types ${cpuflags} $default_ld_cxx_stdlib" \
-    -DCMAKE_CXX_FLAGS="-I$prefix_dir/include $default_ld_cxx_stdlib" \
+    -DCMAKE_C_FLAGS="-I$prefix_dir/include -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types ${cpuflags}" \
+    -DCMAKE_CXX_FLAGS="-I$prefix_dir/include" \
     -DCMAKE_SHARED_LINKER_FLAGS="-L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
+    -DEXPORT_ALL_SYMBOL=OFF \
     -DSTATIC_LINK_FFMPEG=ON \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_STATIC=OFF \
