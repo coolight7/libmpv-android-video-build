@@ -1,0 +1,61 @@
+#!/bin/bash -e
+
+cd src
+
+. ../../../include/depinfo.sh
+. ../../../include/path.sh
+
+if [ "$1" == "build" ]; then
+	true
+elif [ "$1" == "clean" ]; then
+	rm -rf _build$ndk_suffix
+	exit 0
+else
+	exit 255
+fi
+
+# 当只需要重新构建 mediaxx ，避免重复构建ffmpeg时启用
+pushd $PWD
+(. ../../../include/backup_restore_dll.sh $prefix_dir/lib/) || true
+popd
+
+build=_build$ndk_suffix
+
+mkdir -p $build
+cd $build
+
+export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
+export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
+
+cpu=
+[[ "$ndk_triple" == "aarch64"* ]] && cpu=aarch64
+[[ "$ndk_triple" == "x86_64"* ]] && cpu=x86_64
+[[ "$ndk_triple" == "i686"* ]] && cpu=x86
+
+LDFLAGS="-L$prefix_dir/lib/ $default_ld_cxx_stdlib" CXXFLAGS="$default_ld_cxx_stdlib" "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
+    -G Ninja \
+    -DANDROID=ON \
+    -DCMAKE_SYSTEM_NAME=Android \
+    -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+    -DCMAKE_ANDROID_ARCH_ABI=$current_abi_name \
+    -DANDROID_ABI=$current_abi_name \
+    -DANDROID_PLATFORM=android-$v_min_sdk \
+    -DANDROID_NDK=${ANDROID_NDK} \
+    -DANDROID_STL=${default_cxx_stl} \
+    -DTARGET_ARCHITECTURE=${cpu} \
+    -DCMAKE_C_FLAGS="-I$prefix_dir/include -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types ${cpuflags} $default_ld_cxx_stdlib" \
+    -DCMAKE_CXX_FLAGS="-I$prefix_dir/include $default_ld_cxx_stdlib" \
+    -DCMAKE_SHARED_LINKER_FLAGS="-L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
+    -DSTATIC_LINK_FFMPEG=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_STATIC=OFF \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+
+
+"${MY_CMAKE_EXE_DIR}/ninja" -C .
+DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install
+
+(. ../../../../include/backup_dll.sh $prefix_dir/lib/) || true

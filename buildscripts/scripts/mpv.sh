@@ -20,7 +20,7 @@ unset CC CXX # meson wants these unset
 
 # c++std: libjxl、shaderc
 # 链接c++标准库时，需要静态链接
-CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include " LDFLAGS="-L$prefix_dir/lib/ -liconv -nostdlib++ -lc++_static -lc++abi" meson setup $build \
+CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include " LDFLAGS="-L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm" meson setup $build \
 	--cross-file "$prefix_dir"/crossfile.txt \
 	--prefer-static \
 	--default-library shared \
@@ -45,12 +45,12 @@ CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include " LDFLAGS="-L$pr
 	-Dlibbluray=disabled \
 	-Ddvdnav=disabled \
 	-Dvapoursynth=disabled \
-	\
 	-Duchardet=disabled \
+	-Diconv=disabled \
+	\
 	-Dlibarchive=enabled \
 	-Drubberband=enabled \
 	-Dlcms2=enabled \
-	-Diconv=disabled \
 	\
 	-Dcaca=disabled \
 	-Dsixel=disabled \
@@ -58,13 +58,13 @@ CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include " LDFLAGS="-L$pr
 	-Dx11=disabled \
 	-Dalsa=disabled \
 	-Dpulse=disabled \
-    -Dopensles=enabled \
 	-Dsdl2-audio=disabled \
 	-Dsdl2-video=disabled \
 	-Degl=disabled \
+	-Dplain-gl=disabled \
+    -Dopensles=enabled \
 	-Degl-android=enabled \
 	-Dgl=enabled \
-	-Dplain-gl=disabled \
 	-Dvulkan=disabled \
 	\
 	-Dandroid-media-ndk=enabled \

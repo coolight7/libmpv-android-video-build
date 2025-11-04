@@ -149,7 +149,7 @@ build () {
 		|| ( $1 == "shaderc" && -f "$prefix_dir/lib/libshaderc_combined.a" ) 
 		|| ( $1 == "spirv_cross" && -f "$prefix_dir/lib/libspirv-cross-c.a" ) 
 		|| ( $1 == "openssl" && -f "$prefix_dir/lib/libssl.a" ) 
-		|| ( $1 == "ffmpeg")
+		# || ( $1 == "ffmpeg")
 		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.a") 
 		# || ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.so")
 		|| ( $1 == "mpv" && -f "$prefix_dir/lib/libmpv.so" ) 
@@ -210,17 +210,17 @@ if [ -z $arch ]; then
 		
 		if [[ $clean_lib_ff_mpv == 1 ]]; then
 			echo "rm libav*/libmpv ----------------------"
-			# rm -f $prefix_dir/lib/libavcodec.*
-			# rm -f $prefix_dir/lib/libavdevice.*
-			# rm -f $prefix_dir/lib/libavfilter.*
-			# rm -f $prefix_dir/lib/libavformat.*
-			# rm -f $prefix_dir/lib/libavutil.*
-			# rm -f $prefix_dir/lib/libswresample.*
-			# rm -f $prefix_dir/lib/libswscale.*
-			# rm -rf $prefix_dir/lib/ffmpeg-backup/
+			rm -f $prefix_dir/lib/libavcodec.*
+			rm -f $prefix_dir/lib/libavdevice.*
+			rm -f $prefix_dir/lib/libavfilter.*
+			rm -f $prefix_dir/lib/libavformat.*
+			rm -f $prefix_dir/lib/libavutil.*
+			rm -f $prefix_dir/lib/libswresample.*
+			rm -f $prefix_dir/lib/libswscale.*
+			rm -rf $prefix_dir/lib/ffmpeg-backup/
 
 			rm -f $prefix_dir/lib/libmediaxx.*
-			# rm -f $prefix_dir/lib/libmpv.*
+			rm -f $prefix_dir/lib/libmpv.*
 		fi
 
 		env > "$PWD/env-$arch.sh"
@@ -233,17 +233,17 @@ else
 
 	if [[ $clean_lib_ff_mpv == 1 ]]; then
 		echo "rm libav*/libmpv ----------------------"
-			# rm -f $prefix_dir/lib/libavcodec.*
-			# rm -f $prefix_dir/lib/libavdevice.*
-			# rm -f $prefix_dir/lib/libavfilter.*
-			# rm -f $prefix_dir/lib/libavformat.*
-			# rm -f $prefix_dir/lib/libavutil.*
-			# rm -f $prefix_dir/lib/libswresample.*
-			# rm -f $prefix_dir/lib/libswscale.*
-			# rm -rf $prefix_dir/lib/ffmpeg-backup/
+			rm -f $prefix_dir/lib/libavcodec.*
+			rm -f $prefix_dir/lib/libavdevice.*
+			rm -f $prefix_dir/lib/libavfilter.*
+			rm -f $prefix_dir/lib/libavformat.*
+			rm -f $prefix_dir/lib/libavutil.*
+			rm -f $prefix_dir/lib/libswresample.*
+			rm -f $prefix_dir/lib/libswscale.*
+			rm -rf $prefix_dir/lib/ffmpeg-backup/
 
 			rm -f $prefix_dir/lib/libmediaxx.*
-			# rm -f $prefix_dir/lib/libmpv.*
+			rm -f $prefix_dir/lib/libmpv.*
 	fi
   	build $target
 fi
