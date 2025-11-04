@@ -25,12 +25,19 @@ abi=armeabi-v7a
 [[ "$ndk_triple" == "x86_64"* ]] && abi=x86_64
 [[ "$ndk_triple" == "i686"* ]] && abi=x86
 
+cpu=
+[[ "$ndk_triple" == "aarch64"* ]] && cpu=aarch64
+[[ "$ndk_triple" == "x86_64"* ]] && cpu=x86_64
+[[ "$ndk_triple" == "i686"* ]] && cpu=x86
+
 CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -G Ninja \
     -DCMAKE_SYSTEM_NAME=Android \
+    -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
     -DCMAKE_ANDROID_ARCH_ABI=$current_abi_name \
+    -DANDROID_ABI=$current_abi_name \
     -DANDROID_PLATFORM=android-$v_min_sdk \
-    -DDCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+    -DTARGET_ARCHITECTURE=${cpu} \
     -DANDROID_NDK=$ANDROID_NDK \
     -DANDROID_ABI=$abi \
     -DCMAKE_C_FLAGS=-fPIC \

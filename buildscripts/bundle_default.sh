@@ -31,12 +31,13 @@ if [ $? -ne 0 ]; then
 fi
 
 stripLib() {
-  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/arm64-v8a/usr/local/lib/$1
-  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/armeabi-v7a/usr/local/lib/$1
-  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86/usr/local/lib/$1
-  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86_64/usr/local/lib/$1
+  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/arm64-v8a/lib/$1
+  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/armeabi-v7a/lib/$1
+  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86/lib/$1
+  "./sdk/android-sdk-linux/ndk/29.0.14206865/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-all prefix/x86_64/lib/$1
 }
 
+stripLib libmediaxx.so
 stripLib libmpv.so
 stripLib libavcodec.so
 stripLib libavutil.so
@@ -66,14 +67,15 @@ copyLib() {
   fi
 
   mkdir -p app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libmpv.so       app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libswresample.so app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libswscale.so    app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libavutil.so     app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libavcodec.so    app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libavformat.so   app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libavfilter.so   app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/usr/local/lib/libavdevice.so   app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/libmediaxx.so                                    app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/libmpv.so                                        app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/ffmpeg-backup/libswresample.so                   app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/ffmpeg-backup/libswscale.so                      app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/ffmpeg-backup/libavutil.so                       app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/ffmpeg-backup/libavcodec.so                      app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/ffmpeg-backup/libavformat.so                     app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/ffmpeg-backup/libavfilter.so                     app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/ffmpeg-backup/libavdevice.so                     app/build/outputs/apk/release/lib/$1/
 }
 
 copyLib arm64-v8a

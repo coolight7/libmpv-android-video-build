@@ -33,8 +33,7 @@ CFLAGS="-fPIC -D_GNU_SOURCE" CXXFLAGS="-fPIC -D_GNU_SOURCE" meson setup $build -
         --buildtype=release \
         -Ddoc=disabled \
         -Dtests=disabled \
-        -Dtools=disabled \
-        -Dcache-build=disabled
+        -Dtools=disabled 
 
 
 "${MY_CMAKE_EXE_DIR}/ninja" -C $build -j$cores

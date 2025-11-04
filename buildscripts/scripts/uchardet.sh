@@ -28,20 +28,24 @@ cpu=
 CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -G Ninja \
     -DCMAKE_SYSTEM_NAME=Android \
+    -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
     -DCMAKE_ANDROID_ARCH_ABI=$current_abi_name \
+    -DANDROID_ABI=$current_abi_name \
     -DANDROID_PLATFORM=android-$v_min_sdk \
-    -DDCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+    -DTARGET_ARCHITECTURE=${cpu} \
     -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC \
     -DCMAKE_BUILD_TYPE=Release \
+    -DANDROID_STL=${default_cxx_stl} \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
     -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_STATIC=ON \
     -DBUILD_BINARY=OFF \
-    -DTARGET_ARCHITECTURE=${cpu} \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
 
 
 
 "${MY_CMAKE_EXE_DIR}/ninja" -C .
 DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install
+
+sed -i '/^Libs.private:/ s|-lstdc++|-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/uchardet.pc"

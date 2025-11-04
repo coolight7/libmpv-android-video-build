@@ -38,7 +38,7 @@ fi
 ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 
 # c++std: libjxl、shaderc
-# 链接c++标准库时，需要静态链接
+# 链接c++标准库时，如果需要静态链接
 # --extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi"
 # [vulkan] 会增加 5mb 左右的大小，但可能对ffmpeg用处不大
 ../configure \
@@ -48,8 +48,9 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--pkg-config=pkg-config \
 	--stdc=c23 --stdcxx=c++23 \
   	--sysroot="${ANDROID_SYSROOT}" \
-	--extra-cflags="-Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types -I$prefix_dir/include $cpuflags" \
-	--extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi" \
+	--extra-cflags="-fPIC -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types -I$prefix_dir/include $cpuflags" \
+	--extra-cxxflags="-fPIC -I$prefix_dir/include $cpuflags $default_ld_cxx_stdlib" \
+	--extra-ldflags="-Wl,-z,max-page-size=16384 -L$prefix_dir/lib $default_ld_cxx_stdlib -lm" \
 	--pkg-config-flags=--static \
 	\
 	--enable-gpl \
@@ -57,14 +58,13 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-version3 \
 	\
     --disable-debug \
-	--disable-static \
-	--enable-shared \
+	--disable-shared \
+	--enable-static \
 	--enable-stripping \
 	--enable-runtime-cpudetect \
 	--enable-small \
 	--enable-pic \
-	--enable-lto \
-	--enable-lto=full \
+	--enable-lto=none \
 	--enable-hwaccels \
 	--enable-optimizations \
 	${asmflags} \
@@ -122,12 +122,12 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-libspeex \
     --disable-libaom \
 	--disable-libsvtav1 \
-	--disable-libfontconfig \
 	--disable-libmysofa \
 	--disable-libplacebo \
 	--disable-libshaderc \
 	--disable-libdavs2 \
 	--disable-libuavs3d \
+	--disable-libfontconfig \
 	\
 	--enable-network \
 	--enable-libass \
@@ -255,4 +255,5 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 make -s -j$cores
 make -s DESTDIR="$prefix_dir" install > /dev/null
 
+sed -i '/^Libs:/ s|-lstdc++|-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/libavfilter.pc"
 echo "$(ls -lh $prefix_dir/lib/libav*)"

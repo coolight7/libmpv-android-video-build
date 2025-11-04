@@ -21,7 +21,7 @@ sed s/\-mno\-ieee\-fp// -i configure.ac
 mkdir -p _build$ndk_suffix
 cd _build$ndk_suffix
 
-CONF=1 ../configure \
+STL_LIBS="-l$default_cxx_stl"  ../configure \
 	--host=$ndk_triple \
     --disable-shared \
     --enable-static \
@@ -30,3 +30,5 @@ CONF=1 ../configure \
 # opus 有asm，需要特定指定特定编译平台的汇编器
 make -j$cores
 make DESTDIR="$prefix_dir" install
+
+sed -i '/^Libs.private:/ s|-lstdc++|-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/zimg.pc"

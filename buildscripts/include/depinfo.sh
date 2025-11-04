@@ -74,4 +74,5 @@ dep_opus=(opus_dnn)
 
 # 依赖项的依赖已有，则不需要重复依赖编译
 dep_ffmpeg=(libass mbedtls dav1d libxml2 libplacebo libvorbis libvpx libbs2b opus libsoxr openssl bzip2 rubberband libmysofa libwebp libjxl libzimg)
-dep_mpv=(ffmpeg libarchive uchardet)
+dep_mediaxx=(ffmpeg)
+dep_mpv=(mediaxx libarchive uchardet)

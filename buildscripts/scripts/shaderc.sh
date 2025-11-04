@@ -20,12 +20,21 @@ cd $build
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
+cpu=
+[[ "$ndk_triple" == "aarch64"* ]] && cpu=aarch64
+[[ "$ndk_triple" == "x86_64"* ]] && cpu=x86_64
+[[ "$ndk_triple" == "i686"* ]] && cpu=x86
+
 LTO_JOB=1 CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -G Ninja \
     -DCMAKE_SYSTEM_NAME=Android \
+    -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
     -DCMAKE_ANDROID_ARCH_ABI=$current_abi_name \
+    -DANDROID_ABI=$current_abi_name \
     -DANDROID_PLATFORM=android-$v_min_sdk \
-    -DDCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+    -DTARGET_ARCHITECTURE=${cpu} \
+    -DCMAKE_C_FLAGS=-fPIC \
+	-DCMAKE_CXX_FLAGS="-fPIC -std=c++17" \
     -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_INSTALL_PREFIX=/usr/local/ \
     -DCMAKE_INSTALL_LIBDIR=lib \
@@ -41,8 +50,6 @@ LTO_JOB=1 CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
 	-DENABLE_GLSLANG_BINARIES=OFF \
 	-DSPIRV_TOOLS_BUILD_STATIC=ON \
 	-DSPIRV_TOOLS_LIBRARY_TYPE=STATIC \
-    -DCMAKE_C_FLAGS=-fPIC \
-	-DCMAKE_CXX_FLAGS="-fPIC -std=c++17" \
 
 # ninja: Entering directory `.' 编译时日志可能会在这卡一会，耐心等
 LTO_JOB=1 "${MY_CMAKE_EXE_DIR}/ninja" -C .

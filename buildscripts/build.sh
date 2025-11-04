@@ -45,9 +45,13 @@ loadarch () {
 		exit 1
 	fi
 	export current_abi_name=$prefix_name
+	export default_cxx_stl="c++_static"
+	export default_ld_cxx_stdlib=" -nostdlib++ -l$default_cxx_stl -lc++abi "
 	export build_home_dir="$PWD/../"
 	export prefix_dir="$PWD/prefix/$prefix_name"
 	export source_dir="$PWD/deps/"
+	export CFLAGS="-fPIC"
+	export CXXFLAGS="-fPIC"
 	export native_dir="$PWD/../libmpv/src/main/jniLibs/$prefix_name"
 	export CC=$cc_triple-clang
 	if [[ "$1" == arm* ]]; then
@@ -114,7 +118,7 @@ Name: Vulkan
 Description:
 Version: 1.3.275
 Libs: -L$NDK_PREFIX_DIR/sysroot/usr/lib/$ndk_triple/24/ -lvulkan
-Cflags: -I$NDK_PREFIX_DIR/sysroot/usr/include
+Cflags: -fPIC -I$NDK_PREFIX_DIR/sysroot/usr/include
 VULKAN_PC
 }
 
@@ -145,8 +149,9 @@ build () {
 		|| ( $1 == "shaderc" && -f "$prefix_dir/lib/libshaderc_combined.a" ) 
 		|| ( $1 == "spirv_cross" && -f "$prefix_dir/lib/libspirv-cross-c.a" ) 
 		|| ( $1 == "openssl" && -f "$prefix_dir/lib/libssl.a" ) 
-		# || ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.a") # 已更换动态链接
-		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.so")
+		|| ( $1 == "ffmpeg")
+		|| ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.a") 
+		# || ( $1 == "ffmpeg" && -f "$prefix_dir/lib/libavfilter.so")
 		|| ( $1 == "mpv" && -f "$prefix_dir/lib/libmpv.so" ) 
 		]]; then
 		return
@@ -155,7 +160,7 @@ build () {
 	pushd deps/$1
 	BUILDSCRIPT=../../scripts/$1.sh
  	sudo chmod +x $BUILDSCRIPT
-	[ $cleanbuild -eq 1 ] && $BUILDSCRIPT clean
+	$BUILDSCRIPT clean
 
     $BUILDSCRIPT build
     popd
@@ -205,15 +210,17 @@ if [ -z $arch ]; then
 		
 		if [[ $clean_lib_ff_mpv == 1 ]]; then
 			echo "rm libav*/libmpv ----------------------"
-			rm -f $prefix_dir/lib/libavcodec.*
-			rm -f $prefix_dir/lib/libavdevice.*
-			rm -f $prefix_dir/lib/libavfilter.*
-			rm -f $prefix_dir/lib/libavformat.*
-			rm -f $prefix_dir/lib/libavutil.*
-			rm -f $prefix_dir/lib/libswresample.*
-			rm -f $prefix_dir/lib/libswscale.*
+			# rm -f $prefix_dir/lib/libavcodec.*
+			# rm -f $prefix_dir/lib/libavdevice.*
+			# rm -f $prefix_dir/lib/libavfilter.*
+			# rm -f $prefix_dir/lib/libavformat.*
+			# rm -f $prefix_dir/lib/libavutil.*
+			# rm -f $prefix_dir/lib/libswresample.*
+			# rm -f $prefix_dir/lib/libswscale.*
+			# rm -rf $prefix_dir/lib/ffmpeg-backup/
 
-			rm -f $prefix_dir/lib/libmpv.*
+			rm -f $prefix_dir/lib/libmediaxx.*
+			# rm -f $prefix_dir/lib/libmpv.*
 		fi
 
 		env > "$PWD/env-$arch.sh"
@@ -226,15 +233,17 @@ else
 
 	if [[ $clean_lib_ff_mpv == 1 ]]; then
 		echo "rm libav*/libmpv ----------------------"
-		rm -f $prefix_dir/lib/libavcodec.*
-		rm -f $prefix_dir/lib/libavdevice.*
-		rm -f $prefix_dir/lib/libavfilter.*
-		rm -f $prefix_dir/lib/libavformat.*
-		rm -f $prefix_dir/lib/libavutil.*
-		rm -f $prefix_dir/lib/libswresample.*
-		rm -f $prefix_dir/lib/libswscale.*
+			# rm -f $prefix_dir/lib/libavcodec.*
+			# rm -f $prefix_dir/lib/libavdevice.*
+			# rm -f $prefix_dir/lib/libavfilter.*
+			# rm -f $prefix_dir/lib/libavformat.*
+			# rm -f $prefix_dir/lib/libavutil.*
+			# rm -f $prefix_dir/lib/libswresample.*
+			# rm -f $prefix_dir/lib/libswscale.*
+			# rm -rf $prefix_dir/lib/ffmpeg-backup/
 
-		rm -f $prefix_dir/lib/libmpv.*
+			rm -f $prefix_dir/lib/libmediaxx.*
+			# rm -f $prefix_dir/lib/libmpv.*
 	fi
   	build $target
 fi

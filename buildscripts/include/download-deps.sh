@@ -163,6 +163,9 @@ cd brotli && (sparse-checkout set --no-cone /* !tests !js !java !research || tru
 # fftools_ffi
 [ ! -d fftools_ffi ] && git clone --depth 1 --branch main https://github.com/moffatman/fftools-ffi.git fftools_ffi
 
+# mediaxx
+[ ! -d mediaxx ] && git clone --depth 1 https://github.com/coolight7/mediaxx mediaxx
+
 # media-kit-android-helper
 [ ! -d media-kit-android-helper ] && git clone --branch main https://github.com/coolight7/media-kit-android-helper && cd media-kit-android-helper && git reset --hard 6498016ba41c18cf229b2efefb06d9377e18b572
 echo "sdk.dir=/home/coolight/program/media/libmpv-android-video-build/buildscripts/sdk/android-sdk-linux/" > local.properties && cd ..
