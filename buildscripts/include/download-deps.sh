@@ -144,7 +144,7 @@ cd libmysofa && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # openssl
 [ ! -d openssl ] && git clone --depth 1 https://github.com/openssl/openssl.git openssl
-cd libxml2 && (sparse-checkout set --no-cone /* !test || true) && cd ..
+cd openssl && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # libarchive
 [ ! -d libarchive ] && git clone --depth 1 https://github.com/libarchive/libarchive.git libarchive
