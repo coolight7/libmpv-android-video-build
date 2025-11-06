@@ -18,9 +18,19 @@ export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 unset CC CXX # meson wants these unset
 
+# 清理标准库依赖
+sed -i '/^Libs:/ s|-lstdc++| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs:/ s|-lc++_static| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs:/ s|-lc++abi| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs:/ s|-lc++_shared| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs:/ s|-lc++| |' $prefix_dir/lib/pkgconfig/*.pc
+
+# 可用于限制导出的符号
+mpv_EXPORT_IDS=$build_home_dir/buildscripts/mpv-export.lds
+
 # c++std: libjxl、shaderc
-# 链接c++标准库时，需要静态链接
-CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include " LDFLAGS="-Wl,-z,max-page-size=16384 -L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm -lmediaxx" meson setup $build \
+# 由 mediaxx 静态链接标准库并导出符号，libmpv 动态链接使用
+CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm -lmediaxx" meson setup $build \
 	--cross-file "$prefix_dir"/crossfile.txt \
 	--prefer-static \
 	--default-library shared \
@@ -46,8 +56,8 @@ CFLAGS="-I$prefix_dir/include " CXXFLAGS="-I$prefix_dir/include " LDFLAGS="-Wl,-
 	-Ddvdnav=disabled \
 	-Dvapoursynth=disabled \
 	-Duchardet=disabled \
-	-Diconv=disabled \
 	\
+	-Diconv=enabled \
 	-Dlibarchive=enabled \
 	-Drubberband=enabled \
 	-Dlcms2=enabled \

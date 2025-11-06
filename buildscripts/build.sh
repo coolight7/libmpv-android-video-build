@@ -45,13 +45,16 @@ loadarch () {
 		exit 1
 	fi
 	export current_abi_name=$prefix_name
-	export default_cxx_stl="c++_static"
+	export default_cxx_stl="c++_shared"
+	export default_ld_cxx_stdlib_unset=" -nostdlib++ "
 	export default_ld_cxx_stdlib=" -nostdlib++ -l$default_cxx_stl -lc++abi "
+	export default_ld_cxx_stdlib_mediaxx=" -nostdlib++ -lc++_shared -lc++abi "
 	export build_home_dir="$PWD/../"
 	export prefix_dir="$PWD/prefix/$prefix_name"
 	export source_dir="$PWD/deps/"
 	export CFLAGS="-fPIC"
 	export CXXFLAGS="-fPIC"
+	export LDFLAGS="-Wl,-O2,--icf=safe -Wl,-z,max-page-size=16384 "
 	export native_dir="$PWD/../libmpv/src/main/jniLibs/$prefix_name"
 	export CC=$cc_triple-clang
 	if [[ "$1" == arm* ]]; then
@@ -60,7 +63,6 @@ loadarch () {
 		export AS="nasm"
 	fi
 	export CXX=$cc_triple-clang++
-	export LDFLAGS="-Wl,-O1,--icf=safe -Wl,-z,max-page-size=16384"
 	export AR=llvm-ar
 	export RANLIB=llvm-ranlib
 }
@@ -92,6 +94,7 @@ setup_prefix () {
 buildtype = 'release'
 default_library = 'static'
 wrap_mode = 'nodownload'
+
 [binaries]
 c = '$CC'
 cpp = '$CXX'
@@ -117,7 +120,7 @@ cat >"$prefix_dir"/lib/pkgconfig/vulkan.pc <<VULKAN_PC
 Name: Vulkan
 Description:
 Version: 1.3.275
-Libs: -L$NDK_PREFIX_DIR/sysroot/usr/lib/$ndk_triple/24/ -lvulkan
+Libs: -L$NDK_PREFIX_MINSDK_DIR/ -lvulkan
 Cflags: -fPIC -I$NDK_PREFIX_DIR/sysroot/usr/include
 VULKAN_PC
 }

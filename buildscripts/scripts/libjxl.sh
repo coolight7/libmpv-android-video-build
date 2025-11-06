@@ -73,6 +73,6 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
 "${MY_CMAKE_EXE_DIR}/ninja" -C .
 DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install
 
-sed -i '/^Libs: -L${libdir} -ljxl / s|-lc++|-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/libjxl.pc"
-sed -i '/^Libs.private:/ s|-lc++|-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/libjxl_cms.pc"
+sed -i '/^Libs: -L${libdir} -ljxl / s|-lc++ |-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/libjxl.pc"
+sed -i '/^Libs.private:/ s|-lc++ |-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/libjxl_cms.pc"
 sed '/^Libs.private:/ s|$| -lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/libjxl_threads.pc" -i

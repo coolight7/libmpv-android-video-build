@@ -50,7 +50,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
   	--sysroot="${ANDROID_SYSROOT}" \
 	--extra-cflags="-fPIC -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types -I$prefix_dir/include $cpuflags" \
 	--extra-cxxflags="-fPIC -I$prefix_dir/include $cpuflags" \
-	--extra-ldflags="-Wl,-z,max-page-size=16384 -L$prefix_dir/lib $default_ld_cxx_stdlib -lm" \
+	--extra-ldflags="$LDFLAGS -L$prefix_dir/lib $default_ld_cxx_stdlib -lm" \
 	--pkg-config-flags=--static \
 	\
 	--enable-gpl \
@@ -148,12 +148,14 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-libxml2 \
 	--enable-libjxl \
 	--enable-iconv \
+	--enable-zlib \
+	--enable-bzlib \
+	--enable-lzma \
 	\
 	--disable-d3d11va \
 	--disable-dxva2 \
 	--disable-vaapi \
 	--disable-vdpau \
-	--disable-bzlib \
 	--disable-linux-perf \
 	--disable-appkit \
 	--disable-videotoolbox \

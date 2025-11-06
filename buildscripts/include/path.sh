@@ -30,6 +30,8 @@ export ANDROID_HOME="$DIR/sdk/android-sdk-$os"
 
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export NDK_PREFIX_DIR=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/
+export NDK_PREFIX_GROBAL_DIR=$NDK_PREFIX_DIR/sysroot/usr/lib/$ndk_triple/
+export NDK_PREFIX_MINSDK_DIR=$NDK_PREFIX_DIR/sysroot/usr/lib/$ndk_triple/$v_min_sdk/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
 export PATH="$toolchain/bin:$DIR/sdk/android-sdk-linux/ndk/$v_ndk:$DIR/sdk/bin:$MY_CMAKE_EXE_DIR:$PATH"

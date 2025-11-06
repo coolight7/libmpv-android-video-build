@@ -1,0 +1,1 @@
+readelf -W --symbols libc++_shared.so | grep ' GLOBAL ' | grep -v ' UND ' | awk '{print $8}' | sort > libc++_syms.txt

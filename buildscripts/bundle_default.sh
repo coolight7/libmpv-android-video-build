@@ -47,6 +47,8 @@ stripLib libavdevice.so
 stripLib libswresample.so
 stripLib libswscale.so
 
+stripLib stdcxx/libc++_shared.so
+
 # --------------------------------------------------
 
 cd deps/media-kit-android-helper
@@ -67,6 +69,7 @@ copyLib() {
   fi
 
   mkdir -p app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix/$1/lib/stdcxx/libc++_shared.so                          app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/lib/libmediaxx.so                                    app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/lib/libmpv.so                                        app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/lib/ffmpeg-backup/libswresample.so                   app/build/outputs/apk/release/lib/$1/
@@ -95,15 +98,42 @@ resetSONAME() {
   fi
 
   mkdir -p $build_home_dir/output/$1/
-  cp lib/$1/lib*.so       $build_home_dir/output/$1/
-  zip -r default-$1.jar      lib/$1/lib*.so
-  cp default-$1.jar       $build_home_dir/output/
+  cp lib/$1/lib*.so             $build_home_dir/output/$1/
+  cp $build_home_dir/help/*     $build_home_dir/output/$1/
+  # rm lib/$1/libc++*.so
+  zip -r default-$1.jar         lib/$1/lib*.so
+  cp default-$1.jar             $build_home_dir/output/
+
+	pushd $build_home_dir/output/$1/
+  ./create_comm_syms.sh
+  popd
 }
 
 resetSONAME arm64-v8a
 resetSONAME armeabi-v7a
 resetSONAME x86
 resetSONAME x86_64
+
+cat $build_home_dir/output/arm64-v8a/comm_cxx_syms.txt \
+    $build_home_dir/output/armeabi-v7a/comm_cxx_syms.txt \
+    $build_home_dir/output/x86/comm_cxx_syms.txt \
+    $build_home_dir/output/x86_64/comm_cxx_syms.txt \
+    | sort | uniq > $build_home_dir/output/comm_cxx_syms.txt
+cat $build_home_dir/output/arm64-v8a/comm_syms.txt \
+    $build_home_dir/output/armeabi-v7a/comm_syms.txt \
+    $build_home_dir/output/x86/comm_syms.txt \
+    $build_home_dir/output/x86_64/comm_syms.txt \
+    | sort | uniq > $build_home_dir/output/comm_syms.txt
+cat $build_home_dir/output/arm64-v8a/libmpv_undef_syms.txt \
+    $build_home_dir/output/armeabi-v7a/libmpv_undef_syms.txt \
+    $build_home_dir/output/x86/libmpv_undef_syms.txt \
+    $build_home_dir/output/x86_64/libmpv_undef_syms.txt \
+    | sort | uniq > $build_home_dir/output/libmpv_undef_syms.txt
+cat $build_home_dir/output/arm64-v8a/libmpv_def_syms.txt \
+    $build_home_dir/output/armeabi-v7a/libmpv_def_syms.txt \
+    $build_home_dir/output/x86/libmpv_def_syms.txt \
+    $build_home_dir/output/x86_64/libmpv_def_syms.txt \
+    | sort | uniq > $build_home_dir/output/libmpv_def_syms.txt
 
 md5sum *.jar
 
