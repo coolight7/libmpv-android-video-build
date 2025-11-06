@@ -5,7 +5,9 @@ lib_path=$1
 cd $lib_path
 back_path=$lib_path/ffmpeg-backup/
 
-rm -rf $back_path
+if [[ -e $back_path ]]; then
+    exit 0
+fi
 mkdir $back_path
 
 mv libavfilter.a     $back_path/
