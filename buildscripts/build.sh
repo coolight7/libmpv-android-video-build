@@ -6,7 +6,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 cleanbuild=0
 clean_lib_ff_mpv=0
 nodeps=0
-target=mpv
+target=mediaxx
 archs=(armv7l arm64 x86 x86_64)
 
 getdeps () {
@@ -222,8 +222,8 @@ if [ -z $arch ]; then
 			rm -f $prefix_dir/lib/libswscale.*
 			rm -rf $prefix_dir/lib/ffmpeg-backup/
 
-			rm -f $prefix_dir/lib/libmediaxx.*
 			rm -f $prefix_dir/lib/libmpv.*
+			rm -f $prefix_dir/lib/libmediaxx.*
 		fi
 
 		env > "$PWD/env-$arch.sh"
@@ -245,8 +245,8 @@ else
 			rm -f $prefix_dir/lib/libswscale.*
 			rm -rf $prefix_dir/lib/ffmpeg-backup/
 
-			rm -f $prefix_dir/lib/libmediaxx.*
 			rm -f $prefix_dir/lib/libmpv.*
+			rm -f $prefix_dir/lib/libmediaxx.*
 	fi
   	build $target
 fi

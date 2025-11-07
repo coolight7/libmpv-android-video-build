@@ -26,14 +26,15 @@ sed -i '/^Libs:/ s|-lc++_shared| |' $prefix_dir/lib/pkgconfig/*.pc
 sed -i '/^Libs:/ s|-lc++| |' $prefix_dir/lib/pkgconfig/*.pc
 
 # 可用于限制导出的符号
+# CFLAGS、CXXFLAGS 中添加  -fvisibility=hidden
+# -Wl,--undefined-version,--version-script=$mpv_EXPORT_IDS
 mpv_EXPORT_IDS=$build_home_dir/buildscripts/mpv-export.lds
 
 # c++std: libjxl、shaderc
 # 由 mediaxx 静态链接标准库并导出符号，libmpv 动态链接使用
-CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm -lmediaxx" meson setup $build \
+CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm" meson setup $build \
 	--cross-file "$prefix_dir"/crossfile.txt \
-	--prefer-static \
-	--default-library shared \
+	--default-library static \
     -Dbuildtype=release \
     -Db_lto=true \
 	-Db_lto_mode=default \

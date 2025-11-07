@@ -62,6 +62,7 @@ LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib_mediaxx -lm" CXXFLAG
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
     -DEXPORT_ALL_SYMBOL=OFF \
     -DSTATIC_LINK_FFMPEG=ON \
+    -DSTATIC_LINK_LIBMPV=ON \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_STATIC=OFF \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
