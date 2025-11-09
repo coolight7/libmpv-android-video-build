@@ -5,6 +5,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 cleanbuild=0
 clean_lib_ff_mpv=0
+clean_mediaxx=0
 nodeps=0
 target=mediaxx
 archs=(armv7l arm64 x86 x86_64)
@@ -198,6 +199,11 @@ while [ $# -gt 0 ]; do
 		clean_lib_ff_mpv=1
 		rm -rf $source_dir/ffmpeg/_build*
 		rm -rf $source_dir/mpv/_build*
+		rm -rf $source_dir/mediaxx/_build*
+		;;
+		--prebuild-rm-mediaxx)
+		clean_mediaxx=1
+		rm -rf $source_dir/mediaxx/_build*
 		;;
 		*)
 		target=$1
@@ -212,7 +218,7 @@ if [ -z $arch ]; then
 		setup_prefix
 		
 		if [[ $clean_lib_ff_mpv == 1 ]]; then
-			echo "rm libav*/libmpv ----------------------"
+			echo "rm libav*/libmpv/mediaxx ----------------------"
 			rm -f $prefix_dir/lib/libavcodec.*
 			rm -f $prefix_dir/lib/libavdevice.*
 			rm -f $prefix_dir/lib/libavfilter.*
@@ -223,6 +229,9 @@ if [ -z $arch ]; then
 			rm -rf $prefix_dir/lib/ffmpeg-backup/
 
 			rm -f $prefix_dir/lib/libmpv.*
+			rm -f $prefix_dir/lib/libmediaxx.*
+		elif [[ $clean_mediaxx == 1 ]]; then
+			echo "rm libav*/libmpv/mediaxx ----------------------"
 			rm -f $prefix_dir/lib/libmediaxx.*
 		fi
 
@@ -235,18 +244,21 @@ else
   	setup_prefix
 
 	if [[ $clean_lib_ff_mpv == 1 ]]; then
-		echo "rm libav*/libmpv ----------------------"
-			rm -f $prefix_dir/lib/libavcodec.*
-			rm -f $prefix_dir/lib/libavdevice.*
-			rm -f $prefix_dir/lib/libavfilter.*
-			rm -f $prefix_dir/lib/libavformat.*
-			rm -f $prefix_dir/lib/libavutil.*
-			rm -f $prefix_dir/lib/libswresample.*
-			rm -f $prefix_dir/lib/libswscale.*
-			rm -rf $prefix_dir/lib/ffmpeg-backup/
+		echo "rm libav*/libmpv/mediaxx ----------------------"
+		rm -f $prefix_dir/lib/libavcodec.*
+		rm -f $prefix_dir/lib/libavdevice.*
+		rm -f $prefix_dir/lib/libavfilter.*
+		rm -f $prefix_dir/lib/libavformat.*
+		rm -f $prefix_dir/lib/libavutil.*
+		rm -f $prefix_dir/lib/libswresample.*
+		rm -f $prefix_dir/lib/libswscale.*
+		rm -rf $prefix_dir/lib/ffmpeg-backup/
 
-			rm -f $prefix_dir/lib/libmpv.*
-			rm -f $prefix_dir/lib/libmediaxx.*
+		rm -f $prefix_dir/lib/libmpv.*
+		rm -f $prefix_dir/lib/libmediaxx.*
+	elif [[ $clean_mediaxx == 1 ]]; then
+		echo "rm libav*/libmpv/mediaxx ----------------------"
+		rm -f $prefix_dir/lib/libmediaxx.*
 	fi
   	build $target
 fi

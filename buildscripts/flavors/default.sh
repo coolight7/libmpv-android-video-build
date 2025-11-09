@@ -175,6 +175,8 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-bsfs \
 	--disable-bsf=mov2textsub,text2movsub \
 	\
+    --enable-parsers \
+	\
 	--disable-encoders \
 	--enable-encoder=mjpeg* \
 	--enable-encoder=ljpeg \
@@ -191,7 +193,8 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-decoder=bethsoftvid,idcin,roq_*,smacker,xan_*,c93,vcr1,vcr2,vqa,bink,binkaudio_dct,binkaudio_rdft,thp,dfa,ipu \
 	--disable-decoder=truespeech,tiertexseqvideo,nellymoser,qdmc,qdmc_at,qdm2,qdm2_at,g723_1,g728,sipr,ws_snd1,tmv,bonk,shorten,sol_dpcm \
 	\
-    --enable-parsers \
+	--disable-decoder=zlib,zmbv,aasc,alias_pix,agm,anm,apv,arbc,argo,bmv_video,brender_pix,cdgraphics,cdtoons,cri,cdxl,cllc,cpia,camstudio,dxa,flic,4xm,gem,hnm4video,interplayvideo,mdec,mimic,psd,rasc.rl2,roqvideo,txd,vmnc,asv1,asv2,aura,aura2 \
+    --disable-decoder=8svx_exp,8svx_fib,hca,hcom,interplayacm,xma1,xma2,cook \
 	\
 	--disable-muxers \
 	--enable-muxer=image2*,mjpeg,mpjpeg,smjpeg,null \
