@@ -65,7 +65,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-small \
 	--enable-pic \
 	--enable-lto=none \
-	--enable-hwaccels \
 	--enable-optimizations \
 	${asmflags} \
 	--enable-pthreads \
@@ -167,42 +166,33 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-vulkan \
     --disable-vulkan-static \
 	\
-	--enable-indevs \
-	--enable-outdevs \
-	--disable-indev=libcdio,v4l2,android_camera,decklink,dshow,gdigrab,iec61883,kmsgrab,libdc1394,vfwcap,xcbgrab,fbdev \
-	--disable-outdev=caca,fbdev,v4l2,avfoundation \
+	--enable-hwaccels \
 	\
-	--enable-bsfs \
-	--disable-bsf=mov2textsub,text2movsub \
+	--disable-indevs \
+	--disable-outdevs \
+	--enable-indev=lavfi \
+	\
+	--disable-bsfs \
+	--enable-bsf=aac_adtstoasc,chomp,dca_core,dovi_rpu,dts2pts,dump_extradata,dv_error_marker,eac3_core,evc_frame_merge,extract_extradata,filter_units,h264_mp4toannexb,h264_redundant_pps,hapqa_extract,hevc_mp4toannexb,imx_dump_header,mjpeg2jpeg,mjpega_dump_header,mpeg4_unpack_bframes,null,pcm_rechunk,remove_extradata,setts,showinfo,truehd_core \
 	\
     --enable-parsers \
+    --disable-parser=cook,dvdsub,dvbsub,dvd_nav,g723_1,xma,sipr,bmp,adx \
 	\
 	--disable-encoders \
-	--enable-encoder=mjpeg* \
-	--enable-encoder=ljpeg \
-	--enable-encoder=jpegls \
-	--enable-encoder=jpeg2000 \
-	--enable-encoder=anull,vnull \
+    --enable-encoder=mjpeg,mjpeg_*,anull,vnull \
 	\
-	--enable-decoders \
+	--disable-decoders \
 	--enable-decoder=*_mediacodec \
-	--disable-decoder=*_mmal,*_v4l2m2m \
-	--disable-decoder=srt,ass,ssa,realtext,libzvbi_teletext,movtext,bintext,dvbsub,dvdsub,subrip,jacosub,subviewer,subviewer1,pgssub,xsub,ccaption,libaribb24,libaribcaption,microdvd,sami,stl,webvtt \
-	--disable-decoder=libgme,libmodplug,libopenmpt \
-	--disable-decoder=indeo2,indeo3,indeo4,indeo5,cinepak \
-	--disable-decoder=bethsoftvid,idcin,roq_*,smacker,xan_*,c93,vcr1,vcr2,vqa,bink,binkaudio_dct,binkaudio_rdft,thp,dfa,ipu \
-	--disable-decoder=truespeech,tiertexseqvideo,nellymoser,qdmc,qdmc_at,qdm2,qdm2_at,g723_1,g728,sipr,ws_snd1,tmv,bonk,shorten,sol_dpcm \
+	--enable-decoder=aac*,ac3*,acelp_*,alac,als,amrnb,amrwb,amv,ansi,anull,ape,apng,atrac*,av1,av1_*,avrn,avrp,avs,avui,bitpacked,bmv_audio,cavs,cbd2_dpcm,cfhd,clearvideo,cljr,cyuv,dca,dds,derf_dpcm,dfpwm,dirac,dnxhd,dolby_e,dpx,dsd_*,dsicinaudio,dsicinvideo,dss_sp,dst,dvaudio,dvvideo,dxtory,dxv,eac3,eacmv,eamad,eatgq,eatgv,eatqi,eightbps,eightsvx_exp,eightsvx_fib,escape124,escape130,evrc,exr,fastaudio,ffv1,ffvhuff,ffwavesynth,fic,fits,flac,flashsv,flashsv2,flv,fmvc,fraps,frwu,ftr,g2m,g729,gdv,gif,gremlin_dpcm,h261,h263*,h264*,hap,hdr,hevc*,hnm4_video,hq_hqa,hqx,huffyuv,hymt,iac,idf,iff_ilbm,ilbc,imc,imm4,imm5,interplay_acm,interplay_dpcm,interplay_video,jpeg2000,jpegls,jv,kgv1,kmvc,lagarith,lead,libdav1d,libdavs2,libjxl*,libopus,libuavs3d,libvorbis,libvpx*,loco,lscr,m101,mace3,mace6,magicyuv,media100,metasound,misc4,mjpeg*,mlp,mmvideo,mobiclip,motionpixels,mp1*,mp2*,mp3*,mpc*,mpeg*,mpl2,msa1,mscc,msmpeg*,msnsiren,msp2,msrle,mss*,msvideo1,mszh,mts2,mv30,mvc1,mvc2,mvdv,mvha,mwsc,mxpeg,notchlc,nuv,on2avc,opus,osq,paf_audio,paf_video,pam,pbm,pcm_*,pcx,pdv,pfm,pgm,pgmyuv,pgx,phm,photocd,pictor,pixlet,pjs,png,ppm,prores,prores_raw,prosumer,ptx,qcelp,qdraw,qoa,qoi,qpeg,qtrle,r10k,r210,ra_144,ra_288,ralf,rasc,rawvideo,rka,rl2,roq,rpza,rscc,rtv1,rv*,s302m,sanm,sbc,scpr,screenpresso,sdx2_dpcm,sga,sgi,sgirle,sheervideo,simbiosis_imx,siren,smackaud,smc,smvjpeg,snow,sonic,sp5x,speedhq,speex,srgc,sunrast,svq1,svq3,tak,targa,targa_y216,tdsc,text,theora,tiff,truehd,truemotion1,truemotion2,truemotion2rt,tscc,tscc2,tta,twinvq,ulti,utvideo,vb,vble,vbn,vc1*,vmdaudio,vmdvideo,vmix,vnull,vorbis,vp*,vqc,vvc*,wady_dpcm,wavarc,wavpack,wbmp,wcmv,webp,wmalossless,wmapro,wmav*,wmv*,wnv1,wrapped_avframe,xbin,xbm,xface,xl,xpm,xwd,y41p,ylc,yop,yuv4,zero12v,zerocodec \
 	\
 	--disable-decoder=zlib,zmbv,aasc,alias_pix,agm,anm,apv,arbc,argo,bmv_video,brender_pix,cdgraphics,cdtoons,cri,cdxl,cllc,cpia,camstudio,dxa,flic,4xm,gem,hnm4video,interplayvideo,mdec,mimic,psd,rasc.rl2,roqvideo,txd,vmnc,asv1,asv2,aura,aura2 \
     --disable-decoder=8svx_exp,8svx_fib,hca,hcom,interplayacm,xma1,xma2,cook \
 	\
 	--disable-muxers \
-	--enable-muxer=image2*,mjpeg,mpjpeg,smjpeg,null \
+    --enable-muxer=image2*,mjpeg,null \
 	\
-	--enable-demuxers \
-	--disable-demuxer=lrc,srt,ass,realtext,mpsub,dvbtxt,dvdsub,vobsub,subrip,aqtitle,jacosub,subviewer,subviewer1,ccaption,microdvd,sami,stl,webvtt,psb,mpl2 \
-	--disable-demuxer=rtp,rtsp,libgme,libmodplug,libopenmpt \
-	--disable-demuxer=bethsoftvid,smacker,bink,binka,vqa,thp,roq,tiertexseq,c93,lvf,nuv,dfa,dcstr,ipu,sol,sds,shorten,bonk,tmv,sbg,mgsts,g723_1,g728,lmlm4 \
+	--disable-demuxers \
+	--enable-demuxer=aa,aac,aax,ac3,ac4,aiff,alp,afx,amr,amrnb,amrwb,apac,ape,apm,apng,apv,argo_asf,argo_brp,argo_cvg,asf,asf_o,ast,au,av1,avi,avr,avs,avs2,avs3,bintext,bit,bitpacked,caf,cavsvideo,cdg,cine,concat,dash,data,daud,derf,dfpwm,dirac,dnxhd,dsf,dsicin,dss,dts,dtshd,dv,eac3,evc,ffmetadata,filmstrip,fits,flac,flic,flv,g722,g726,g726le,g729,gif,h261,h263,h264,hcom,hevc,hls,hnm,iamf,ico,idcin,idf,iff,ifv,ilbc,image2*,image_*,ircam,iss,iv8,ivf,jpegxl_anim,lc3,live_flv,loas,luodat,m4v,matroska,mjpeg,mjpeg_2000,mlp,mlv,mov,mp3,mpc,mpc8,mpegps,mpegts,mpegtsraw,mpegvideo,mpjpeg,mtv,mv,mvi,mxf,mxg,nc,nistsphere,nsp,nsv,nut,obu,ogg,oma,osq,paf,pcm_*,pdv,pjs,pmp,pp_bnk,pva,pvf,qcp,qoa,r3d,rawvideo,rcwt,redspark,rka,rl2,rm,rsd,rso,s337m,sap,sbc,scd,sdp,sdr2,sdx,segafilm,ser,sga,siff,simbiosis_imx,sln,smjpeg,smush,sox,spdif,sup,swf,tak,threedostr,truehd,tta,ty,vc1,vc1t,vividas,vivo,vmd,voc,vqf,vvc,w64,wady,wav,wavarc,webm_dash_manifest,wsd,wsvqa,wtv,wv,wve,xa,xbin,xmd,xmv,xwma,yop,yuv4mpegpipe \
 	\
     --disable-filters \
 	--enable-filter=format \
@@ -243,18 +233,8 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=sine \
 	\
 	--disable-protocols \
-	--enable-protocol=async \
-	--enable-protocol=cache \
-	--enable-protocol=crypto \
-	--enable-protocol=data \
-	--enable-protocol=file \
-	--enable-protocol=ftp \
-	--enable-protocol=hls \
-	--enable-protocol=pipe \
-	--enable-protocol=http,https,httpproxy \
 	--enable-protocol=android_content \
-	--enable-protocol=subfile \
-	--enable-protocol=tcp,udp,tls
+    --enable-protocol=async,cache,crypto,data,file,hls,pipe,http,https,httpproxy,subfile,tcp,udp,tls
 
 # - 报错找不到依赖包时，也可能是 configure 尝试使用依赖库编译测试程序失败：
 # 	- 其中可能是 cpu平台不正确、符号缺失、缺少 include搜索目录或链接搜索目录、缺少指定链接库名称等原因
