@@ -150,8 +150,8 @@ cd openssl && (sparse-checkout set --no-cone /* !test || true) && cd ..
 [ ! -d libarchive ] && git clone --depth 1 https://github.com/libarchive/libarchive.git libarchive
 
 # libjxl
-[ ! -d libjxl ] && git clone --depth 1 https://github.com/libjxl/libjxl.git libjxl
-cd libjxl && rm -rf ./third_party/libjpeg-turbo && ln -s libjpeg ./third_party/libjpeg-turbo && cd ..
+[ ! -d libjxl ] && git clone --depth 1 https://github.com/libjxl/libjxl.git libjxl && cd libjxl && git submodule update --init && cd ..
+cd libjxl && rm -rf ./third_party/libjpeg-turbo && ln -s ../libjpeg ./third_party/libjpeg-turbo && cd ..
 
 # brotli
 [ ! -d brotli ] && git clone --depth 1 https://github.com/google/brotli.git brotli

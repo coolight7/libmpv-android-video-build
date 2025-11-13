@@ -19,11 +19,11 @@ export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 unset CC CXX # meson wants these unset
 
 # 清理标准库依赖
-sed -i '/^Libs:/ s|-lstdc++| |' $prefix_dir/lib/pkgconfig/*.pc
-sed -i '/^Libs:/ s|-lc++_static| |' $prefix_dir/lib/pkgconfig/*.pc
-sed -i '/^Libs:/ s|-lc++abi| |' $prefix_dir/lib/pkgconfig/*.pc
-sed -i '/^Libs:/ s|-lc++_shared| |' $prefix_dir/lib/pkgconfig/*.pc
-sed -i '/^Libs:/ s|-lc++| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lstdc++| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lc++_static| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lc++abi| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lc++_shared| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lc++| |' $prefix_dir/lib/pkgconfig/*.pc
 
 # 可用于限制导出的符号
 # CFLAGS、CXXFLAGS 中添加  -fvisibility=hidden

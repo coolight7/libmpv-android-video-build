@@ -19,8 +19,8 @@ CFLAGS=-fPIC CXXFLAGS="-fPIC -I$prefix_dir/include " meson setup $build --cross-
         --default-library=static \
         -Dshaderc=enabled \
         -Dopengl=enabled \
-        -Dvulkan=enabled \
-        -Dvk-proc-addr=enabled \
+        -Dvulkan=disabled \
+        -Dvk-proc-addr=disabled \
         -Dlcms=enabled \
         -Ddebug=false \
         -Db_ndebug=true \

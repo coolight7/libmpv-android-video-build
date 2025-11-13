@@ -28,11 +28,11 @@ export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/
 export MY_CMAKE_EXE_DIR=$ANDROID_HOME/cmake/${v_cmake}/bin/
 
 # 清理标准库依赖
-sed -i '/^Libs:/ s|-lstdc++| |' $prefix_dir/lib/pkgconfig/*.pc
-sed -i '/^Libs:/ s|-lc++_static| |' $prefix_dir/lib/pkgconfig/*.pc
-sed -i '/^Libs:/ s|-lc++abi| |' $prefix_dir/lib/pkgconfig/*.pc
-sed -i '/^Libs:/ s|-lc++_shared| |' $prefix_dir/lib/pkgconfig/*.pc
-sed -i '/^Libs:/ s|-lc++| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lstdc++| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lc++_static| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lc++abi| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lc++_shared| |' $prefix_dir/lib/pkgconfig/*.pc
+sed -i '/^Libs/ s|-lc++| |' $prefix_dir/lib/pkgconfig/*.pc
 
 # 共享符号，编译 mediaxx 时开启导出全部符号，并让 mpv 尽量动态链接
 # mediaxx: EXPORT_ALL_SYMBOL=ON
