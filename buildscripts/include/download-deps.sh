@@ -35,7 +35,7 @@ cd libxml2 && (sparse-checkout set --no-cone /* !test || true) && cd ..
 [ ! -d ffmpeg ] && git clone --depth 1 --branch n$v_ffmpeg https://github.com/FFmpeg/FFmpeg.git ffmpeg
 cd ffmpeg && (sparse-checkout set --no-cone /* !tests/ref/fate || true) && cd ..
 
-# freetype2
+# freetype
 [ ! -d freetype ] && git clone --depth 1 --branch VER-$v_freetype https://gitlab.freedesktop.org/freetype/freetype.git freetype
 
 # fribidi
