@@ -20,7 +20,7 @@ cpu=android-arm
 [[ "$ndk_triple" == "x86_64"* ]] && cpu=android-x86_64
 [[ "$ndk_triple" == "i686"* ]] && cpu=android-x86
 
-CFLAGS="-fPIC -I$prefix_dir/include -I$prefix_dir/include/brotli" CXXFLAGS="-fPIC -I$prefix_dir/include -I$prefix_dir/include/brotli" LDFLAGS="$LDFLAGS -L$prefix_dir/lib -lz -lzstd -lbrotlicommon -lbrotlidec -lbrotlienc" CONF=1 ../Configure \
+CFLAGS="$CFLAGS -fPIC -I$prefix_dir/include -I$prefix_dir/include/brotli" CXXFLAGS="$CXXFLAGS -fPIC -I$prefix_dir/include -I$prefix_dir/include/brotli" LDFLAGS="$LDFLAGS -L$prefix_dir/lib -lz -lzstd -lbrotlicommon -lbrotlidec -lbrotlienc" CONF=1 ../Configure \
     --cross-compile-prefix=$CC \
     --libdir=lib \
     --release \

@@ -48,8 +48,8 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--pkg-config=pkg-config \
 	--stdc=c23 --stdcxx=c++23 \
   	--sysroot="${ANDROID_SYSROOT}" \
-	--extra-cflags="-fPIC -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types -I$prefix_dir/include $cpuflags" \
-	--extra-cxxflags="-fPIC -I$prefix_dir/include $cpuflags" \
+	--extra-cflags="$CFLAGS -fPIC -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types -I$prefix_dir/include $cpuflags" \
+	--extra-cxxflags="$CXXFLAGS -fPIC -I$prefix_dir/include $cpuflags" \
 	--extra-ldflags="$LDFLAGS -L$prefix_dir/lib $default_ld_cxx_stdlib -lm" \
 	--pkg-config-flags=--static \
 	\

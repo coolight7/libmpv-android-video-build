@@ -32,7 +32,7 @@ mpv_EXPORT_IDS=$build_home_dir/buildscripts/mpv-export.lds
 
 # c++std: libjxl、shaderc
 # 由 mediaxx 静态链接标准库并导出符号，libmpv 动态链接使用
-CFLAGS="-I$prefix_dir/include" CXXFLAGS="-I$prefix_dir/include" LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm" meson setup $build \
+CFLAGS="$CFLAGS -I$prefix_dir/include" CXXFLAGS="$CXXFLAGS -I$prefix_dir/include" LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib -lm" meson setup $build \
 	--cross-file "$prefix_dir"/crossfile.txt \
 	--default-library static \
     -Dbuildtype=release \

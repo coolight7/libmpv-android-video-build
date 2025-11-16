@@ -53,9 +53,9 @@ loadarch () {
 	export build_home_dir="$PWD/../"
 	export prefix_dir="$PWD/prefix/$prefix_name"
 	export source_dir="$PWD/deps/"
-	export CFLAGS="-fPIC"
-	export CXXFLAGS="-fPIC"
-	export LDFLAGS="-Wl,-O2,--icf=safe -Wl,-z,max-page-size=16384 "
+	export CFLAGS="-fPIC -ffunction-sections -fdata-sections "
+	export CXXFLAGS="-fPIC -ffunction-sections -fdata-sections "
+	export LDFLAGS="-Wl,-O2,--icf=safe -Wl,-z,max-page-size=16384 -Wl,--gc-sections"
 	export native_dir="$PWD/../libmpv/src/main/jniLibs/$prefix_name"
 	export CC=$cc_triple-clang
 	if [[ "$1" == arm* ]]; then
