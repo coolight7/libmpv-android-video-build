@@ -69,7 +69,7 @@ copyLib() {
   fi
 
   mkdir -p app/build/outputs/apk/release/lib/$1/
-  cp ../../prefix/$1/lib/stdcxx/libc++_shared.so                          app/build/outputs/apk/release/lib/$1/
+  # cp ../../prefix/$1/lib/stdcxx/libc++_shared.so                          app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/lib/libmediaxx.so                                    app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/lib/libmpv.so                                        app/build/outputs/apk/release/lib/$1/
   cp ../../prefix/$1/lib/ffmpeg-backup/libswresample.so                   app/build/outputs/apk/release/lib/$1/
