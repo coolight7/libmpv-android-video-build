@@ -43,7 +43,7 @@ cpu=
 [[ "$ndk_triple" == "x86_64"* ]] && cpu=x86_64
 [[ "$ndk_triple" == "i686"* ]] && cpu=x86
 
-LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib_mediaxx -lm" CXXFLAGS="$CXXFLAGS -fPIC" "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
+LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib_mediaxx -lm -flto" CFLAGS="$CFLAGS -O3 -flto" CXXFLAGS="$CXXFLAGS -O3 -flto" "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
     -G Ninja \
     -DANDROID=ON \
     -DCMAKE_SYSTEM_NAME=Android \
@@ -60,6 +60,7 @@ LDFLAGS="$LDFLAGS -L$prefix_dir/lib/ $default_ld_cxx_stdlib_mediaxx -lm" CXXFLAG
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_LIBDIR=lib \
     -DCMAKE_FIND_ROOT_PATH=${prefix_dir} \
+    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
     -DEXPORT_ALL_SYMBOL=OFF \
     -DSTATIC_LINK_FFMPEG=ON \
     -DSTATIC_LINK_LIBMPV=ON \

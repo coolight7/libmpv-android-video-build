@@ -41,6 +41,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 # 链接c++标准库时，如果需要静态链接
 # --extra-ldflags="-L$prefix_dir/lib -lm -nostdlib++ -lc++_static -lc++abi"
 # [vulkan] 会增加 5mb 左右的大小，但可能对ffmpeg用处不大
+# --enable-small 如果不缩减体积，可启用 --enable-hardcoded-tables
 ../configure \
 	--target-os=android --enable-cross-compile --cross-prefix=$ndk_triple- \
 	--arch=${ndk_triple%%-*} --cpu=$cpu \
@@ -62,9 +63,9 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-static \
 	--enable-stripping \
 	--enable-runtime-cpudetect \
-	--enable-small \
 	--enable-pic \
-	--enable-lto=none \
+	--enable-lto \
+	--enable-small \
 	--enable-optimizations \
 	${asmflags} \
 	--enable-pthreads \
