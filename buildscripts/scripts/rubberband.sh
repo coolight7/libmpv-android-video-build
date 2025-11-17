@@ -16,7 +16,7 @@ fi
 
 unset CC CXX # meson wants these unset
 
-CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
+meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
     --buildtype=release \
     --default-library=static \
     -Dfft=builtin \

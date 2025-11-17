@@ -16,7 +16,7 @@ fi
 
 unset CC CXX # meson wants these unset
 
-CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
+meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
 	-D{tests,docs}=false
 
 export ANDROID_NDK=$ANDROID_HOME/ndk/${v_ndk}/

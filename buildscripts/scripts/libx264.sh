@@ -20,7 +20,7 @@ unset CC CXX # meson wants these unset
 
 mkdir $build
 
-CFLAGS=-fPIC CXXFLAGS=-fPIC meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
+meson setup $build --cross-file "$prefix_dir"/crossfile.txt \
 
 meson compile -C $build libx264
 DESTDIR="$prefix_dir" meson install -C $build

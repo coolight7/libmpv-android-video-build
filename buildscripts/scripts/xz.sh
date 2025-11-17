@@ -24,7 +24,6 @@ cd _build$ndk_suffix
 # apt install po4a
 
 ../configure \
-    CFLAGS=-fPIC CXXFLAGS=-fPIC \
 	--host=$ndk_triple \
     --disable-shared \
     --enable-static \

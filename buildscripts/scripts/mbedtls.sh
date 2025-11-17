@@ -14,5 +14,5 @@ fi
 
 $0 clean # separate building not supported, always clean
 
-make CFLAGS=-fPIC CXXFLAGS=-fPIC -j$cores no_test
-make CFLAGS=-fPIC CXXFLAGS=-fPIC DESTDIR="$prefix_dir" install
+make -j$cores no_test
+make DESTDIR="$prefix_dir" install

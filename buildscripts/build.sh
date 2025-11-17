@@ -53,8 +53,8 @@ loadarch () {
 	export build_home_dir="$PWD/../"
 	export prefix_dir="$PWD/prefix/$prefix_name"
 	export source_dir="$PWD/deps/"
-	export CFLAGS="-fPIC -ffunction-sections -fdata-sections -flto"
-	export CXXFLAGS="-fPIC -ffunction-sections -fdata-sections -flto"
+	export CFLAGS="-fPIC -ffunction-sections -fdata-sections -O3 -flto"
+	export CXXFLAGS="-fPIC -ffunction-sections -fdata-sections -O3 -flto"
 	export LDFLAGS="-Wl,-O3,--icf=safe -Wl,-z,max-page-size=16384 -Wl,--gc-sections -flto"
 	export native_dir="$PWD/../libmpv/src/main/jniLibs/$prefix_name"
 	export CC=$cc_triple-clang
@@ -95,8 +95,8 @@ setup_prefix () {
 buildtype = 'release'
 default_library = 'static'
 wrap_mode = 'nodownload'
-c_args = '-fPIC -ffunction-sections -fdata-sections'
-cpp_args = '-fPIC -ffunction-sections -fdata-sections'
+c_args = '$CFLAGS'
+cpp_args = '$CXXFLAGS'
 
 [binaries]
 c = '$CC'

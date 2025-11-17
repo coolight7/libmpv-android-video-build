@@ -64,8 +64,8 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-stripping \
 	--enable-runtime-cpudetect \
 	--enable-pic \
-	--enable-lto \
-	--enable-small \
+	--enable-lto=full \
+	--enable-hardcoded-tables \
 	--enable-optimizations \
 	${asmflags} \
 	--enable-pthreads \
