@@ -128,12 +128,12 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--disable-libdavs2 \
 	--disable-libuavs3d \
 	--disable-libfontconfig \
+	--disable-libfreetype \
+	--disable-libfribidi \
+	--disable-libharfbuzz \
+	--disable-libass \
 	\
 	--enable-network \
-	--enable-libass \
-	--enable-libfreetype \
-	--enable-libfribidi \
-	--enable-libharfbuzz \
 	--enable-libopus \
 	--enable-libsoxr \
 	--enable-libvorbis \

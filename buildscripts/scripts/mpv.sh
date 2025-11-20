@@ -44,6 +44,7 @@ CFLAGS="$CFLAGS -I$prefix_dir/include" CXXFLAGS="$CXXFLAGS -I$prefix_dir/include
 	-Dlibmpv=true \
  	-Dcplayer=false \
 	-Dgpl=true \
+    -Dbuild-date=false \
 	\
 	-Dhtml-build=disabled \
 	-Dmanpage-build=disabled \
