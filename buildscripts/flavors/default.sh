@@ -54,7 +54,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--extra-ldflags="$LDFLAGS -L$prefix_dir/lib $default_ld_cxx_stdlib -lm" \
 	--pkg-config-flags=--static \
 	\
-	--enable-gpl \
+	--disable-gpl \
 	--enable-nonfree \
 	--enable-version3 \
 	\
@@ -138,7 +138,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-libsoxr \
 	--enable-libvorbis \
 	--enable-libbs2b \
-	--enable-librubberband \
 	--enable-libvpx \
 	--enable-libwebp \
 	--enable-libdav1d \
@@ -222,7 +221,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=pan \
 	--enable-filter=stereowiden \
 	--enable-filter=stereotools \
-	--enable-filter=rubberband \
 	--enable-filter=volume \
 	--enable-filter=volumedetect \
 	--enable-filter=null,nullsink,nullsrc,anull,anullsink,anullsrc \
