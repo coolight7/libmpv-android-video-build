@@ -22,9 +22,12 @@ cp flavors/default.sh scripts/ffmpeg.sh
 
 # --------------------------------------------------
 
+cd deps/mediaxx && git pull && git submodule update --init && cd -
+
 # coolight --- temp
 # ./build.sh
-./build.sh --prebuild-rm-ff-mpv
+# ./build.sh --prebuild-rm-ff-mpv
+./build.sh --prebuild-rm-mediaxx
 
 if [ $? -ne 0 ]; then
   exit -1
