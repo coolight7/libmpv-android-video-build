@@ -201,7 +201,6 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=hwdownload \
 	--enable-filter=hwupload \
 	--enable-filter=copy \
-	--enable-filter=showwavespic \
 	--enable-filter=areverse,reverse \
 	--enable-filter=silencedetect,silenceremove \
 	--enable-filter=acompressor \
@@ -230,6 +229,7 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 	--enable-filter=aresample \
 	--enable-filter=sinc \
 	--enable-filter=sine \
+    --enable-filter=vibrato,tremolo \
 	\
 	--disable-protocols \
 	--enable-protocol=android_content \
