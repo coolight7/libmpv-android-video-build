@@ -14,7 +14,6 @@ mkdir -p deps && cd deps
 
 # libxml2
 [ ! -d libxml2 ] && git clone --depth 1 --branch v$v_libxml2 --recursive https://gitlab.gnome.org/GNOME/libxml2.git libxml2
-cd libxml2 && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # libogg
 [ ! -d libogg ] && $WGET https://github.com/xiph/ogg/releases/download/v${v_libogg}/libogg-${v_libogg}.tar.gz && tar -xf libogg-${v_libogg}.tar.gz && mv libogg-${v_libogg} libogg && rm libogg-${v_libogg}.tar.gz
@@ -33,18 +32,15 @@ cd libxml2 && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # ffmpeg
 [ ! -d ffmpeg ] && git clone --depth 1 --branch n$v_ffmpeg https://github.com/FFmpeg/FFmpeg.git ffmpeg
-cd ffmpeg && (sparse-checkout set --no-cone /* !tests/ref/fate || true) && cd ..
 
 # freetype
 [ ! -d freetype ] && git clone --depth 1 --branch VER-$v_freetype https://gitlab.freedesktop.org/freetype/freetype.git freetype
 
 # fribidi
 [ ! -d fribidi ] && git clone --depth 1 --branch v$v_fribidi https://github.com/fribidi/fribidi.git fribidi
-cd fribidi && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # harfbuzz
 [ ! -d harfbuzz ] && git clone --depth 1 --branch $v_harfbuzz https://github.com/harfbuzz/harfbuzz.git harfbuzz
-cd harfbuzz && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # libunibreak
 if [ ! -d libunibreak ]; then
@@ -100,7 +96,6 @@ HEREDOC
 
 # expat
 [ ! -d expat ] && git clone --depth 1 https://github.com/libexpat/libexpat.git expat
-cd expat && (sparse-checkout set --no-cone /* !testdata || true) && cd ..
 
 # bzip2
 [ ! -d bzip2 ] && git clone --depth 1 https://gitlab.com/bzip2/bzip2.git bzip2
@@ -140,11 +135,9 @@ cd expat && (sparse-checkout set --no-cone /* !testdata || true) && cd ..
 
 # libmysofa
 [ ! -d libmysofa ] && git clone --depth 1 https://github.com/hoene/libmysofa.git libmysofa
-cd libmysofa && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # openssl
 [ ! -d openssl ] && git clone --depth 1 https://github.com/openssl/openssl.git openssl
-cd openssl && (sparse-checkout set --no-cone /* !test || true) && cd ..
 
 # libarchive
 [ ! -d libarchive ] && git clone --depth 1 https://github.com/libarchive/libarchive.git libarchive
@@ -155,7 +148,6 @@ cd libjxl && rm -rf ./third_party/libjpeg-turbo && ln -s ../libjpeg ./third_part
 
 # brotli
 [ ! -d brotli ] && git clone --depth 1 https://github.com/google/brotli.git brotli
-cd brotli && (sparse-checkout set --no-cone /* !tests !js !java !research || true) && cd ..
 
 # mpv
 [ ! -d mpv ] && git clone --depth 1 --branch v$v_mpv https://github.com/mpv-player/mpv.git mpv
