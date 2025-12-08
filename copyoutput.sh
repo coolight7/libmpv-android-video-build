@@ -1,3 +1,5 @@
 rm -rf ./output/
 mkdir output
-docker cp 8f15:/home/coolight/program/media/libmpv-android-video-build/output/ ./output/
+
+target_home_dir=$(pwd)
+docker cp 8f15f61ee85c:$target_home_dir/output/ ./output/
