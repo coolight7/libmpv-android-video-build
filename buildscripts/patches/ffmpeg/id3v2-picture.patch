@@ -1,0 +1,150 @@
+diff --git a/libavformat/asf.c b/libavformat/asf.c
+index 5c118d2dbe..28a5e44b99 100644
+--- a/libavformat/asf.c
++++ b/libavformat/asf.c
+@@ -45,7 +45,6 @@ const AVMetadataConv ff_asf_metadata_conv[] = {
+ //  { "Year"               , "date"        }, TODO: conversion year<->date
+     { 0 }
+ };
+-
+ /* MSDN claims that this should be "compatible with the ID3 frame, APIC",
+  * but in reality this is only loosely similar */
+ static int asf_read_picture(AVFormatContext *s, int len)
+@@ -85,9 +84,40 @@ static int asf_read_picture(AVFormatContext *s, int len)
+         mime++;
+     }
+     if (id == AV_CODEC_ID_NONE) {
+-        av_log(s, AV_LOG_ERROR, "Unknown attached picture mimetype: %s.\n",
+-               mimetype);
+-        return 0;
++        av_log(s, AV_LOG_WARNING, "Unknown attached picture mimetype: %s, try to detect by magic number.\n", mimetype);
++        // 保存当前指针
++        int64_t curr_pos = avio_tell(s->pb); 
++        // desc的总长度
++        int64_t desc_data_len = len - picsize;
++        // 预读图片数据的前4字节（JPEG需3字节，PNG需4字节）
++        int magic_size = FFMIN(4, picsize); 
++        uint8_t magic[4] = {0};
++
++        // 临时跳转到图片起始位置
++        if (desc_data_len > 0 && picsize > 0) {
++            avio_seek(s->pb, curr_pos + desc_data_len, SEEK_SET); 
++            // 预读魔数
++            if (avio_read(s->pb, magic, magic_size) == magic_size) {
++                // JPEG：0xFF 0xD8 0xFF
++                if (magic_size >=3 && magic[0] == 0xFF && magic[1] == 0xD8 && magic[2] == 0xFF) {
++                    id = AV_CODEC_ID_MJPEG;
++                    av_log(s, AV_LOG_INFO, "Detected ASF attached picture as JPEG by magic number.\n");
++                }
++                // PNG：0x89 0x50 0x4E 0x47
++                else if (magic_size >=4 && magic[0] == 0x89 && magic[1] == 0x50 && magic[2] == 0x4E && magic[3] == 0x47) {
++                    id = AV_CODEC_ID_PNG;
++                    av_log(s, AV_LOG_INFO, "Detected ASF attached picture as PNG by magic number.\n");
++                }
++            }
++            // 恢复指针
++            avio_seek(s->pb, curr_pos, SEEK_SET);
++        }
++
++        // 魔数识别失败默认绑定JPEG
++        if (id == AV_CODEC_ID_NONE) {
++            id = AV_CODEC_ID_MJPEG;
++            av_log(s, AV_LOG_WARNING, "Can't detect ASF picture format, default to JPEG (AV_CODEC_ID_MJPEG).\n");
++        }
+     }
+ 
+     if (picsize >= len || ((int64_t)len - picsize) * 2 + 1 > INT_MAX) {
+diff --git a/libavformat/flac_picture.c b/libavformat/flac_picture.c
+index c9f3f11edd..10e11d789b 100644
+--- a/libavformat/flac_picture.c
++++ b/libavformat/flac_picture.c
+@@ -89,9 +89,47 @@ int ff_flac_parse_picture(AVFormatContext *s, uint8_t **bufp, int buf_size,
+         mime++;
+     }
+     if (id == AV_CODEC_ID_NONE) {
+-        av_log(s, AV_LOG_WARNING, "Unknown attached picture mimetype: %s.\n",
+-               mimetype);
+-        return 0;
++        av_log(s, AV_LOG_WARNING, "Unknown attached picture mimetype: %s, try to detect by magic number.\n", mimetype);
++        // 保存当前bytestream位置
++        int64_t curr_tell = bytestream2_tell(&g); 
++        // 复制上下文，避免修改原指针
++        GetByteContext g_copy = g;
++
++        // 定位到图片len和图片数据
++        uint32_t desc_len = bytestream2_get_be32u(&g_copy);
++        if (desc_len > bytestream2_get_bytes_left(&g_copy) - 20) {
++             // 20 = width(4)+height(4)+其他元数据(8)+图片len(4)
++            av_log(s, AV_LOG_WARNING, "FLAC picture desc too long, skip magic detect\n");
++            return 0;
++        }
++        bytestream2_skipu(&g_copy, desc_len); 
++        // 跳过width(4)+height(4)+color_depth(4)+indexed_color(4)
++        bytestream2_skipu(&g_copy, 16); 
++        // 读取图片长度
++        uint32_t pic_data_len = bytestream2_get_be32u(&g_copy);
++
++        // 预读图片魔数（JPEG需3字节，PNG需4字节）
++        int magic_size = FFMIN(4, pic_data_len);
++        uint8_t magic[4] = {0};
++        if (magic_size > 0 && bytestream2_get_bytes_left(&g_copy) >= magic_size) {
++            bytestream2_get_bufferu(&g_copy, magic, magic_size);
++            // JPEG：0xFF 0xD8 0xFF
++            if (magic_size >=3 && magic[0] == 0xFF && magic[1] == 0xD8 && magic[2] == 0xFF) {
++                id = AV_CODEC_ID_MJPEG;
++                av_log(s, AV_LOG_INFO, "Detected FLAC attached picture as JPEG by magic number.\n");
++            } else if (magic_size >=4 && AV_RB64(magic) == PNGSIG) {
++                // PNG：0x89 0x50 0x4E 0x47（PNGSIG）
++                // PNGSIG检测
++                id = AV_CODEC_ID_PNG;
++                av_log(s, AV_LOG_INFO, "Detected FLAC attached picture as PNG by magic number.\n");
++            }
++        }
++
++        // 魔数识别失败默认绑定JPEG
++        if (id == AV_CODEC_ID_NONE) {
++            id = AV_CODEC_ID_MJPEG;
++            av_log(s, AV_LOG_WARNING, "Can't detect FLAC picture format, default to JPEG (AV_CODEC_ID_MJPEG).\n");
++        }
+     }
+ 
+     /* picture description */
+diff --git a/libavformat/id3v2.c b/libavformat/id3v2.c
+index 037d1a2e23..b564de5ceb 100644
+--- a/libavformat/id3v2.c
++++ b/libavformat/id3v2.c
+@@ -643,8 +643,32 @@ static void read_apic(AVFormatContext *s, AVIOContext *pb, int taglen,
+     }
+     if (id == AV_CODEC_ID_NONE) {
+         av_log(s, AV_LOG_WARNING,
+-               "Unknown attached picture mimetype: %s, skipping.\n", mimetype);
+-        goto fail;
++           "Unknown attached picture mimetype: %s, try to detect by magic number.\n", mimetype);
++        // 预读数据魔数识别
++        // 保存当前文件指针位置，避免后续解析错位
++        int64_t curr_pos = avio_tell(pb);
++        uint8_t magic[4] = {0};
++        int magic_size = FFMIN(4, taglen - 1);
++        // 前4字节魔数（JPEG需要3字节，PNG需要4字节）
++        if (magic_size > 0 && avio_read(pb, magic, magic_size) == magic_size) {
++            // JPEG：0xFF 0xD8 0xFF
++            if (magic_size >=3 && magic[0] == 0xFF && magic[1] == 0xD8 && magic[2] == 0xFF) {
++                id = AV_CODEC_ID_MJPEG;
++                av_log(s, AV_LOG_INFO, "Detected attached picture as JPEG by magic number.\n");
++            } else if (magic_size >=4 && magic[0] == 0x89 && magic[1] == 0x50 && magic[2] == 0x4E && magic[3] == 0x47) {
++                // PNG：0x89 0x50 0x4E 0x47（‰PNG）
++                id = AV_CODEC_ID_PNG;
++                av_log(s, AV_LOG_INFO, "Detected attached picture as PNG by magic number.\n");
++            }
++        }
++        // 恢复文件指针
++        avio_seek(pb, curr_pos, SEEK_SET);
++        
++        // 若魔数仍无法识别，默认绑定JPEG编码ID（最大兼容音乐封面场景）
++        if (id == AV_CODEC_ID_NONE) {
++            id = AV_CODEC_ID_MJPEG;
++            av_log(s, AV_LOG_WARNING, "Can't detect picture format, default to JPEG (AV_CODEC_ID_MJPEG).\n");
++        }
+     }
+     apic->id = id;
+ 
