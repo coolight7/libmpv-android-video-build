@@ -2,14 +2,16 @@
 
 export build_home_dir="$PWD/../"
 
-# TODO: coolight --- temp
+# TODO: coolight --- 
+# - 下载，一般只需执行一次，后续修改文件后重新编译不用再执行，节省流量和时间
+# - 如果修改了依赖库版本，可以解注释重新下载
 # if [ ! -f "deps" ]; then
 #   sudo rm -rf deps
 # fi
 # if [ ! -f "prefix" ]; then
 #   sudo rm -rf prefix
 # fi
-
+# 
 # ./download.sh
 # ./patch.sh
 
@@ -24,10 +26,11 @@ cp flavors/default.sh scripts/ffmpeg.sh
 
 cd deps/mediaxx && git pull && git submodule update --init && cd -
 
-# coolight --- temp
+# TODO: coolight --- 
+# - 根据需要指定参数，编译前删除指定编译缓存，重新编译
 # ./build.sh
-# ./build.sh --prebuild-rm-ff-mpv
-./build.sh --prebuild-rm-mediaxx
+./build.sh --prebuild-rm-ff-mpv
+# ./build.sh --prebuild-rm-mediaxx
 
 if [ $? -ne 0 ]; then
   exit -1
@@ -56,9 +59,6 @@ stripLib stdcxx/libc++_shared.so
 
 cd deps/media-kit-android-helper
 rm -rf app/build/
-
-# 改为带后缀的动态库，以便打包时和 ffmpeg-kit 共存区分
-# 且复制带后缀的库去掉后缀可以给 ffmpeg-kit 共用，但打包压缩时会解压为两个不同名的库文件，避免进程内不同模块加载两次so库后干扰
 
 sudo chmod +x gradlew
 ./gradlew assembleRelease
