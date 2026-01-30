@@ -57,8 +57,8 @@ CFLAGS="$CFLAGS -I$prefix_dir/include" CXXFLAGS="$CXXFLAGS -I$prefix_dir/include
 	-Dlibbluray=disabled \
 	-Ddvdnav=disabled \
 	-Dvapoursynth=disabled \
-	-Duchardet=disabled \
 	\
+	-Duchardet=enabled \
 	-Diconv=enabled \
 	-Dlibarchive=enabled \
 	-Drubberband=enabled \
