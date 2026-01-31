@@ -45,6 +45,7 @@ CFLAGS="$CFLAGS -I$prefix_dir/include" CXXFLAGS="$CXXFLAGS -I$prefix_dir/include
  	-Dcplayer=false \
 	-Dgpl=false \
     -Dbuild-date=false \
+	-Dtests=false \
 	\
 	-Dhtml-build=disabled \
 	-Dmanpage-build=disabled \
@@ -56,7 +57,10 @@ CFLAGS="$CFLAGS -I$prefix_dir/include" CXXFLAGS="$CXXFLAGS -I$prefix_dir/include
 	\
 	-Dlibbluray=disabled \
 	-Ddvdnav=disabled \
+	-Ddvbin=disabled \
+	-Dcdda=disabled \
 	-Dvapoursynth=disabled \
+	-Djpeg=disabled \
 	\
 	-Duchardet=enabled \
 	-Diconv=enabled \
@@ -64,6 +68,9 @@ CFLAGS="$CFLAGS -I$prefix_dir/include" CXXFLAGS="$CXXFLAGS -I$prefix_dir/include
 	-Drubberband=enabled \
 	-Dlcms2=enabled \
 	\
+    -Dopensles=enabled \
+	-Daudiotrack=enabled \
+	-Daaudio=enabled \
 	-Dcaca=disabled \
 	-Dsixel=disabled \
 	-Dwayland=disabled \
@@ -74,7 +81,6 @@ CFLAGS="$CFLAGS -I$prefix_dir/include" CXXFLAGS="$CXXFLAGS -I$prefix_dir/include
 	-Dsdl2-video=disabled \
 	-Degl=disabled \
 	-Dplain-gl=disabled \
-    -Dopensles=enabled \
 	-Degl-android=enabled \
 	-Dgl=enabled \
 	-Dvulkan=disabled \
