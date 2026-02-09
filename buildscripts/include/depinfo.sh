@@ -11,7 +11,7 @@ v_ndk=29.0.14206865
 # https://developer.android.google.cn/tools/releases/platform-tools?hl=zh-cn
 v_sdk_build_tools=36.1.0
 v_cmake=3.31.6
-v_min_sdk=24
+v_min_sdk=21
 
 v_libass=0.17.4
 v_libunibreak=6.1
