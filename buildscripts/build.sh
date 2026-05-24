@@ -4,7 +4,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 . ./include/depinfo.sh
 
 cleanbuild=0
-clean_lib_ff_mpv=0
+clean_ffm_mpv_mediaxx=0
 clean_mediaxx=0
 nodeps=0
 target=mediaxx
@@ -51,7 +51,7 @@ loadarch () {
 	export default_ld_cxx_stdlib=" -nostdlib++ -l$default_cxx_stl -lc++abi "
 	export default_ld_cxx_stdlib_mediaxx=" -nostdlib++ -lc++_static -lc++abi "
 	export build_home_dir="$PWD/../"
-	export prefix_dir="$PWD/prefix/$prefix_name"
+	export prefix_dir="$PWD/prefix-24/$prefix_name"
 	export source_dir="$PWD/deps/"
 	export CFLAGS="-fPIC -ffunction-sections -fdata-sections -O3 -flto"
 	export CXXFLAGS="-fPIC -ffunction-sections -fdata-sections -O3 -flto"
@@ -197,8 +197,8 @@ while [ $# -gt 0 ]; do
 		-h|--help)
 		usage
 		;;
-		--prebuild-rm-ff-mpv)
-		clean_lib_ff_mpv=1
+		--prebuild-rm-ffm-mpv-mediaxx)
+		clean_ffm_mpv_mediaxx=1
 		rm -rf $source_dir/ffmpeg/_build*
 		rm -rf $source_dir/mpv/_build*
 		rm -rf $source_dir/mediaxx/_build*
@@ -219,7 +219,7 @@ if [ -z $arch ]; then
 		loadarch $arch
 		setup_prefix
 		
-		if [[ $clean_lib_ff_mpv == 1 ]]; then
+		if [[ $clean_ffm_mpv_mediaxx == 1 ]]; then
 			echo "rm libav*/libmpv/mediaxx ----------------------"
 			rm -f $prefix_dir/lib/libavcodec.*
 			rm -f $prefix_dir/lib/libavdevice.*
@@ -245,7 +245,7 @@ else
   	loadarch $arch
   	setup_prefix
 
-	if [[ $clean_lib_ff_mpv == 1 ]]; then
+	if [[ $clean_ffm_mpv_mediaxx == 1 ]]; then
 		echo "rm libav*/libmpv/mediaxx ----------------------"
 		rm -f $prefix_dir/lib/libavcodec.*
 		rm -f $prefix_dir/lib/libavdevice.*
