@@ -1,5 +1,6 @@
 # --------------------------------------------------
-
+export JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
+export JAVA_HOME_17_X64=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
 export build_home_dir="$PWD/../"
 
 # TODO: coolight --- 
@@ -29,8 +30,8 @@ cd deps/mediaxx && git pull && git submodule update --init && cd -
 # TODO: coolight --- 
 # - 根据需要指定参数，编译前删除指定编译缓存，重新编译
 # ./build.sh
-./build.sh --prebuild-rm-ff-mpv
-# ./build.sh --prebuild-rm-mediaxx
+./build.sh --prebuild-rm-ffm-mpv-mediaxx # 清理 ffmpeg/libmpv/mediaxx 重新编译
+# ./build.sh --prebuild-rm-mediaxx # 只清理 mediaxx 重新编译
 
 if [ $? -ne 0 ]; then
   exit -1
