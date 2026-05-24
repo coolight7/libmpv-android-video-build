@@ -51,7 +51,7 @@ loadarch () {
 	export default_ld_cxx_stdlib=" -nostdlib++ -l$default_cxx_stl -lc++abi "
 	export default_ld_cxx_stdlib_mediaxx=" -nostdlib++ -lc++_static -lc++abi "
 	export build_home_dir="$PWD/../"
-	export prefix_dir="$PWD/prefix-24/$prefix_name"
+	export prefix_dir="$PWD/prefix-21/$prefix_name"
 	export source_dir="$PWD/deps/"
 	export CFLAGS="-fPIC -ffunction-sections -fdata-sections -O3 -flto"
 	export CXXFLAGS="-fPIC -ffunction-sections -fdata-sections -O3 -flto"
