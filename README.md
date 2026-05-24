@@ -5,8 +5,8 @@
 # if [ ! -f "deps" ]; then
 #   sudo rm -rf deps
 # fi
-# if [ ! -f "prefix" ]; then
-#   sudo rm -rf prefix
+# if [ ! -f "prefix-24" ]; then
+#   sudo rm -rf prefix-24
 # fi
 # 
 # ./download.sh
