@@ -1,0 +1,14 @@
+diff --git a/libavformat/demux.c b/libavformat/demux.c
+index 0527265..00572c7 100644
+--- a/libavformat/demux.c
++++ b/libavformat/demux.c
+@@ -322,7 +322,8 @@ int avformat_open_input(AVFormatContext **ps, const char *filename,
+ 
+     if (id3v2_extra_meta) {
+         if (!strcmp(s->iformat->name, "mp3") || !strcmp(s->iformat->name, "aac") ||
+-            !strcmp(s->iformat->name, "tta") || !strcmp(s->iformat->name, "wav")) {
++            !strcmp(s->iformat->name, "tta") || !strcmp(s->iformat->name, "wav") ||
++            !strcmp(s->iformat->name, "flac")) {
+             if ((ret = ff_id3v2_parse_apic(s, id3v2_extra_meta)) < 0)
+                 goto close;
+             if ((ret = ff_id3v2_parse_chapters(s, id3v2_extra_meta)) < 0)
