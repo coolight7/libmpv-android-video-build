@@ -12,8 +12,8 @@
 # ./download.sh
 # ./patch.sh
 ```
-- 在真机`./build.sh`让它自动构建docker容器、下载jdk
-- 后续更新编译可以进入 docker 内 `cd buildscripts && ./bundle_default.sh`
+- 在真机执行`./build.sh`，让它自动构建docker容器、下载jdk
+- 后续更新编译可以进入 docker 内，然后执行 `cd buildscripts && ./bundle_default.sh`
 
 ## 后续更新/修改
 - 只修改了 `mediaxx` 重新编译的话，可以解注释[bundle_default.sh](./buildscripts/bundle_default.sh):
@@ -22,6 +22,6 @@
 ./build.sh --prebuild-rm-mediaxx # 只清理 mediaxx 重新编译
 ```
 - 更新了 `libmpv`、`ffmpeg` 编译:
-    - 进docker，然后`cd buildscripts/deps/{ffmpeg/mpv}`，git pull 更新版本或者删除文件夹重新 git clone
+    - 进入 docker 内，然后执行 `cd buildscripts/deps/{ffmpeg/mpv}`，git pull 更新版本或者删除文件夹重新 git clone
     - 修改 [bundle_default.sh](./buildscripts/bundle_default.sh)，解注释`./build.sh --prebuild-rm-ffm-mpv-mediaxx`
-    - `cd buildscripts && ./bundle_default.sh`编译即可
+    - 执行 `cd buildscripts && ./bundle_default.sh` 编译即可
