@@ -241,5 +241,5 @@ ANDROID_SYSROOT=${NDK_PREFIX_DIR}/sysroot
 make -s -j$cores
 make -s DESTDIR="$prefix_dir" install > /dev/null
 
-sed -i '/^Libs:/ s|-lstdc++|-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/libavfilter.pc"
+sed -i '/^Libs:/ s|-lstdc++|-lc++_shared|' "$prefix_dir/lib/pkgconfig/libavfilter.pc"
 echo "$(ls -lh $prefix_dir/lib/libav*)"
