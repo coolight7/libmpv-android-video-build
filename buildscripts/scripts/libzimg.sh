@@ -31,4 +31,4 @@ STL_LIBS="-l$default_cxx_stl"  ../configure \
 make -j$cores
 make DESTDIR="$prefix_dir" install
 
-sed -i '/^Libs.private:/ s|-lstdc++|-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/zimg.pc"
+sed -i '/^Libs.private:/ s|-lstdc++|-lc++_shared|' "$prefix_dir/lib/pkgconfig/zimg.pc"

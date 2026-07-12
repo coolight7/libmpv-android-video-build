@@ -46,10 +46,10 @@ loadarch () {
 		exit 1
 	fi
 	export current_abi_name=$prefix_name
-	export default_cxx_stl="c++_static"
+	export default_cxx_stl="c++_shared"
 	export default_ld_cxx_stdlib_unset=" -nostdlib++ "
 	export default_ld_cxx_stdlib=" -nostdlib++ -l$default_cxx_stl -lc++abi "
-	export default_ld_cxx_stdlib_mediaxx=" -nostdlib++ -lc++_static -lc++abi "
+	export default_ld_cxx_stdlib_mediaxx=" -nostdlib++ -lc++_shared -lc++abi "
 	export build_home_dir="$PWD/../"
 	export prefix_dir="$PWD/prefix-24/$prefix_name"
 	export source_dir="$PWD/deps/"

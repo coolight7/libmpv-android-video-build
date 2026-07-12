@@ -48,4 +48,4 @@ CONF=1 "${MY_CMAKE_EXE_DIR}/cmake" -S.. -B. \
 "${MY_CMAKE_EXE_DIR}/ninja" -C .
 DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C . install
 
-sed -i '/^Libs.private:/ s|-lstdc++|-lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/uchardet.pc"
+sed -i '/^Libs.private:/ s|-lstdc++|-lc++_shared|' "$prefix_dir/lib/pkgconfig/uchardet.pc"

@@ -29,9 +29,9 @@ cd deps/mediaxx && git pull && git submodule update --init && cd -
 
 # TODO: coolight --- 
 # - 根据需要指定参数，编译前删除指定编译缓存，重新编译
-# ./build.sh
+./build.sh
 # ./build.sh --prebuild-rm-ffm-mpv-mediaxx # 清理 ffmpeg/libmpv/mediaxx 重新编译
-./build.sh --prebuild-rm-mediaxx # 只清理 mediaxx 重新编译
+# ./build.sh --prebuild-rm-mediaxx # 只清理 mediaxx 重新编译
 
 if [ $? -ne 0 ]; then
   exit -1
@@ -73,7 +73,7 @@ copyLib() {
   fi
 
   mkdir -p app/build/outputs/apk/release/lib/$1/
-  # cp ../../prefix-24/$1/lib/stdcxx/libc++_shared.so                          app/build/outputs/apk/release/lib/$1/
+  cp ../../prefix-24/$1/lib/stdcxx/libc++_shared.so                          app/build/outputs/apk/release/lib/$1/
   cp ../../prefix-24/$1/lib/libmediaxx.so                                    app/build/outputs/apk/release/lib/$1/
   cp ../../prefix-24/$1/lib/libmpv.so                                        app/build/outputs/apk/release/lib/$1/
   cp ../../prefix-24/$1/lib/ffmpeg-backup/libswresample.so                   app/build/outputs/apk/release/lib/$1/

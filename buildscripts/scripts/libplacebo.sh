@@ -38,4 +38,4 @@ DESTDIR="$prefix_dir" "${MY_CMAKE_EXE_DIR}/ninja" -C $build install
 
 # add missing library for static linking
 # this isn't "-lstdc++" due to a meson bug: https://github.com/mesonbuild/meson/issues/11300
-sed '/^Libs:/ s|$| -lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/libplacebo.pc" -i
+sed '/^Libs:/ s|$| -lc++_shared|' "$prefix_dir/lib/pkgconfig/libplacebo.pc" -i

@@ -60,5 +60,5 @@ cp -f "./libshaderc/libshaderc_combined.a" "$prefix_dir/lib/libshaderc_combined.
 cp -f "./shaderc_combined.pc" "$prefix_dir/lib/pkgconfig/shaderc_combined.pc"
 cp -f "./shaderc_combined.pc" "$prefix_dir/lib/pkgconfig/shaderc.pc"
 
-sed '/^Libs:/ s|$| -lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/shaderc.pc" -i
-sed '/^Libs:/ s|$| -lc++_static -lc++abi|' "$prefix_dir/lib/pkgconfig/shaderc_combined.pc" -i
+sed '/^Libs:/ s|$| -lc++_shared|' "$prefix_dir/lib/pkgconfig/shaderc.pc" -i
+sed '/^Libs:/ s|$| -lc++_shared|' "$prefix_dir/lib/pkgconfig/shaderc_combined.pc" -i
